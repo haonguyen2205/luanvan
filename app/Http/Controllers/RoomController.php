@@ -104,6 +104,7 @@ class RoomController extends Controller
    
        
         $image= image::join('room','room.room_id', '=', 'image.room_id')->orderBy('image.room_id', 'desc')->get();
+       
         return view('Admin.room.list')->with('listRoom', $list)->with('imageroom',$image);
     }
 
@@ -184,6 +185,7 @@ class RoomController extends Controller
            ->orderBy('room.room_id', 'desc')->get();
            
            return view('/layout.rooms')->with('showPageRoom', $room);
+          
          // return view('layout.rooms');
        }
 }

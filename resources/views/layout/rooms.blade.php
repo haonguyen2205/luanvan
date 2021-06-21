@@ -19,6 +19,7 @@
     <section class="room-section spad">
         <div class="container">
         @foreach($showPageRoom as $key => $showRooms)
+        
             <div class="rooms-page-item">
                 <div class="row">
                     <div class="col-lg-6">
@@ -33,7 +34,6 @@
                     </div>
                     <div class="col-lg-6">  
                     <form>
-                        
                         <div class="room-text">
                             <div class="room-title">
                             <h2>{{$showRooms->room_name}}</h2>
@@ -70,7 +70,7 @@
                             </div>
                             @if($showRooms->quality > 0)
                                 <b class="primary-btn">còn phòng</b>
-                                <a href="{{URL::to('/cart')}}" class="primary-btn">Book Now <i class="lnr lnr-arrow-right"></i></a>
+                                <a href="{{URL::to('/cart',$showRooms->room_id)}}" class="primary-btn">Book Now <i class="lnr lnr-arrow-right"></i></a>
                             @else
                                 <b class="primary-btn">hết phòng</b>
                                 <a href="#" class="primary-btn">Book Now <i class="lnr lnr-arrow-right"></i></a>                          

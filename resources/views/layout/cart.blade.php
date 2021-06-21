@@ -55,49 +55,57 @@
 </br>
 
 
-<form action="" method="">
+<form action="{{URL::to('postCart')}}" method="post">
+@csrf
     <div class="cart with">
 
         <div class="cart-bottom">
             <div class="row">
                 <!-- Bảng thông tin -->
+               
                 <div class="col-lg-5">
+                @if(Session::has('users_id'))
                     <div class="check-form">
                         <h2>Information</h2>
                         <div class="room-quantity">
                             <div class="single-quantity">
                                 <p>Nhập tên khách hàng</p>
-                                <input placeholder="Tên khách hàng" type="text">
+                                <input placeholder="{{$user->name}}" type="text">
+                                <input type="hidden"  name="user_id" value="{{$user->users_id}}"> 
                             </div>
                             <div class="single-quantity">
                                 <p>Nhập số điện thoại</p>
-                                <input placeholder="Số điện thoại" type="text">
+                                <input placeholder="{{$user->phone}}" type="text">
                             </div>
                         </div>
                         <div class="datepicker">
                             <div class="date-select">
                                 <p>From</p>
-                                <input type="text" class="datepicker-1" value="dd / mm / yyyy">
+                                <input type="text" class="datepicker-1" required value="yyyy / mm / dd" name="dayat">
                                 <img src="{{URL::asset('public/frontend/img/calendar.png')}}" alt="">
                             </div>
                             <div class="date-select to">
                                 <p>To</p>
-                                <input type="text" class="datepicker-2" value="dd / mm / yyyy">
+                                <input type="text" class="datepicker-2" value="yyyy / mm / dd" name="dayout">
                                 <img src="{{URL::asset('public/frontend/img/calendar.png')}}" alt="">
                             </div>
                         </div>
                         <div class="room-quantity">
                             <div class="single-quantity">
                                 <p>Adults</p>
-                                <div class="pro-qty"><input type="text" value="0"></div>
+                                <div class="pro-qty"><input type="text" value="0" name="adults"></div>
                             </div>
                             <div class="single-quantity last">
                                 <p>Children</p>
-                                <div class="pro-qty"><input type="text" value="0"></div>
+                                <div class="pro-qty"><input type="text" value="0" name="children"></div>
                             </div>
                         </div>
-                    </div>
+                    </div>                @else
+                    <h3><a href="#">Vui lòng đăng nhập để tiếp tục</a></h3>
+                    @endif
                 </div>
+
+                   
 
                 <!-- Bảng đơn phòng -->
                 <div class="col-lg-7">
@@ -124,20 +132,23 @@
                                         <img src="{{URL::asset('public/cart/images/cack2.png')}}">
                                     </div>
                                 </td>
-                                <td>Cake Straw</td>
-                                <td>001</td>
+                                <td>{{$room->room_name}}</td>
+                                <td>{{$room->room_id}}</td>
+                                <input type="hidden" name="room_id" value="{{$room->room_id}}">
                                 <td class="quantity">
                                     <div class="product-right">
-                                        <input min="1" type="number" id="quantity" name="quantity" value="1" class="form-control input-small">
+                                        <input type="number" width="50px" name="quantity" min="1" value="1" >
                                     </div>
                                 </td>
                                 <td>
-                                    <h4>$12.99</h4>
+                                    <h4>{{number_format($room->room_price,0)}} VND</h4>
+                                    <input type="hidden" name="price" value="{{$room->room_price}}">
                                 </td>
                                 <td class="btm-remove">
-                                    <h4>$25.98</h4>
+                                    <h4>{{number_format($room->room_price,0)}} VND</h4>
                                     <div class="close-btm">
                                         <h5>Remove</h5>
+
                                     </div>
                                 </td>
                             </tr>
@@ -145,10 +156,14 @@
                     </div>
                     <div class="vocher">
                         <div class="dis-total">
-                            <h1>Total $38.97</h1>
+                            <h1>Total {{number_format($room->room_price,0)}} VND</h1>
                             <div class="tot-btn">
                                 <a class="shop" href="{{URL::to('/rooms')}}">Back</a>
-                                <a class="check" href="#">Book</a>
+                                @if(Session::has('users_id'))
+<input type="submit" value="Book">
+@else 
+<a class="shop" href="{{URL::to('/login')}}">Login</a>
+@endif
                             </div>
                         </div>
                         <div class="clear"> </div>

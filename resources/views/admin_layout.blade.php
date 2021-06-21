@@ -127,7 +127,7 @@ use Illuminate\Support\Facades\Session;
                             <span> Đơn hàng </span>
                         </a>
                         <ul class="sub">
-                            <li><a href="{{URL::to('/manage-order')}}">Quản lí đơn hàng</a></li>
+                            <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">

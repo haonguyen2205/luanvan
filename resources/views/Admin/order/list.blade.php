@@ -38,13 +38,15 @@
         <table class="table table-striped b-t b-light">
           <thead>
             <tr>
-              <th style="width:20px;"></th>
+              <th style="width:20px;">ID</th>
               <th>Tên người đặt</th>
               <th> Phòng </th>
               <th> Số lượng </th>
               <th>Tổng tiền</th>
+              <th>Ngày nhận</th>
+              <th>Ngày trả</th>
               <th>Tình trạng</th>
-              <th style="width:30px;"></th>
+              <th style="width:30px;">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -55,21 +57,34 @@
                     Session::put('msg',null);
                 }
             ?>
-            @foreach($all_order as $key => $order)
+            @var_dump($list);
+
+<!--@foreach($list as $key)
               <tr>
-                <td><label class="i-checks m-b-none"><i></i></label></td>
-                <td> {{$order->name}} </td>
-                <td> {{$order->room_name}} </td>
-                <td> {{$order->room_qty}} </td>
-                <td><span class="text-ellipsis">{{$order->total}}</span></td>
-                <td><span class="text-ellipsis">{{$order->status}}</span></td>
+                <td><label class="i-checks m-b-none"><i>{{$key['id']}}</i></label></td>
+                <td> {{$key['name']}} </td>
+                <td> {{$key['phong']}} </td>
+                <td> {{$key['soluong']}} </td>
+                <td><span class="text-ellipsis">{{number_format($key['tongtien'],0)}} VND </span></td>
+                <td><span class="text-ellipsis">{{$key['ngaynhan']}}</span></td>
+                <td><span class="text-ellipsis">{{$key['ngaytra']}}</span></td>
+                <td><span class="text-ellipsis">
+                    <?php if($key['tinhtrang']==0)
+                       echo "Tiếp nhận";
+                    else if ($key['tinhtrang'] == 1)
+                       echo "Đã cọc";
+                    else 
+                        echo "Đã trả phòng";
+                    ?>              
+                
+                </span></td>
                 <td>
-                  <a href="{{URL::to('/delete-orders/'.$order->order_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <a href="#chi tiết" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
                   </a>
                 </td>
               </tr>
-            @endforeach
+          @foreach-->
           </tbody>
         </table>
       </div>

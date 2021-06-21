@@ -33,12 +33,14 @@ Route::get('/contact','ContactController@contact');
 Route::get('/login','LoginController@login');
 Route::get('/news','NewController@news');
 Route::get('/about-us','AboutController@about');
-Route::get('/cart','CartController@cart');
+Route::get('/cart/{id}','CartController@cart');
+Route::post('/postCart','CartController@postCart')->name('checkout');
 
 ///đăng kí ()
 
 Route::get('/showregister','RegisterController@showRegister');
 Route::post('/register','RegisterController@register');
+Route::get('logout','LoginController@logout');
 // ajax dat phong
 Route::get('/findroomName','OrderController@findroomName');
 Route::get('/findPrice','OrderController@findPrice');
@@ -92,12 +94,12 @@ route::post('/add_staff',[StaffController::class,'add_staff']);
 route::get('/list-staff',[StaffController::class,'list_staff']);
 
 //đặt phòng// đớn đặt phòng
-route::get('/order_room',[OrderController::class,'add_order_page']);
-
+Route::get('/order_room',[OrderController::class,'add_order_page']);
+Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
 // login // logout
 Route::post('/checklogin',[LoginController::class, 'checkLogin']);
 
-Route::get('/logout',[LoginController::class, 'logoutAction']);
+//Route::get('/logout',[LoginController::class, 'logoutAction']);
 
 // quản lý trang tin tức
 Route::get('/list-new', [NewController::class, 'listNew']);

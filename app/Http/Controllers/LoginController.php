@@ -50,5 +50,9 @@ class LoginController extends Controller
         Session::put('users_id',null);
         return view('/admin');
     }
+    function logout(){
+        Session::flush();
+        return redirect()->back();
+    }
 }
 

@@ -86,7 +86,7 @@ Route::get('/edit-room/{id}', [RoomController::class, 'showPageEdit']);
 
 Route::post('/update-room/{id}', [RoomController::class, 'update']);
 
-route::delete('/delete_room/{id}', [RoomController::class, 'delete']);
+route::get('/delete_room/{id}', [RoomController::class, 'delete']);
 
 Route::post('/search-room', [RoomController::class, 'search']);
 
@@ -102,7 +102,7 @@ route::get('/edit_staff/{id}',[StaffController::class,'showPageEdit']);
 
 Route::post('/update_staff/{id}', [StaffController::class, 'update_staff']);
 
-route::delete('/delete_staff/{id}', [StaffController::class, 'delete_staff']);
+route::get('/delete_staff/{id}', [StaffController::class, 'delete_staff']);
 
 //đặt phòng// đớn đặt phòng
 Route::get('/order_room',[OrderController::class,'add_order_page']);

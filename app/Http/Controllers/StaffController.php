@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Response;
+use App\Models\role;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
@@ -31,25 +32,29 @@ class StaffController extends Controller
         $users->phone     = $request->input('phone');
         $users->address   = $request->input('address');
         $users->role      = 1;
-//đẩy hết dữ liệu từ field vào biến users
-        // var_dump($data); exit;
-         $check_email=users::select('email')->Where('role',1)->orderBy('users_id','desc')->get();
+         $check_email=users::all();
 
         // var_dump($check_email); exit;   
-
-        if($data['password'] != $data['repassword'])
+        foreach($check_email as $user)
         {
-            Session::put('msg','sai mật khẩu nhập lại');
-            return Redirect::to('/add_page_Staff');
-           
+            if($request->input('email')==$user->email)
+            {
+                Session::put('msg','địa chỉ mail đã được sử dụng');
+                return Redirect::to('/showregister');
+                }
+            if($data['password'] != $data['repassword'])
+            {
+                Session::put('msg','sai mật khẩu nhập lại');
+                return Redirect::to('/add_page_Staff');
+            
+            }
+            else
+            {
+                $users->save();
+                Session::put('msg','Thêm tài khoản thành công');
+                return Redirect::to('/list_staff');
+            }
         }
-        else
-        {
-            $users->save();
-            Session::put('msg','Thêm tài khoản thành công');
-            return Redirect::to('/list_staff');
-        }
-        
     }
 // cập nhật thông tin TK
     public function showPageEdit($id)
@@ -103,11 +108,21 @@ class StaffController extends Controller
     public function delete_staff($id) 
     {
         //ý tưởng:  kiểm tra nguofi đang đăng nhập có đủ quyền để xóa tk hay không
-        //mặc định quyền có đủ để xóa các tk nv khác có role =3;s
-
-        $staff=users::find($id);
-        $staff->delete();
-        Session::put('msg','xóa tài khoản thành công');
+        //mặc định quyền có đủ để xóa các tk nv khác có role =3;
+        $id_user= session::has('users_id');
+        $check_role=users::select('role')->where('users_id',$id_user)->get();
+ 
+        if($check_role == '3') 
+        {
+            $staff=users::find($id);
+            $staff->delete();
+            Session::put('msg','xóa tài khoản thành công');
             return Redirect::to('/list_staff');
+        }
+        else
+        {
+            Session::put('msg',' tài khoản không đủ cấp bặc để xóa tài khoản');
+            return Redirect::to('/list_staff');
+        }
     }
 }

@@ -41,10 +41,10 @@
 			<div class="header-main">
 				<h1>Register Form</h1>
 				<?php
-				$message =Session::Get('message');	
+				$message =Session::Get('msg');	
 				if($message)
-                echo $message;
-                Session::put('message', null);
+                echo "<h3 style='color:red;'>".$message."</h3>";
+                Session::put('msg', null);
           ?>
 				<div class="header-bottom">
 					<div class="header-right w3agile">

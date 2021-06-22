@@ -36,12 +36,22 @@
             <h1>Online Login Form</h1>
         </div>
         <!--End Header-->
-
+        
         <div class="main-content-agile">
             <div class="sub-main-w3">
                 <div class="wthree-pro">
                     <h2>Login Quick</h2>
                 </div>
+                <div class="wthree-pro">
+                    <?php
+                    $msg = Session::get('message');
+                    if($msg) {
+                        echo "<h2 style='color:red;'>".$msg."</h2>";
+                        Session::put('message',null);
+                    }
+                    ?>
+                </div>
+                
                 <form action="{{URL::to('/checklogin')}}" method="post">
                 {{ csrf_field() }}
                     <div class="pom-agile">
@@ -53,12 +63,14 @@
                         <input  placeholder="Password" name="password" class="pass" type="password" required="">
                         <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span>
                     </div>
+
                     <div class="sub-w3l">
                         <h6><a href="#">Forgot Password?</a></h6>
                         <div class="right-w3l">
                             <input type="submit" value="Login">
                         </div>
                     </div>
+                   
                 </form>
             </div>
         </div>

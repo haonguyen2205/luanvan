@@ -37,18 +37,23 @@ Route::get('/cart/{id}','CartController@cart');
 Route::post('/postCart','CartController@postCart')->name('checkout');
 
 ///đăng kí ()
-
 Route::get('/showregister','RegisterController@showRegister');
+
 Route::post('/register','RegisterController@register');
-Route::get('logout','LoginController@logout');
+// login // logout
+Route::post('/checklogin',[LoginController::class,'checkLogin']);
+
+Route::get('/logout',[LoginController::class,'logoutAction']);
+
 // ajax dat phong
 Route::get('/findroomName','OrderController@findroomName');
+
 Route::get('/findPrice','OrderController@findPrice');
 
 
 // manager
-
 route::get('/admin','admincontroller@index');
+
 Route::get('/add-type', [TypeController::class, 'showPageAdd']);
 
 // manager loại phòng
@@ -91,18 +96,22 @@ route::get('/page_add_staff',[StaffController::class,'addpage_staff']);
 
 route::post('/add_staff',[StaffController::class,'add_staff']);
 
-route::get('/list-staff',[StaffController::class,'list_staff']);
+route::get('/list_staff',[StaffController::class,'list_staff']);
+
+route::get('/edit_staff/{id}',[StaffController::class,'showPageEdit']);
+
+Route::post('/update_staff/{id}', [StaffController::class, 'update_staff']);
+
+route::delete('/delete_staff/{id}', [StaffController::class, 'delete_staff']);
 
 //đặt phòng// đớn đặt phòng
 Route::get('/order_room',[OrderController::class,'add_order_page']);
 Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
-// login // logout
-Route::post('/checklogin',[LoginController::class, 'checkLogin']);
 
-//Route::get('/logout',[LoginController::class, 'logoutAction']);
 
 // quản lý trang tin tức
 Route::get('/list-new', [NewController::class, 'listNew']);
+
 Route::get('/add-new', [NewController::class, 'showPageAddNew']);
 
 // quản lý danh mục
@@ -115,3 +124,5 @@ route::get('/delete-cat/{id}', [CategoryController::class, 'deleteCatAction']);
 
 //trang thong tin cua khach hang
 route::get('/profile',[CustomerController::class,'show_page_profile']);
+
+route::get('/list-users',[CustomerController::class,'list_cus']);

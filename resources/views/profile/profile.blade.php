@@ -76,7 +76,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="logout.php">
+                                <a class="nav-link" href="#">
                                     <span class="no-icon">Log out</span>
                                 </a>
                             </li>
@@ -141,7 +141,7 @@
     </div>
 
    
-@include('footer')
+
 </body>
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
@@ -156,8 +156,6 @@
 <!--  Notifications Plugin    -->
 <script src="assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-<script src="assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
-<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="assets/js/demo.js"></script>
 
 </html>

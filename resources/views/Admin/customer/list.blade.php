@@ -4,7 +4,7 @@
 <div class="table-agile-info">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Danh sách nhân viên
+        Danh sách tài khoản,thông tin khách hàng
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
@@ -57,21 +57,21 @@
                     Session::put('msg',null);
                 }
             ?>
-            @foreach($liststaff as $key => $staff)
+            @foreach($listCus as $key => $cus)
               <tr>
                 <td><label class="i-checks m-b-none"><i></i></label></td>
-                <td> {{$staff->users_id}} </td>
-                <td> {{$staff->name}} </td>
-                <td> {{$staff->email}} </td>
-                <td> {{$staff->phone}} </td>
+                <td> {{$cus->users_id}} </td>
+                <td> {{$cus->name}} </td>
+                <td> {{$cus->email}} </td>
+                <td> {{$cus->phone}} </td>
                 
-                <td> {{$staff->address}} </td>
+                <td> {{$cus->address}} </td>
                 
                 <td>
-                  <a href="{{URL::to('/edit_staff/'.$staff->users_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
+                  <a href="{{URL::to('/edit-type/'.$cus->users_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                   </a>
-                  <a href="{{URL::to('/delete_staff/'.$staff->users_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <a href="{{URL::to('/delete-type/'.$cus->users_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
                   </a>
                 </td>

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 use App\Models\users;
+use Symfony\Component\VarDumper\VarDumper;
+
 class RegisterController extends Controller
 {
     //
@@ -28,17 +30,27 @@ class RegisterController extends Controller
         $users->address = $request->input('address');
         $users->role =0;
 
-        if($data['password'] == $data['repassword'])
+        $checkmail= users::all();
+        foreach($checkmail as $user)
         {
+            if($request->input('email')==$user->email)
+            {
+                Session::put('msg','địa chỉ mail đã được sử dụng');
+                return Redirect::to('/showregister');
+            }
+            elseif($data['password'] == $data['repassword'])
+            {
             $users->save();
             Session::put('msg','Thêm tài khoản thành công');
             return Redirect::to('/');
+            }
+            else
+            {
+                Session::put('msg','sai mật khẩu nhập lại');
+                return Redirect::to('/showregister');
+            }
         }
-        else
-        {
-            Session::put('msg','sai mật khẩu nhập lại');
-            return Redirect::to('/showregister');
-        }
+        
         
     }
 }

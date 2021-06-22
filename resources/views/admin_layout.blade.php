@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Session;
             <header class="header fixed-top clearfix">
                 <!--logo start-->
                 <div class="brand">
-                    <a href="index.html" class="logo">
+                    <a href="{{URL::to('/admin')}}" class="logo">
                         ADMIN
                     </a>
                     <div class="sidebar-toggle-box">
@@ -137,7 +137,7 @@ use Illuminate\Support\Facades\Session;
                         </a>
                         <ul class="sub">
                             <li><a href="{{URL::to('/page_add_staff')}}">Thêm nhân viên </a></li>
-                            <li><a href="{{URL::to('/list-staff')}}">danh sách nhân viên </a></li>
+                            <li><a href="{{URL::to('/list_staff')}}">danh sách nhân viên </a></li>
 
                         </ul>
                     </li>

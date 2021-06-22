@@ -19,7 +19,6 @@ class LoginController extends Controller
 
     function checkLogin(request $request)
     {
-        $role=1;
         $email=$request->email; 
         $password= $request->password;
         $Result = users::where('email',$email)->Where('password',$password)->first(); //trả về bản ghi đầu tiên
@@ -48,11 +47,8 @@ class LoginController extends Controller
     {
         Session::put('name',null); 
         Session::put('users_id',null);
-        return view('/admin');
+        return view('layout.home');
     }
-    function logout(){
-        Session::flush();
-        return redirect()->back();
-    }
+
 }
 

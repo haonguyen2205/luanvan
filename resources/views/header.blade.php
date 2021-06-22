@@ -34,8 +34,9 @@
 
                                             ?>
                                         </a></li>
+                                        <li><a href="{{URL::to('/logout')}}">Logout</a></li>
                                     @else
-                                        <li><a href="{{URL::to('/login')}}">Login</a></li>
+                                       <li><a href="{{URL::to('/login')}}">Login</a></li>
                                         <li><a href="{{URL::to('/showregister')}}">Register</a></li>
                                     @endif
                                 </ul>

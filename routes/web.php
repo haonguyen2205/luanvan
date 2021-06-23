@@ -123,6 +123,16 @@ Route::post('/update-cat/{id}', [CategoryController::class, 'editCatAction']);
 route::get('/delete-cat/{id}', [CategoryController::class, 'deleteCatAction']);
 
 //trang thong tin cua khach hang
-route::get('/profile',[CustomerController::class,'show_page_profile']);
+// route::get('/profile',[CustomerController::class,'data_cus']);
 
-route::get('/list-users',[CustomerController::class,'list_cus']);
+// route::get('/list-users',[CustomerController::class,'list_cus']);
+
+
+
+Route::get('/profile','CustomerController@show_page_profile');
+Route::get('/profile-form', [CustomerController::class, 'show_page_profileDetail']);
+Route::get('/profile-pass', [CustomerController::class, 'show_page_profilePass']);
+
+route::post('/chance-pass',[CustomerController::class,'change_password']);
+route::post('/chance-info',[CustomerController::class,'change_info']);
+// route::get('/profile','CustomerController@profile_cus');

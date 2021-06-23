@@ -31,6 +31,7 @@ class RegisterController extends Controller
         $users->role =0;
 
         $checkmail= users::all();
+        
         foreach($checkmail as $user)
         {
             if($request->input('email')==$user->email)

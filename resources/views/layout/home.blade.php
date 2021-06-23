@@ -179,7 +179,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Follow us on Instagram @yourhotel</h2>
+                    <h2>Follow us on Facebook @yourhotel</h2>
                 </div>
             </div>
         </div>

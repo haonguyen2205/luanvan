@@ -15,7 +15,7 @@
                                         <li><a href="{{URL::to('/rooms')}}">Rooms</a></li>
                                         <li><a href="{{URL::to('/news')}}">News</a></li>
                                         <li><a href="{{URL::to('/contact')}}">Contact</a></li>
-                                        <li><a href="{{URL::to('/cart')}}">Cart</a></li>
+                                        <li><a href="{{URL::to('#')}}">Room Order</a></li>
                                 </ul>
                             </nav>
 
@@ -25,7 +25,7 @@
                         <div class="col-xl-4">
                             <nav  class="main-menu mobile-menu">
                                 <ul>
-                                    @if(Session::has('name'))
+                                    @if(Session::has('name') && Session::get('role')==0)
                                     <li><a href="{{ URL::to('/profile')}}">
                                             <?php
                                             $name =Session::Get('name');

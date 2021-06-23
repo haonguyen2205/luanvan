@@ -104,8 +104,6 @@ class Typecontroller extends Controller
         $type->status    = $request->input('typeStatus');
         if($request->typeName==null||$request->typeStatus == null)
         {
-            //Session::forget('th_err');
-            
             $this->validate($request,[
                 'typeName'=>'bail|required|min:3|max:50',
                 'typeStatus'=>'bail|required',

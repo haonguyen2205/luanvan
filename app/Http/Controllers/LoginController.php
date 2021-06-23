@@ -28,11 +28,13 @@ class LoginController extends Controller
             {
                 Session::put('name',$Result->name); 
                 Session::put('users_id',$Result->users_id);
+                Session::put('role',$Result->role);
                 return Redirect::to('/admin');
             }
             else{
                 Session::put('name',$Result->name); 
                 Session::put('users_id',$Result->users_id);
+                Session::put('role',$Result->role);
                 return Redirect::to('/');
             }
         }

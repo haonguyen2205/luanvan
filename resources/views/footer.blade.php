@@ -14,7 +14,7 @@
                         <h5>Location</h5>
                         <div class="widget-text">
                             <i class="lnr lnr-map-marker"></i>
-                            <p> Address </p>
+                            <p> Address: 160 cao lổ </p>
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,7 @@
 			<A class="btn btn-success" href="{{URL::to('/diemdanh')}}">điểm danh</A>
 		@endif
 	</div>
-    <h1> thông tin thống kê </h1>
+    <h1> thông tin thống kê 2 </h1>
     <div class="market-updates">
 			<div class="col-md-3 market-update-gd">
 				<div class="market-update-block clr-block-2">

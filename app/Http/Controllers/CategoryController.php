@@ -100,17 +100,21 @@ class CategoryController extends Controller
         }
     }
     function stt(Request $request){
-      
+        
         $s=$request->all();
         unset($s['_token']);
-
-        for($i=1;$i<count($s);$i++){
-            if(isset($s[$i]))
-                {
-                    DB::table('category')->where('cat_id',$i)->update(['stt'=>$s[$i]]);
-                }
-        }
+      
+       for($i=1;$i<99;$i++){
+           if(isset($s[$i])){
+                DB::table('category')->where('cat_id',$i)->update([
+                    'stt'=>$s[$i]
+                ]);
+           }
+           else continue;
+          
+       }
         
+
         return Redirect::to('list-cat');
     }
     function catsearch(Request $request){

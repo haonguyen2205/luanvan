@@ -6,13 +6,6 @@
         DANH SÁCH ĐƠN HÀNG ĐÃ XOÁ
       </div>
       <div class="row w3-res-tb">
- 
-          <?php
-            $message =Session::Get('message');	
-            if($message)
-                echo $message;
-                Session::put('message', null);
-          ?>
         <div class="col-sm-4">
           
         </div>
@@ -34,13 +27,6 @@
             </tr>
           </thead>
           <tbody>
-            <?php
-                $msg = Session::get('msg');
-                if($msg) {
-                    echo "<b style='color:green'>".$msg."</b>";
-                    Session::put('msg',null);
-                }
-            ?>
             
 
                 @foreach($ds as $key)

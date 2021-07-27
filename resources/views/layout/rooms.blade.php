@@ -80,7 +80,7 @@
                             <div class="single-room-pic">
                                 <img src="{{URL::to('public/upload/rooms/'.$showRooms->room_image)}}" alt="">
                             </div>
-
+                            
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -89,7 +89,7 @@
                             <div class="room-title">
                             <h2>{{$showRooms->room_name}}</h2>
                             <div class="room-price">
-                                <span>Giá</span>
+                                <span>  Giá</span>
                                 <h2>{{number_format($showRooms->room_price).' đ'}}</h2>
                                 <sub>/đêm</sub>
                             </div>

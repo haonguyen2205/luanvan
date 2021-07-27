@@ -39,6 +39,8 @@ class CartController extends Controller
     }
     function postCart(Request $request)
     {
+        Session::put('datphong',1);
+        
 
         $at= new Carbon($request->dayat);
 
@@ -67,6 +69,7 @@ class CartController extends Controller
             'room_qty'=>1,
             'created_at'=>Carbon::now(),
         ]);
+       
         return redirect('/');
         //Pop up thông báo đặt phòng thành công
     }

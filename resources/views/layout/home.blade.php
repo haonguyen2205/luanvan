@@ -171,7 +171,19 @@
     </div>
     <!-- Facilities Section End -->
 
+    <script>
 
+   <?php 
+            if(Session::has('datphong'))
+                echo 'alert("Cảm ơn bạn đã tin tưởng và đặt phòng ở website")';
+            Session::forget('datphong');
+   
+   ?>
+        
+ 
+  
+
+</script>
     <!-- Follow Instagram Section Begin -->
     <section class="follow-instagram">
         <div class="container">

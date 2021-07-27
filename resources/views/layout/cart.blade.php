@@ -63,7 +63,7 @@ $songay = $so/86400;
                         <div class="tot-btn">
                         <a class="btn btn-primary" href="{{URL::to('/rooms')}}">Trở về</a>
                             @if(Session::has('users_id'))
-                                <input type="submit" value="Đặt phòng" class="btn btn-primary">
+                                <input type="submit"  value="Đặt phòng"  class="btn btn-primary">
                             @else
                                 <a class="btn btn-primary" href="{{URL::to('/login')}}">Đăng nhập</a>
                             @endif
@@ -72,6 +72,7 @@ $songay = $so/86400;
             </div>
         </div>
 </br>
+
         <!-- End bảng -->
 
         <!-- Bảng thông tin -->
@@ -121,7 +122,10 @@ $songay = $so/86400;
 </br>
             @endif
             </div>
+            
         </div>       
     </div>
 </form>
+
+
 @endsection

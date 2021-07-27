@@ -42,12 +42,19 @@
     </div>
     
     @include('header')
-
+    
     @yield('content')
 
     @include('footer')
 
     <!-- Js Plugins -->
+    <script>
+function myFunction() {
+   
+  alert("Hello\nHow are you?");
+  
+}
+</script>
     <script src="{{URL::asset('public/frontend/js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{URL::asset('public/frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{URL::asset('public/frontend/js/jquery.magnific-popup.min.js')}}"></script>

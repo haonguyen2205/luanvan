@@ -96,9 +96,6 @@
                             <div class="single-room-pic">
                                 <img src="{{URL::to('public/upload/rooms/'.$key[0]['room_image'])}}" alt="">
                             </div>
-                            <div class="single-room-pic">
-                                <img src="{{URL::to('public/upload/rooms'.$key[0]['room_image'])}}" alt="">
-                            </div>
                         </div>
                     </div>
 
@@ -156,15 +153,13 @@
             </div>
         
         @else
-        @foreach($hinhanh as $a)
-                     @if($a->room_id == $key->room_id)
-                        
+       
                  <form action="{{URL::to('datphong')}}" method="post">
                      @csrf
 
                      <input type="hidden" name="id" value="{{$key->room_id}}">
                      <input type="hidden" name ="room_name" value="{{$key->room_name}}">
-                     <input type="hidden" name ="room_image" value="{{$a->room_image}}">
+                     <input type="hidden" name ="room_image" value="{{$key->image}}">
                      <input type="hidden" name ="price" value ="{{$key->room_price}}">
                      <input type="hidden" name ="dayat" value="{{$dayat}}">
                      <input type="hidden" name ="dayout" value="{{$dayout}}">
@@ -173,12 +168,9 @@
                 <div class="row">
 
                     <div class="col-lg-6">
-                     <div class="room-pic-slider owl-carousel">
-                     <div class="single-room-pic">
-                                <img src="{{URL::to('public/upload/rooms/'.$a->room_image)}}" alt="">
-                            </div>
+                        <div class="room-pic-slider owl-carousel">
                             <div class="single-room-pic">
-                                <img src="{{URL::to('public/upload/rooms'.$a->room_image)}}" alt="">
+                                <img src="{{URL::to('public/upload/rooms/'.$key->image)}}" alt="">
                             </div>
                         </div>
                     </div>
@@ -229,10 +221,7 @@
                     </div>
                 </div>
             </div>
-           @endif
-        
-           @endforeach
-
+          
             @endif
 
 

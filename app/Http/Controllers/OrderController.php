@@ -24,18 +24,16 @@ class OrderController extends Controller
 
         return view("admin.order.add_order")->with('type_room',$type);
     }
-//-------------
+
     public function findroomName(Request $request)
     {
         //$request->id here is the id of our chosen option id
         $data=room::select('room_name','type_id')->where('type_id',$request->id)->take(50)->get();
-        return response()->json($data);//then sent this data to ajax success
-        
+        return response()->json($data);//then sent this data to ajax success 
 	}
 
     public function findPrice(Request $request)
     {
-	
 		//laasy ra giá của phòng nếu phù hợp vs id của phòng
 		$p=room::select('room_price')->where('rooom_id',$request->id)->first();
 		

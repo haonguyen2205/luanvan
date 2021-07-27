@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 class CartController extends Controller
@@ -18,25 +18,53 @@ class CartController extends Controller
         }
         return view('layout.cart',compact('room','user',$user,$room));
     }
+    function datphong(Request $request){
+
+       $user=null;
+       if(Session::has('users_id')){
+           $user=DB::table('users')->where('users_id',Session::get('users_id'))->first();
+       }
+       $viewData=[
+        'room_id'=>$request->id,
+        'room_name'=>$request->room_name,
+        'room_price' => $request->price,
+        'room_image' =>$request->image,
+        'dayat' =>$request->dayat,
+        'dayout' =>$request->dayout,
+        'user' => $user
+    ];
+
+
+       return view('layout.cart',$viewData);
+    }
     function postCart(Request $request)
     {
+
+        $at= new Carbon($request->dayat);
+
+       $out = new Carbon($request->dayout);
+
+
+
         $oder=DB::table('order')->insertGetId([
             'users_id'=>$request->user_id,
-            'author'=>null,
-            'status'=>0,
-            'deposit'=>0,
+            'username'=>null,
+            'status'=>1,
+            'deposit'=>($request->price * $request->songay)*0.4,
+            'cmnd'=>$request->cmnd,
+            'adults'=>$request->adults,
+            'children'=>$request->children,
+            'dayat'=>$at->format('Y-m-d'),
+            'dayout'=>$out->format('Y-m-d'),
+            'total'=>$request->price*$request->songay,
+            'order_status_id'=>1,
             'created_at'=>Carbon::now(),
         ]);
+
         $order_detail=DB::table('order_details')->insert([
             'order_id'=>$oder,
             'room_id'=>$request->room_id,
-            'room_price'=>$request->price,
-            'room_qty'=>$request->quantity,
-            'adults'=>$request->adults,
-            'children'=>$request->children,
-            'dayat'=>$request->dayat,
-            'dayout'=>$request->dayout,
-            'total'=>$request->price*$request->quantity,
+            'room_qty'=>1,
             'created_at'=>Carbon::now(),
         ]);
         return redirect('/');

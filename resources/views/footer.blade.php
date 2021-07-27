@@ -14,7 +14,7 @@
                         <h5>Location</h5>
                         <div class="widget-text">
                             <i class="lnr lnr-map-marker"></i>
-                            <p> Address: 160 cao lổ </p>
+                            <p>180 Cao Lổ, phường 4, quận 8, thành phố Hồ Chí Minh</p>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                         <h5>Reception</h5>
                         <div class="widget-text">
                             <i class="lnr lnr-phone-handset"></i>
-                            <p> 123456789 </p>
+                            <p>(028) 38 505 520</p>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                         <h5>Shuttle Service</h5>
                         <div class="widget-text">
                             <i class="lnr lnr-phone-handset"></i>
-                            <p> 123456789 </p>
+                            <p>O389092298</p>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <h5>Restaurant</h5>
                         <div class="widget-text">
                             <i class="lnr lnr-phone-handset"></i>
-                            <p> 123456789 </p>
+                            <p>0703890768</p>
                         </div>
                     </div>
                 </div>

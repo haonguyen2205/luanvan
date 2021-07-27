@@ -7,13 +7,6 @@
                 THÊM DANH MỤC
             </header>
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
                 <div class="position-center">
                     <form role="form" action="{{URL::to('/add-cat-action')}}" method="post">
                             @csrf
@@ -23,16 +16,9 @@
                             <input type="text" class="form-control" id="exampleInputEmail1" min="3" max="50" name="catName">
                         </div>
 
-                        <button type="submit" class="btn btn-info" name="addCat">Submit</button>
+                        <button type="submit" class="btn btn-primary" name="addCat">Thêm danh mục</button>
+                        <a href="{{URL::to('/list-cat')}}" class="btn btn-primary">Trở về</a>
                     </form>
-
-                    <ul class=" alert text-danger">
-                    @foreach ($errors->all() as $error)
-
-                        <li>{{$error}}</li>
-
-                    @endforeach
-                    </ul>
                 </div>
             </div>
         </section>

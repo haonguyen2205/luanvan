@@ -25,6 +25,14 @@
     <link rel="stylesheet" href="{{URL::asset('public/frontend/css/magnific-popup.css')}}" type="text/css">
     <link rel="stylesheet" href="{{URL::asset('public/frontend/css/slicknav.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{URL::asset('public/frontend/css/style.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{URL::asset('public/frontend/css/stylesearchroom.css')}}" type="text/css">
+    <style>
+        .rooms-page-item .room-text i {
+            float: right;
+            text-align: center;
+            
+        }
+    </style>
 </head>
 
 <body>

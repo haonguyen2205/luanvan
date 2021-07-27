@@ -33,6 +33,7 @@
                             <div class="form-group">
                                 <label for="exampleInputFile">Loại</label>
                                 <select name="type" class="form-control m-bot15">
+                                    <option value="{{$valueRoom->type_id}}">{{$valueRoom->type_name}}</option>
                                     @foreach($editType as $key=>$valueType)
                                     <option value="{{$valueType->type_id}}">{{$valueType->type_name}}</option>
                                     @endforeach 

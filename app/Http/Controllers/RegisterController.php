@@ -29,6 +29,7 @@ class RegisterController extends Controller
         $users->phone     = $request->input('phone');
         $users->address = $request->input('address');
         $users->role =0;
+        $users->users_stauts=0;
 
         $checkmail= users::all();
         

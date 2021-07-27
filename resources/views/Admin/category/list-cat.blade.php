@@ -3,73 +3,68 @@
 <div class="table-agile-info">
     <div class="panel panel-default">
         <div class="panel-heading">
-            Danh sách phòng
+            Danh sách danh mục
         </div>
         <div class="row w3-res-tb">
-            <div class="col-sm-5 m-b-xs">
-                <select class="input-sm form-control w-sm inline v-middle">
-                    <option value="0">Bulk action</option>
-                    <option value="1">Delete selected</option>
-                    <option value="2">Bulk edit</option>
-                    <option value="3">Export</option>
-                </select>
-                <button class="btn btn-sm btn-default">Apply</button>
-            </div>
-            <div class="col-sm-4"></div>
+            <div class="col-sm-3"></div>
             <div class="col-sm-3">
                 <div class="input-group">
-                    <form action="#" method="post">
-                        <input type="text" class="input-sm form-control" name="keyword" placeholder="Search">
-                        <span class="input-group-btn">
-                            <button class="btn btn-sm btn-default" value="submit" type="button">Go!</button>
-                        </span>
+                    <form action="{{URL::to('cat-search')}}" method="get">
+                        @csrf
+                        <div class="btn">
+                            <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">
+                            <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
+                            <a href="{{URL::to('/add-cat')}}" class="btn btn-primary">Thêm danh mục</a>
+                        </div>
                     </form>
-                </div>
+                </div> 
             </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"></div>
         </div>
+
         <div class="table-responsive">
-            <table class="table table-striped b-t b-light">
+            <table class="table table-striped b-t b-light" style="width:100%">
                 <thead>
                     <tr>
-                        <th style="width:20px;"></th>
-                        <th>Id</th>
-                        <th>Loại tin tức</th>
-                        <th style="width:30px;"></th>
+                        <th style="width:38px;"></th>
+                        <th style="width:150px;">Id</th>
+                        <th style="width:240px;">Hiển thị</th>
+                        <th style="width:400px;">Loại tin tức</th>
+                        <th style="width:200px;"></th>
                     </tr>
                 </thead>
-                <tbody>
-                @foreach($listCat as $key => $value)
+                <form action="{{URL::to('stt')}}" method="post">
+                @csrf
+                    <tbody>
+                    @foreach($listCat as $key => $value)
+                        <tr>
+                            <td style="width:38px;"><label class="i-checks m-b-none"><i></i></label></td>
+                            <td style="width:150px;">{{$value->cat_id}}</td>
+                            <td style="width:240px;">
+                                <input type="number" min="1" name="{{$value->cat_id}}" value="{{$value->stt}}" style="width:40px; border-radius: 2px;">
+                            </td>
+                            <td style="width:400px;">{{$value->cat_name}}</td>
+                            <td style="width:200px;">
+                                <a href="{{URL::to('/edit-cat/'.$value->cat_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
+                                    <i class="fa fa-pencil-square-o text-success text-active"></i>
+                                </a>
+                                <a href="{{URL::to('/delete-cat/'.$value->cat_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                                    <i class="fa fa-times text-danger text"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    @endforeach
+                    </tbody>
                     <tr>
-                        <td><label class="i-checks m-b-none"><i></i></label></td>
-                        <td>{{$value->cat_id}}</td>
-                        <td>{{$value->cat_name}}</td>
-                        <td>
-                            <a href="{{URL::to('/edit-cat/'.$value->cat_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
-                                <i class="fa fa-pencil-square-o text-success text-active"></i>
-                            </a>
-                            <a href="{{URL::to('/delete-cat/'.$value->cat_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
-                                <i class="fa fa-times text-danger text"></i>
-                            </a>
-                        </td>
+                        <div class="col-sm-5 m-b-xs">
+                            <button value="Cập nhật hiển thị" class="btn btn-primary">Cập nhật hiển thị </button>
+                        </div>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                </form>
+            </table>            
         </div>
-        <footer class="panel-footer">
-            <div class="row">
-                <div class="col-sm-7 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                    <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                    <li><a href="">1</a></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </footer>
     </div>
 </div>
 @endsection

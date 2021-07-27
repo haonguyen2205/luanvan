@@ -28,6 +28,33 @@
 	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/slicknav.min.css')}}" type="text/css">
 	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/style.css')}}" type="text/css">
 	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/style1.css')}}" type="text/css">
+
+<style>
+	.header-left-bottom input[type="email"] {
+    outline: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #ececec;
+    padding: 12px 13px 20px 11px;
+    border: none;
+    width: 80%;
+    display: inline-block;
+    background: transparent;
+    font-family: 'CinzelDecorative-Regular';
+}
+.header-left-bottom input[type="password"] {
+    outline: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #ececec;
+    border: none;
+    padding: 12px 13px 20px 20px;
+    width: 80%;
+    display: inline-block;
+    background: transparent;
+    font-family: 'CinzelDecorative-Regular';
+}
+</style>
 </head>
 <body>
 <script src="{{URL::asset('public/register/js/jquery.vide.min.js')}}"></script>

@@ -10,13 +10,6 @@
             </header>
            
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
                 <div class="position-center">
                     <form role="form" action="{{URL::to('/add-room-action')}}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -53,6 +46,11 @@
                             </textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Capacity(MAX)</label>
+                            <input type="number" class="form-control" id="exampleInputEmail1" name="capacity" required> 
+                        </div>
+                        <span style="color: red;">{{$errors->first('price')}}</span>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Giá</label>
@@ -76,4 +74,15 @@
 
     </div>
 </div>
+
+    @if(Session::has('mes_create_fail'))
+        <script type="text/javascript" >
+        swal("Ohh Fail!","{{Session::Get('mes_create_fail')}}","error",{
+            button:"OK",
+        });
+        </script> 
+        <?php
+        session::put('mes_create_fail',null);
+        ?>
+    @endif
 @endsection

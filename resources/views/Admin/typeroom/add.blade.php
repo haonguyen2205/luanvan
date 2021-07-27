@@ -16,7 +16,7 @@
                 ?>
                 <div class="position-center">
                     <form role="form" action="{{URL::to('/add-type-action')}}" method="post">
-                            @csrf
+                            {{ csrf_field() }}
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên loại</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" min="3" max="50" name="typeName">
@@ -29,7 +29,15 @@
                                 <option value="0">Không hoạt động</option>
                             </select>
                         </div>
-                        
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">tiện ích :  </label></br>
+                            <label for="exampleInputEmail1"></label></br>
+                            @foreach ($utility as $key => $uti)
+                            <input type="checkbox"  value="{{$uti->utility_id}}" name="tienich[]">
+                                {{$uti->utility_name}}
+                            @endforeach
+                        </div>
+                        <span style="color: red;">{{$errors->first('typeName')}}</span>
                         <button type="submit" class="btn btn-info" name="addType">Submit</button>
                     </form>
 

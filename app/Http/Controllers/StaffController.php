@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Response;
 use App\Models\role;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-
+use Mail;
+use Carbon\Carbon;
 
 use App\Models\users;
-
+use App\Models\timekeep;
 
 class StaffController extends Controller
 {
@@ -22,39 +24,56 @@ class StaffController extends Controller
     }
     public function add_staff(request $request)
     {
-
         $users = new users();
         $data=$request->all();
         
         $users->name      = $request->input('name');
         $users->email     = $request->input('email');
-        $users->password  = $request->input('password');
         $users->phone     = $request->input('phone');
         $users->address   = $request->input('address');
+        $users->users_status=0;
+            $str="abcdefghiklmnopqrstuvwxyz0123456789";
+            $str=str_shuffle($str);
+            $str=substr($str,0,8);
+        $users->password = $str;
         $users->role      = 1;
-         $check_email=users::all();
+        // $users->users_image = $data['image'];
 
-        // var_dump($check_email); exit;   
+        if($request->hasFile('image'))
+        {
+            $image=$request->file('image');
+            $get_name_image = $image->getClientOriginalName(); // lấy tên của img
+            $name_image     = current(explode('.',$get_name_image));
+            $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
+            $image->move('public/upload/staff',$new_image);
+            $users->users_image     = $new_image    ;
+        }
+
+        $check_email=users::all(); 
         foreach($check_email as $user)
         {
             if($request->input('email')==$user->email)
             {
                 Session::put('msg','địa chỉ mail đã được sử dụng');
-                return Redirect::to('/showregister');
-                }
-            if($data['password'] != $data['repassword'])
-            {
-                Session::put('msg','sai mật khẩu nhập lại');
-                return Redirect::to('/add_page_Staff');
-            
+                return Redirect::to('/page_add_staff');
             }
             else
             {
+                $to_name="KHÁCH SẠN KALENDA";
+                $to_email=$request->input('email');
+                $data= array("name"=>$request->input('name'),"body"=>"thư yêu cầu xác thực tài khoản ","password"=>$str);
+                Mail::send('Admin.staff.verify',$data,function($message)use ($to_name,$to_email)
+                {
+                    $message->to($to_email)->subject('xác thực tài khoản');
+                    $message->from($to_email,$to_name);
+                });
                 $users->save();
-                Session::put('msg','Thêm tài khoản thành công');
-                return Redirect::to('/list_staff');
+                Session::put('msg','đang  chờ xác thực mail');
+                return Redirect::to('/page_add_staff');
             }
+                
         }
+        
     }
 // cập nhật thông tin TK
     public function showPageEdit($id)
@@ -70,12 +89,11 @@ class StaffController extends Controller
         $data=$request->all();
         
         $users->name      = $request->input('name');
-        //$users->email     = $request->input('email');
-        //users->password  = $request->input('password');
         $users->phone     = $request->input('phone');
         $users->address   = $request->input('address');
-        
+        // $users->users_image=$data['image'];
 
+        // echo $users; exit;
         $this->validate($request,[
             'name'=>'bail|required|min:10|max:100',
             'phone'=>'bail|required|min:10|max:15',
@@ -92,37 +110,123 @@ class StaffController extends Controller
             'phone.max'=>'địa chỉ không được dài quá 15 kí tự',
             'phone.min'=>'số điện thoại  không được ngắn hơn quá 10 kí tự',
         ]);
+        if($request->hasFile('image'))
+        {
+            $image=$request->file('image');
+            $get_name_image = $image->getClientOriginalName(); // lấy tên của img
+            $name_image     = current(explode('.',$get_name_image));
+            $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
+            $image->move('public/upload/staff',$new_image);
+            $users->users_image     = $new_image;
             $users->save();
-            Session::put('msg','cập nhật khoản thành công');
-            return Redirect::to('/list_staff');
+        }else
+        {
+            session::put('mes',"không phải file hình");
+            return view('Admin.staff.edit');
+        }
+            
+        return Redirect::to('/list_staff');
+        
     }
     //danh sách nhân viên
-    public function list_staff() 
+    public function list_staff(request $request) 
     {
-        $staff=users::where('role',1)->get();
-        $manager = view('Admin.staff.list')->with('liststaff', $staff);
-        return view('admin_layout')->with('Admin.staff.list', $manager);
+        $key=$request->input('search_staff');
+        if($key != null)
+        {
+            $staff1=users::where('role',1)->where('users_status',0)->where('name', 'like', '%'.$key.'%')
+                ->orwhere('email', 'like', '%'.$key.'%')->where('role',1)->where('users_status',0)->paginate(5); 
+            $manager = view('Admin.staff.list')->with('liststaff', $staff1);
+            return view('admin_layout')->with('Admin.staff.list', $manager);
+        }
+        else
+        {
+            $staff=users::where('role',1)->Where('users_status',0)->paginate(5);
+            $manager = view('Admin.staff.list')->with('liststaff', $staff);
+            return view('admin_layout')->with('Admin.staff.list', $manager);
+        }
+    }
+
+    public function list_staff_block(request $request)
+    {
+        $key=$request->input('search_staff');
+        if($key != null)
+        {
+            $staff1=users::where('role',1)->where('users_status',1)->where('name', 'like', '%'.$key.'%')->where('email', 'like', '%'.$key.'%')->get(); 
+            $manager = view('Admin.staff.list_block_users')->with('liststaff', $staff1);
+            return view('admin_layout')->with('Admin.staff.list_block_users', $manager);
+        }
+        else
+        {
+            $staff=users::where('role',1)->Where('users_status',1)->get();
+            $manager = view('Admin.staff.list_block_users')->with('liststaff', $staff);
+            return view('admin_layout')->with('Admin.staff.list_block_users', $manager);    
+        }
+        
 
     }
     // xóa một nhân viên
     public function delete_staff($id) 
     {
-        //ý tưởng:  kiểm tra nguofi đang đăng nhập có đủ quyền để xóa tk hay không
-        //mặc định quyền có đủ để xóa các tk nv khác có role =3;
         $id_user= session::has('users_id');
-        $check_role=users::select('role')->where('users_id',$id_user)->get();
- 
-        if($check_role == '3') 
+        // $check_role=users::select('role')->where('users_id',$id_user)->get();
+        $user=users::find($id);
+        
+        // if($check_role == '3') 
+        // {
+            if($user->users_status==0)
+            {
+                $user->users_status=1;
+                $user->save();
+                return Redirect::to('/list_staff/list-staff-block');
+            }
+            else if($user->users_status==1)
+            {
+                $user->users_status=0;
+                $user->save();
+                return Redirect::to('/list_staff');
+            }
+        // }
+
+    }
+    // public function process_verrify($token)
+    // {
+        
+    // }
+
+    //diem danh nhaan vient
+    public function diemdanh()
+    {
+        $time = new timekeep();
+        $time->users_id=session::has('users_id');   
+        $time->time_in =Carbon::now();
+        $time->save();
+        $id =$time->timekeep_id;
+        session::put('timekeep_id',$id);
+        session::put('mes_diemdanh',"diem thanh thanh cong");
+        return redirect::to('/admin');
+    }
+    public function diemdanhra()
+    {
+        $id = session::get('timekeep_id');
+        $data =timekeep::where('timekeep_id',$id)->first(); //sài first or find lấy singel get là lấy many .. haizz
+        $users=$data->users_id;
+        if($users == session::Get('users_id'))
         {
-            $staff=users::find($id);
-            $staff->delete();
-            Session::put('msg','xóa tài khoản thành công');
-            return Redirect::to('/list_staff');
+            $t_o=$data->time_out =Carbon::now();
+            //  
+            // $data->sogio=$t_o - $data->time_in;
+            $data->save();
+            session::put('mes_diemdanhra',"diem thanh thanh cong");
+            session::put('mes_diemdanh',null);
+            return redirect::to('/admin');
         }
         else
         {
-            Session::put('msg',' tài khoản không đủ cấp bặc để xóa tài khoản');
-            return Redirect::to('/list_staff');
-        }
+            session::put('mes_fails',"chưa dang nhâp tai khoan hoặc sai tài khoản đăng nhập");
+            return redirect::to('/admin');
+        } 
+     
     }
+
 }

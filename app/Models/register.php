@@ -10,5 +10,6 @@ class register extends Model
     use HasFactory;
     protected $table = '';
     protected $primaryKey = 'id';
+    public $timestamps = false;
     protected $fillable=['type_id','type_name','status'];
 }

@@ -10,5 +10,6 @@ class tintuc extends Model
     use HasFactory;
     protected $table = 'new';
     protected $primaryKey = 'new_id';
+    public $timestamps = false;
     protected $fillable=['new_id','new_name','new_image','new_content','date_post','cat_id'];
 }

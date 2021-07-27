@@ -1,40 +1,37 @@
+
 @extends('admin_layout')
 @section('admin_content')
 
 <div class="table-agile-info">
     <div class="panel panel-default">
+      <ul class="nav nav-tabs">
+          <li><a href="{{URL::to('/list-type')}}"> <span class="glyphicon glyphicon-bed"></span> DS loại phòng </a></li>
+          <li><a href="{{URL::to('/list-type-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
+      </ul>
       <div class="panel-heading">
         Danh sách loại phòng
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-          <select class="input-sm form-control w-sm inline v-middle">
-            <option value="0">Bulk action</option>
-            <option value="1">Delete selected</option>
-            <option value="2">Bulk edit</option>
-            <option value="3">Export</option>
-          </select>
-          <button class="btn btn-sm btn-default">Apply</button>                
+          <a href="{{URL::to('/add-type')}}" class="btn btn-info">thêm loại phòng</a>              
         </div>
-          <?php
-            $message =Session::Get('message');	
-            if($message)
-                echo $message;
-                Session::put('message', null);
-          ?>
         <div class="col-sm-4">
           
         </div>
         <div class="col-sm-3">
           <div class="input-group">
-            <input type="text" class="input-sm form-control" placeholder="Search">
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="button">Go!</button>
-            </span>
+            <form action="{{URL::to('/list-type')}}"  method="get">
+              <input type="text" class="input-sm form-control" name="search_type" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-sm btn-default" name="btn_type" type="button">Search!</button>
+              </span>
+            </form>
           </div>
           
         </div>
       </div>
+
+      <!-- // show dữ liệu -->
       <div class="table-responsive">
         <table class="table table-striped b-t b-light">
           <thead>
@@ -48,13 +45,6 @@
             </tr>
           </thead>
           <tbody>
-            <?php
-                $msg = Session::get('msg');
-                if($msg) {
-                    echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                    Session::put('msg',null);
-                }
-            ?>
             @foreach($listType as $key => $type)
               <tr>
               <td><label class="i-checks m-b-none"><i></i></label></td>
@@ -89,20 +79,71 @@
           </tbody>
         </table>
       </div>
+    <!-- end show dữ liệu -->
+
       <footer class="panel-footer">
         <div class="row">
           <div class="col-sm-7 text-right text-center-xs">                
-            <ul class="pagination pagination-sm m-t-none m-b-none">
-              <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-              <li><a href="">1</a></li>
-              <li><a href="">2</a></li>
-              <li><a href="">3</a></li>
-              <li><a href="">4</a></li>
-              <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-            </ul>
+          {{$listType->links()}}
           </div>
         </div>
       </footer>
+
     </div>
-          </div>
+</div>
+
+@if(Session::has('mes_inact'))
+  <script type="text/javascript" >
+    swal("Chmmm!","{{Session::Get('mes_inact')}}","warning",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_inact',null);
+  ?>
+@endif
+
+@if(Session::has('mes_act'))
+  <script type="text/javascript" >
+    swal("Chmmm!","{{Session::Get('mes_act')}}","success",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_act',null);
+  ?>
+@endif
+
+@if(Session::has('mes_create'))
+  <script type="text/javascript" >
+    swal("Congratulation!","{{Session::Get('mes_create')}}","success",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_create',null);
+  ?>
+@endif
+
+@if(Session::has('mes_delete'))
+  <script type="text/javascript" >
+    swal("thông báo","{{Session::Get('mes_delete')}}","warning",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_delete',null);
+  ?>
+@endif
+
+@if(Session::has('mes_update'))
+  <script type="text/javascript" >
+    swal("Báo cáo đọi trưởng!","{{Session::Get('mes_update')}}","success",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_update',null);
+  ?>
+@endif
 @endsection

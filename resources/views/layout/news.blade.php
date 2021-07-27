@@ -29,7 +29,7 @@
                             <div class="single-recent-post">
                                 <div class="recent-text">
                                 @foreach($showPageCat as $key => $value)
-                                    <a href="#"><h5><u>{{$value->cat_name}}</u></h4></a>
+                                    <a href="{{URL::to('news',$value->cat_id)}}"><h5><u>{{$value->cat_name}}</u></h4></a>
                                 @endforeach
                                 </div>
                             </div>
@@ -37,10 +37,10 @@
                         <div class="tags-item">
                             <h4>Tags</h4>
                             <div class="tag-links">
-                                <a href="#">hotel</a>
-                                <a href="#">theme</a>
-                                <a href="#">room</a>
-                                <a href="#">accommodation</a>
+                                <a href="/">hotel</a>
+                                <a href="https://w3layouts.com/">theme</a>
+                                <a href="/rooms">room</a>
+                                <a href="https://color.adobe.com/create/color-wheel">Color</a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <div class="blog-post">
                         <div class="single-blog-post">
                             <div class="blog-pic">
-                                <img src="{{URL::to('public/upload/rooms/'.$showNews->new_image)}}" alt="">
+                                <img src="{{URL::to('images/'.$showNews->new_image)}}" alt="">
                             </div>
                             <div class="blog-text">
                                 <h4>{{$showNews->new_name}}</h4>
@@ -61,27 +61,23 @@
                                     </div>
                                     <div class="blog-info">
                                         <img src="{{URL::asset('public/frontend/img/clock.png')}}" alt="">
-                                        <span>{{$showNews->date_post}}</span>
-                                    </div>
-                                    <div class="blog-info">
-                                        <span>Tên loại: </span>
+                                        <span>
+                                            <?php
+                                            
+                                       $date= date_create($showNews->date_post);
+                                        echo date_format($date,"Y/m/d");
+                                        
+                                        ?></span>
                                     </div>
                                 </div>
-                                <p>{{$showNews->new_content}}</p>
-                                <a href="#">Continue Reading <i class="lnr lnr-arrow-right"></i></a>
+                                <?php
+                                    echo $showNews->new_content;
+                                ?>
                             </div>
                         </div>
                     </div>
                     @endforeach
-                    <div class="blog-post" align="center">
-                        <div class="blog-pagination">
-                            <a class="active" href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>

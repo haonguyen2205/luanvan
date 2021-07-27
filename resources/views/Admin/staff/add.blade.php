@@ -15,13 +15,19 @@
                     }
                 ?>
                 <div class="position-center">
-                    <form role="form" action="{{URL::to('/add_staff')}}" method="post">
+                    <form role="form" action="{{URL::to('/add_staff')}}" method="post" enctype="multipart/form-data">
                             @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">Họ Tên</label>
                             <input type="text" class="form-control" id="exampleInputEmail1" min="3" max="50" name="name" required>
                         </div>
                         <span style="color: red;">{{$errors->first('typeName')}}</span>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ảnh cá nhân </label>
+                            <input type="file" class="form-control" id="exampleInputEmail1" accept="image/*" min="3" max="50" name="image">
+                            <img class="col-sm-6" id="preview"  src="">
+                        </div>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
@@ -41,16 +47,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">mật khẩu</label>
-                            <input type="password" class="form-control" id="exampleInputEmail1" min="3" max="50" name="password">
+                            <label for="exampleInputEmail1">chức vụ </label>
+                            <select  class="mdb-select md-form" name="">
+                                <option value="1">lễ tân</option>
+                                <option value="2">kế toán</option>
+                                <option value="3">lao công</option>
+                                <option value="4">quản lý</option>
+                            </select>
                         </div>
-                        <span style="color: red;">{{$errors->first('typeName')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">nhập lại mật khẩu</label>
-                            <input type="password" class="form-control" id="exampleInputEmail1" min="3" max="50" name="repassword">
-                        </div>
-                        <span style="color: red;">{{$errors->first('typeName')}}</span>
 
                         <button type="submit" class="btn btn-info" name="addType">Submit</button>
                     </form>

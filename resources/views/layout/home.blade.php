@@ -1,7 +1,7 @@
 @extends('master')
 @section('content')
 <!-- Hero Slider Begin -->
-<div class="hero-slider">
+    <div class="hero-slider">
         <div class="slider-item">
             <div class="single-slider-item set-bg" data-setbg="{{URL::asset('public/frontend/img/slider-1.jpg')}}">
                 <div class="container">
@@ -15,7 +15,7 @@
                             <div class="slider-nav">
                                 <a href="#" class="single-slider-nav">
                                     <img src="{{URL::asset('public/frontend/img/nav-1.jpg')}}" alt="">
-                                    <div class="nav-text active">
+                                    <div class="nav-text">
                                         <p>Pool<i class="lnr lnr-arrow-right"></i></p>
                                     </div>
                                 </a>
@@ -84,37 +84,35 @@
                             </div>
                         </div>
                     </div>
+        <!-- -------------------- -->
                     <div class="col-lg-6">
                         <div class="check-form">
                             <h2>Check Availability</h2>
-                            <form action="#">
+                            <form action="{{URL::to('/check-availability')}}" >
                                 <div class="datepicker">
                                     <div class="date-select">
                                         <p>From</p>
-                                        <input type="text" class="datepicker-1" value="dd / mm / yyyy">
-                                        <img src="{{URL::asset('public/frontend/img/calendar.png')}}" alt="">
+                                        <input type="text" class="datepicker-1" name="dayat" placeholder="start time" >
+                                        <img src="{{URL::asset('public/frontend/img/calendar.png')}}" >
                                     </div>
                                     <div class="date-select to">
                                         <p>To</p>
-                                        <input type="text" class="datepicker-2" value="dd / mm / yyyy">
+                                        <input type="text" class="datepicker-2" name="dayout" placeholder="end time">
                                         <img src="{{URL::asset('public/frontend/img/calendar.png')}}" alt="">
                                     </div>
                                 </div>
                                 <div class="room-quantity">
                                     <div class="single-quantity">
                                         <p>Adults</p>
-                                        <div class="pro-qty"><input type="text" value="0"></div>
+                                        <div class="pro-qty"><input type="text" name="adults" value="0"></div>
                                     </div>
                                     <div class="single-quantity">
                                         <p>Children</p>
-                                        <div class="pro-qty"><input type="text" value="0"></div>
+                                        <div class="pro-qty"><input type="text" name="children" value="0"></div>
                                     </div>
-                                    <div class="single-quantity last">
-                                        <p>Rooms</p>
-                                        <div class="pro-qty"><input type="text" value="0"></div>
-                                    </div>
+                                    
                                 </div>
-                                <div class="room-selector">
+                                <!-- <div class="room-selector">
                                     <p>Room</p>
                                     <select class="suit-select">
                                         <option>Eg. Master suite</option>
@@ -122,11 +120,13 @@
                                         <option value="">Single Room</option>
                                         <option value="">Special Room</option>
                                     </select>
-                                </div>
-                                <button type="button">CHECK Availability <i class="lnr lnr-arrow-right"></i></button>
+                                </div> -->
+                                <a><button type="submit">CHECK Availability  <i class="lnr lnr-arrow-right" name="btn_check_availability"></i></button></a>
                             </form>
                         </div>
                     </div>
+
+<!-- -------------------------- -->
                 </div>
             </div>
         </div>
@@ -150,7 +150,6 @@
                         <div class="facilities-text-warp">
                             <div class="facilities-text">
                                 <h2>Wellness Center</h2>
-                                <p> Comment. </p>
                                 <a href="#" class="primary-btn fac-btn">Visit Center <i class="lnr lnr-arrow-right"></i></a>
                             </div>
                         </div>
@@ -159,7 +158,6 @@
                         <div class="facilities-text-warp">
                             <div class="facilities-text">
                                 <h2>Wellness Center</h2>
-                                <p> Comment. </p>
                                 <a href="#" class="primary-btn fac-btn">Visit Center <i class="lnr lnr-arrow-right"></i></a>
                             </div>
                         </div>
@@ -179,7 +177,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2>Follow us on Facebook @yourhotel</h2>
+                    <h2>Follow us on Facebook @MyhotelSTU</h2>
                 </div>
             </div>
         </div>

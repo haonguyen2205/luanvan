@@ -13,21 +13,6 @@ use App\Models\users;
 
 class CustomerController extends Controller
 {
-    
-    // public function profile_cus()
-    // {
-    //     return view('profile.profile_das');
-    // }
-
-    // public function data_cus()
-    // {
-    //     $id=session::has('user_id');
-
-    //     $data_cus=users::where('users_id',$id)->get();
-
-    //     return view('profile.edit')->with('datacus', $data_cus);
-    // }
-
     public function show_page_profile()
     {
         return view('profile.layout');
@@ -82,24 +67,60 @@ class CustomerController extends Controller
 
 
     //CUS of manager
-    public function list_cus() 
+    public function list_cus(request $request)
     {
-        $staff=users::where('role',0)->get();
-        $manager = view('Admin.customer.list')->with('listCus', $staff);
-        return view('admin_layout')->with('Admin.customer.list', $manager);
+        $key=$request->input('search_cus');
+        if($key != null)
+        {
+            $staff1=users::where('role',0)->where('name', 'like', '%'.$key.'%')->orwhere('email', 'like', '%'.$key.'%')
+            ->where('users_status',0)->where('role',0)->get(); 
+            $manager = view('Admin.customer.list')->with('listCus', $staff1);
+            return view('admin_layout')->with('Admin.customer.list', $manager);
+        }
+        else
+        {
+            $staff=users::where('role',0)->where('users_status',0)->paginate(5);
+            $manager = view('Admin.customer.list')->with('listCus', $staff);
+            return view('admin_layout')->with('Admin.customer.list', $manager);
+        }
 
+    }
+
+    public function list_cus_block(request $request)
+    {
+        $key=$request->input('search_cus');
+        if($key != null)
+        {
+            $staff1=users::where('role',0)->where('name', 'like', '%'.$key.'%')->where('users_status',1)->get(); 
+            $manager = view('Admin.customer.list')->with('listCus', $staff1);
+            return view('admin_layout')->with('Admin.customer.list', $manager);
+        }
+        else
+        {
+            $staff=users::where('role',0)->where('users_status',1)->get();
+            $manager = view('Admin.customer.list')->with('listCus', $staff);
+            return view('admin_layout')->with('Admin.customer.list_block', $manager);
+        }
     }
 
     public function delete_cus($id) 
     {
-
-        // $staff=users::find($id);
-        // $staff->delete();
-        // Session::put('msg','xóa tài khoản thành công');
-        //     return Redirect::to('/list_staff');
-    }
-    public function search()
-    {
+        
+        $user=users::find($id);
+        if($user->users_status==0)
+        {
+            $user->users_status=1;
+            $user->save();
+            Session::put('msg','cập nhật thông tin thành công');
+            return Redirect::to('/list-users-block');
+        }
+        else if($user->users_status==1)
+        {
+            $user->users_status=0;
+            $user->save();
+            Session::put('msg','cập nhật thông tin thành công');
+            return Redirect::to('/list-users');
+        }
         
     }
 

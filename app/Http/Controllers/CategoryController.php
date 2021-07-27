@@ -17,7 +17,7 @@ class CategoryController extends Controller
 {
     public function listCat()
     {
-        $list= category::all();
+        $list= category::orderBy('stt')->paginate(5);
         $manager = view('Admin.category.list-cat')->with('listCat', $list);
         return view('admin_layout')->with('Admin.category.list-cat', $manager);
     }
@@ -28,8 +28,10 @@ class CategoryController extends Controller
     }
     public function addCatAction(Request $request)
     {
+      
         $cat = new category();
         $cat->cat_name =$request->input('catName');
+
         if($request->catName==null)
         {
             //Session::forget('th_err');
@@ -44,6 +46,10 @@ class CategoryController extends Controller
         }else
         {
             $cat->save();
+            $id=DB::table('category')->where('cat_name','LIKE',"%".$cat->cat_name)->first();
+            DB::table('category')->where('cat_id',$id->cat_id)->update([
+                'stt'=>$id->cat_id
+            ]);
             Session::put('msg','Thêm thành công');
             return Redirect::to('/list-cat');
         }
@@ -92,5 +98,24 @@ class CategoryController extends Controller
             Session::put('msg','Xóa thành công');
             return Redirect::to('/list-cat');
         }
+    }
+    function stt(Request $request){
+      
+        $s=$request->all();
+        unset($s['_token']);
+
+        for($i=1;$i<count($s);$i++){
+            if(isset($s[$i]))
+                {
+                    DB::table('category')->where('cat_id',$i)->update(['stt'=>$s[$i]]);
+                }
+        }
+        
+        return Redirect::to('list-cat');
+    }
+    function catsearch(Request $request){
+        $list= category::where('cat_name','LIKE',"%".$request->search."%")->orderBy('stt')->get();
+        $manager = view('Admin.category.list-cat')->with('listCat', $list);
+        return view('admin_layout')->with('Admin.category.list-cat', $manager);
     }
 }

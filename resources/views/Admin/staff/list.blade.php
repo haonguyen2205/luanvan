@@ -6,45 +6,49 @@
       <div class="panel-heading">
         Danh sách nhân viên
       </div>
+      <div>
+          <ul class="nav nav-tabs">
+              <li><a href="{{URL::to('/list-staff')}}" > <span class="glyphicon glyphicon-bed"></span> DS Nhân Viên </a></li>
+              <li><a href="{{URL::to('/list_staff/list-staff-block')}}"><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
+          </ul>
+        </div>
       <div class="row w3-res-tb">
-        <div class="col-sm-5 m-b-xs">
-          <select class="input-sm form-control w-sm inline v-middle">
-            <option value="0">Bulk action</option>
-            <option value="1">Delete selected</option>
-            <option value="2">Bulk edit</option>
-            <option value="3">Export</option>
-          </select>
-          <button class="btn btn-sm btn-default">Apply</button>                
+        <div class="col-sm-4 m-b-xs">
+            <!-- <select class="input-sm form-control w-sm inline v-middle">
+              <option value="0">Bulk action</option>
+              <option value="1">Delete selected</option>
+              <option value="2">Bulk edit</option>
+              <option value="3">Export</option>
+            </select>
+            <button class="btn btn-sm btn-default">Apply</button>                 -->
         </div>
-          <?php
-            $message =Session::Get('message');	
-            if($message)
-                echo $message;
-                Session::put('message', null);
-          ?>
-        <div class="col-sm-4">
-          
+
+        <div class="col-sm-5">
         </div>
+
+        <!-- thanh search -->
         <div class="col-sm-3">
           <div class="input-group">
-          <form action="{{URL::to('/search_staff')}}" method="post" >
-              <input type="text" class="input-sm form-control" placeholder="Search">
-              <span class="input-group-btn">
-                <button class="btn btn-sm btn-default" type="button">Go!</button>
-              </span>
-          </form>
-            
+            <form action="{{URL::to('/list_staff')}}"  >
+            {{ csrf_field() }}  
+                <input type="text" class="input-sm form-control" name="search_staff" placeholder="Search">
+                <span class="input-group-btn">             
+                  <button class="btn btn-sm btn-default" type="button">Go!</button>
+                </span>
+            </form>
           </div>
-          
         </div>
+        <!-- end search -->
       </div>
+
+      <!-- show data in table -->
       <div class="table-responsive">
         <table class="table table-striped b-t b-light">
           <thead>
             <tr>
               <th style="width:20px;"></th>
-              <th>mã nhân viên</th>
               <th>tên nhân viên</th>
+              <Th>avatar</th>
               <th>email</th>
               <th>số điện thoại</th>
               <th>địa chỉ nhà</th>
@@ -53,28 +57,23 @@
             </tr>
           </thead>
           <tbody>
-            <?php
-                $msg = Session::get('msg');
-                if($msg) {
-                    echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                    Session::put('msg',null);
-                }
-            ?>
             @foreach($liststaff as $key => $staff)
               <tr>
                 <td><label class="i-checks m-b-none"><i></i></label></td>
-                <td> {{$staff->users_id}} </td>
                 <td> {{$staff->name}} </td>
+                <td>
+                    <div class="single-room-pic">
+                      <img src="public/upload/staff/{{$staff->users_image}}" height="100"; width="100";>
+                    </div>
+                </td>
                 <td> {{$staff->email}} </td>
                 <td> {{$staff->phone}} </td>
-                
                 <td> {{$staff->address}} </td>
-                
                 <td>
                   <a href="{{URL::to('/edit_staff/'.$staff->users_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                   </a>
-                  <a href="{{URL::to('/delete_staff/'.$staff->users_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <a href="{{URL::to('/delete-staff/'.$staff->users_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
                   </a>
                 </td>
@@ -83,17 +82,14 @@
           </tbody>
         </table>
       </div>
+      <!-- end show data -->
+
+
       <footer class="panel-footer">
         <div class="row">
-          <div class="col-sm-7 text-right text-center-xs">                
-            <ul class="pagination pagination-sm m-t-none m-b-none">
-              <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-              <li><a href="">1</a></li>
-              <li><a href="">2</a></li>
-              <li><a href="">3</a></li>
-              <li><a href="">4</a></li>
-              <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-            </ul>
+          <div class="col-sm-7 text-right text-center-xs">
+          <!-- link chuyển trang                 -->
+            {{$liststaff->links()}} 
           </div>
         </div>
       </footer>

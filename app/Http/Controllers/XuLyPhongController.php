@@ -47,18 +47,18 @@ class XuLyPhongController extends Controller
                     //$4d->order_id
                     foreach($trongvl as $vl){
                         if($vl!=null){
-                        if($vl->order_id == $d->order_id ){
-                            $image = DB::table('image')->where('room_id',$r->room_id)->first();
-                            $test[]=[
-                                'dayat'=>$vl->dayat,
-                                'dayout'=>$vl->dayout,
-                                'room_id'=>$r->room_id,
-                                'room_name'=>$r->room_name,
-                                'room_price'=>$r->room_price,
-                                'room_image'=>$r->image
-                                
-                            ];
-                        }
+                            if($vl->order_id == $d->order_id ){
+                                $image = DB::table('image')->where('room_id',$r->room_id)->first();
+                                $test[]=[
+                                    'dayat'=>$vl->dayat,
+                                    'dayout'=>$vl->dayout,
+                                    'room_id'=>$r->room_id,
+                                    'room_name'=>$r->room_name,
+                                    'room_price'=>$r->room_price,
+                                    'room_image'=>$r->image
+                                    
+                                ];
+                            }
                         }
 
                     }

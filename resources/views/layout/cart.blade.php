@@ -98,11 +98,17 @@ $songay = $so/86400;
                     </div>
                     <div class="form-group">
                         <label for="address">Người lớn <span class="cRed" style="color:red;">(*)</span></label>
-                        <input  id="address"  type="text" class="form-control" name="adults" value="0">
+                        <div>
+                        <input  id="address"  type="number" class="form-control" name="adults" value="0" min="1">
+                        <!-- <p>
+                            <span class="js-increase">+</span>
+                            <span class="js-reduction">-</span>
+                        </p> -->
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="address">Trẻ em </label>
-                        <input  id="address"  type="text" class="form-control" name="children" value="0">
+                        <input  id="address"  type="number" class="form-control" name="children" value="0">
                     </div>
                     <div class="form-group">
                         <label for="address">Ngày đến <span class="cRed" style="color:red;">(*): </span></label>
@@ -126,6 +132,33 @@ $songay = $so/86400;
         </div>       
     </div>
 </form>
+<!-- <script>
+    jsReductionQty()
+    {
+        $('.js-reduction').click(function (event) {
+            let $this  = $(this);
+            let $input = $this.parent().prev();
+            let number = parseInt($input.val());
+            if (number <= 1) {
+                toast.warning("Số lượng sản phẩm phải >= 1");
+                return false;
+            }
+        })
+    },
 
+    jsIncreaseQty()
+    {
+        $('.js-increase').click(function (event) {
+            event.preventDefault();
+            let $this = $(this);
+            let $input = $this.parent().prev();
+            let number = parseInt($input.val());
+            if (number >= 10) {
+                toast.warning("Mỗi sản phẩm chỉ được mua tối đa số lượng 10 lần / 1 lần mua");
+                return false;
+            }
+        })
+    }
+</script> -->
 
 @endsection

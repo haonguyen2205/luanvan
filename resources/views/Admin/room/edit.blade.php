@@ -25,10 +25,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Image</label>
-                                <input type="file" class="form-control" id="exampleInputEmail1" multiple="" name="image[]">
-                                @foreach($imageroom as $key=>$valueimage)
-                                <img src="{{URL::to('/public/upload/rooms/'.$valueimage->room_image)}}" height="100" weight="100"/>
-                                @endforeach
+                                <input type="file" class="form-control" id="exampleInputEmail1"  name="image">
+                                
+                                <img src="{{URL::to('/public/upload/rooms/'.$valueRoom->image)}}" height="100" weight="100"/>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">Loại</label>
@@ -38,10 +37,6 @@
                                     <option value="{{$valueType->type_id}}">{{$valueType->type_name}}</option>
                                     @endforeach 
                                 </select>
-                            </div> 
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">số lượng</label>
-                                <input type="number" class="form-control" id="exampleInputEmail1" value="{{$valueRoom->quality}}" name="amount" required>
                             </div> 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả</label>
@@ -55,13 +50,13 @@
                                 <input type="text" class="form-control" id="exampleInputEmail1" name="price"
                                 value="{{$valueRoom->room_price}}">
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="exampleInputFile">Tình trạng</label>
                                 <select name="status" class="form-control m-bot15">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <button type="submit" class="btn btn-info" name="addRoom">Submit</button>
                         </form>
                     @endforeach
@@ -70,4 +65,14 @@
         </section>
     </div>
 </div>
+@if(Session::has('mes_update_fail'))
+    <script type="text/javascript" >
+      swal("Congratulation!","{{Session::Get('mes_update_fail')}}","error",{
+        button:"OK",
+      });
+      <?php
+      session::put('mes_update_fail',null);
+    ?>
+    </script> 
+  @endif
 @endsection

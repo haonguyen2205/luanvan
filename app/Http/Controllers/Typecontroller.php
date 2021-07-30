@@ -19,7 +19,8 @@ class Typecontroller extends Controller
     public function showPageAdd()
     { 
         $list =DB::Table('utility')->get();
-        return view('admin.typeroom.add')->with('utility',$list);
+        $img=DB::table('image')->take(10)->Get();
+        return view('admin.typeroom.add',compact('img'))->with('utility',$list);
     }
 
     public function addTypeAction(Request $request)
@@ -27,23 +28,27 @@ class Typecontroller extends Controller
         $type = new Type();
         $type->type_name =$request->input('typeName');
         $type->status= $request->input('typeStatus');
-        if($request->typeName==null||$request->typeStatus == null)
+        $type->quality= $request->input('quality');
+        $type->capacity= $request->input('capacity');
+        if($request->typeName==null||$request->typeStatus == null|| $request->quality <=0)
         {
-            //Session::forget('th_err');
-            
+
             $this->validate($request,[
                 'typeName'=>'bail|required|min:3|max:50',
                 'typeStatus'=>'bail|required',
-                   
+                'quality'=>'bail|required|min:1|max:5',
+                'capacity'=>'bail|required|min:1|max:5',
             ],[
                 'typeName.required'=>'Tên loại phòng không được để trống',
                 'typeName.max'=>'Tên loại phòng không được dài quá 50 kí tự',
                 'typeName.min'=>'Tên loại phòng không được ngán hơn quá 3 kí tự',
                 'typeStatus.required'=>'Tài khoản nhân viên không được để trống',
+                'quality.max'=>'Tên loại phòng không được lớn quá 5 ',
+                'quality.min'=>'Tên loại phòng không được nhỏ hơn quá 3',
+                'capacity.max'=>'Tên loại phòng không được lơn hơn quá 5',
+                'capacity.min'=>'Tên loại phòng không được nhỏ hơn quá 3 ',
             ]);
-
-    
-        }else
+        }else if($request->tienich!=null)
         {
             $uti=$request->input('tienich');
             $type->save();
@@ -59,7 +64,12 @@ class Typecontroller extends Controller
             $type->save();
             Session::put('mes_create','Thêm loại phòng thành công');
             return Redirect::to('/list-type');
-        }       
+        }    
+        else
+        {
+            Session::put('mes_tienich','chưa chọn loại tiện ích cho loại phòng');
+            return Redirect::to('/add-type');
+        }   
     }
 
 

@@ -98,9 +98,27 @@ class UtilityController extends Controller
             'uti_name.min'=>'tên tiện ích không được ngắn hơn 3 kí tự',
             'uti_name.max'=>'tên tiện ích không được dài hơn 100 kí tự',
         ]);
-        DB::table('utility')->where('utility_id',$id)->update($uti);
-        Session::put('mes_update_uti','cập nhật tiện ích thành công');
-        return redirect::to('/list-uti');
+
+        if($request->hasFile('uti_image')) 
+        {
+            $image = $request->file('uti_image');
+            if($image) {
+                $get_name_image = $image->getClientOriginalName(); //lay ten hình
+                $name_image     = current(explode('.',$get_name_image));
+                $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
+                $image->move('public/upload/utility',$new_image);
+                $uti['utility_image']=$new_image;
+
+                DB::table('utility')->where('utility_id',$id)->update($uti);
+                Session::put('mes_update_uti','cập nhật thành công');
+                return redirect::to('/list-uti');
+            }
+        }
+        else{
+            Session::put('mes_fails','không phải file hình');
+            return redirect::to('/list-uti');
+        }
+        
     }
 
     public function delete_uti($id) 

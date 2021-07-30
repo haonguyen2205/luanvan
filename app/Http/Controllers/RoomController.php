@@ -51,46 +51,38 @@ class RoomController extends Controller
             $room->type_id          = $request->input('type');
             $room->service_id       = 1;
             $room->room_description = $request->input('description');
-            $room->quality          = $request->input('amount'); // số lượng phòng
-            $room->capacity         = $request->input('capacity');//lượng người tối đa
+            $room->quality          = 1; // số lượng phòng
             $room->room_price       = $request->input('price');
             $room->room_status      = $request->input('status');
 
-                $this->validate($request,[
-                    'room_name'=>'required',
-                    'room_price'=>'required',
-                    'image'=>'required',
-                    'quality'=>'required',     
-                ],[
-                    'name.required'=>'Tên loại phòng không được để trống',
-                    'image.required'=>'Hình không được để trống',
-                    'price.required'=>'giá không được để trống',
-                    'quality.required'=>'số lượng không được để trống',
-                ]);
-            if($request->input('amount')>0 && $request->input('price') >0 && $request->input('capacity') >0)
-            {
-                $room->save();
-                $room_id =$room->room_id;
+                
+            if($request->input('price') >10000)
+                // {$this->validate($request,[
+                //     'room_name'=>'required',
+                //     'room_price'=>'required',
+                //     'image'=>'required',
+                //     'quality'=>'required',     
+                // ],[
+                //     'name.required'=>'Tên loại phòng không được để trống',
+                //     'image.required'=>'Hình không được để trống',
+                //     'price.required'=>'giá không được để trống',
+                    
+                // ]);
                 if($request->hasFile('image')) 
                 {
-                    foreach($request->file('image') as $image)
-                    {
-                        $imageroom=new image();
-                        $get_name_image = $image->getClientOriginalName();
-                        $name_image     = current(explode('.',$get_name_image));
-                        $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
-                        $image->move('public/upload/rooms',$new_image);
-
-                        $imageroom->room_image = $new_image;
-                        $imageroom->room_id=$room_id;
-                        $imageroom->save();
-                    }
-                }
-                // $imageroom->room_image = '';
-                // $imageroom->save();
-                Session::put('mes_createRoom','Thêm phòng thành công');
-                return Redirect::to('/list-room');
-            }else
+                    $image= $request->file('image');
+                        // $imageroom=new image();
+                    $get_name_image = $image->getClientOriginalName();
+                    $name_image     = current(explode('.',$get_name_image));
+                    $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
+                    $image->move('public/upload/rooms',$new_image);
+                    $room->image=$new_image;
+                    $room->save();
+                    Session::put('mes_createRoom','Thêm phòng thành công');
+                    return Redirect::to('/list-room');
+                    
+                } 
+            else
             {
                 Session::put('mes_create_fail','giá trị số không được nhỏ hơn không');
                 return Redirect::to('/add-room');
@@ -102,10 +94,10 @@ class RoomController extends Controller
 
     public function listRoom()
     {
-        $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')->leftjoin('image','image.room_id', '=', 'room.room_id')
-        ->where('room_status',1)
+        $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
             ->orderBy('room.type_id', 'desc')->paginate(5);
-
+            // ->leftjoin('image','image.room_id', '=', 'room.room_id')
+            // ->where('room_status',1)
         $image= image::join('room','room.room_id', '=', 'image.room_id')->orderBy('image.room_id', 'desc')->get();
         return view('Admin.room.list')->with('listRoom', $list)->with('imageroom',$image);
     }
@@ -147,41 +139,69 @@ class RoomController extends Controller
         $type    = type::orderBy('type_id', 'asc')->get();
         $room    = room::join('category_room','category_room.type_id', '=', 'room.type_id')->where('room_id', $id)->get();
         $images  =image::where('room_id', $id)->get();
-        $manager = view('admin.room.edit')
+        $detail=DB::table('order_details')->where('room_id',$id)->exists();
+        
+        if($detail)
+        {
+            Session::put('mes_update_fail','phòng đang có người đặt không được phép sửa');
+            return Redirect::to('/list-room');
+        }else
+        {
+            $manager = view('admin.room.edit')
             ->with('editRoom', $room)
             ->with('editType', $type)
             ->with('imageroom',$images);
-        return view('admin_layout')->with('admin.room.edit', $manager);
+            return view('admin_layout')->with('admin.room.edit', $manager);
+        }
+        
     }
 
     public function updateRoom(Request $request, $id)
     {
         $room=room::find($id);
         $images=image::find($id);
+        
+
         $room->room_name        = $request->input('name');
         // $images->room_image     = $request->input('image');
         $room->type_id          = $request->input('type');;
         $room->room_description = $request->input('description');
-        $room->quality          = $request->input('amount');
+        // $room->quality          = $request->input('amount');
         $room->room_price       = $request->input('price');
-        $room->room_status      = $request->input('status');  
 
-        if($request->hasFile('image')) {
-            $image = $request->file('image');
-            if($image) {
-                $get_name_image = $image[0]->getClientOriginalName(); //lay ten hình
-                $name_image     = current(explode('.',$get_name_image));
-                $new_image      = $name_image.rand(0,99).'.'.$image[0]->getClientOriginalExtension(); //xem phải hinhf khong
-                $image[0]->move('public/upload/rooms',$new_image);
-                $images->room_image = $new_image;
-                $images->save();
-                // Session::put('mes','Cập nhật thành công');
-                // return Redirect::to('/list-room');
+        $detail=DB::table('order_detail')->where('room_id',$id)->exists();
+        
+        if($detail)
+        {
+            Session::put('mes_update_fail','cập nhật phòng Không thành công');
+            return Redirect::to('/list-room');
+        }
+        else{
+            if($request->hasFile('image')) {
+                $image = $request->file('image');
+                if($image) {
+                    $get_name_image = $image->getClientOriginalName(); //lay ten hình
+                    $name_image     = current(explode('.',$get_name_image));
+                    $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
+                    $image->move('public/upload/rooms',$new_image);
+                    $room->image = $new_image;
+                    $room->save();
+                    Session::put('mes_updateRoom','cập nhật phòng thành công');
+                    return Redirect::to('/list-room');
+                }
+            }
+            else if($request->input('image')=="")
+            {
+                $room->save();
+                Session::put('mes_updateRoom','cập nhật phòng thành công');
+                    return Redirect::to('/list-room');
+            }
+            else{
+                Session::put('mes_update_fail','cập nhật phòng Không thành công');
+                    return Redirect::to('/list-room');
             }
         }
-        $room->save();
-        Session::put('mes_updateRoom','cập nhật phòng thành công');
-        return Redirect::to('/list-room');
+        
     }
 
     public function deleteRoom($id) 
@@ -205,10 +225,11 @@ class RoomController extends Controller
        function rooms() 
        {
            //$room = room::where('room_status', '1')->orderBy('room_id','asc')->get();
-           $room = room::join('image','image.room_id', '=', 'room.room_id')->where('room_status', '1')
-           ->orderBy('room.room_id', 'desc')->get();
+           $room = room::where('room_status', '1')
+           ->orderBy('room.room_id', 'desc')->paginate(6);
            return view('/layout.rooms')->with('showPageRoom', $room);
        }
+       
        public function checkRoom(request $request)
        {
             $data=$request->input('dayat');

@@ -29,6 +29,11 @@
                         <span style="color: red;">{{$errors->first('typeName')}}</span>
 
                         <div class="form-group">
+                            <label for="exampleInputEmail1">số lượng phòng </label>
+                            <input type="number" class="form-control" id="exampleInputEmail1" min="1" max="5" name="quality">
+                        </div>
+
+                        <div class="form-group">
                             <label for="exampleInputFile">Trạng thái</label>
                             <select name="typeStatus" class="form-control m-bot15">
                                 <option value="1">Hoạt động</option>

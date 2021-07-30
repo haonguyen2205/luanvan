@@ -1,14 +1,15 @@
 @extends('admin_layout')
 @section('admin_content')
 <div class="table-agile-info">
-    <ul class="nav nav-tabs">
-              <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
-              <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
-          </ul>
+    
     <div class="panel panel-default">
       <div class="panel-heading">
         <Div>Danh sách phòng</Div>
     </div>
+    <ul class="nav nav-tabs">
+              <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
+              <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
+          </ul>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
            <a href="{{URL::to('/add-room')}}" class="btn btn-info fa fa-plus"> thêm phòng</a>       
@@ -34,10 +35,9 @@
             <tr>
               <th style="width:20px;"></th>
               <th width="10%">Tên phòng</th>
-              <th width="15%" >Hình ảnh</th>
+              <th width="25%" >Hình ảnh</th>
               <th width="15%">Loại phòng</th>
-              <th>SL tối đa</th>
-              <th width="10%">số phòng còn</th>
+
               <th>Giá</th>
               <th>Tình trạng</th>
               <th width="5%">Action</th>
@@ -52,12 +52,11 @@
                 <td> {{$value->room_name}} </td>
                 <td>
                     <div class="single-room-pic">
-                      <img src="public/upload/rooms/{{$value->room_image}}" height="100"; width="100";>
+                      <img src="public/upload/rooms/{{$value->image}}" height="150"; width="250";>
                     </div>
                 </td>
                 <td> Loại : {{$value->type_name}} </td>
-                <td> Max : {{$value->capacity}} </td>
-                <td> {{$value->quality}} </td>
+
                 <td> {{number_format($value->room_price).' đ /night'}} </td>
                  <td><span class="text-ellipsis">
                   <?php
@@ -132,4 +131,14 @@
     </script> 
   @endif
 
+  @if(Session::has('mes_update_fail'))
+    <script type="text/javascript" >
+      swal("oh Failed!","{{Session::Get('mes_update_fail')}}","error",{
+        button:"OK",
+      });
+      <?php
+      session::put('mes_update_fail',null);
+    ?>
+    </script> 
+  @endif
 @endsection

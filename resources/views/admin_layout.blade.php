@@ -13,10 +13,17 @@ use Illuminate\Support\Facades\Session;
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <!-- bootstrap-css -->
     <link rel="stylesheet" href="{{asset('public/backend/css/bootstrap.min.css')}}" >
+    
+    
+
     <!-- //bootstrap-css -->
+
+    <link rel="stylesheet" href="{{asset('public/backend/css/owl.carousel.min.css')}}" >
+    <link rel="stylesheet" href="{{asset('public/backend/css/owl.theme.default.min.css')}}" >
     <!-- Custom CSS -->
     <link href="{{asset('public/backend/css/style.css')}}" rel='stylesheet' type='text/css' />
     <link href="{{asset('public/backend/css/style-responsive.css')}}" rel="stylesheet"/>
+
     <!-- font CSS -->
     <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <!-- font-awesome icons -->
@@ -34,201 +41,207 @@ use Illuminate\Support\Facades\Session;
     <!-- sweetAlert; -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>   
-<style>
-    .btn {
-    display: inline-block;
-    padding: 4px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    <style>
+        .btn {
+        display: inline-block;
+        padding: 4px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
 
-</style>
+    </style>
 
 
 </head>
 <body>
 
-<section id="container">
-    
-        <!--header start-->
-        <header class="header fixed-top clearfix">
-            <!--logo start-->
-            <div class="brand">
-                
-                <a href="#" class="logo">
-                 ADMIN
-                </a>
-                <div class="sidebar-toggle-box">
-                    <div class="fa fa-bars"></div>
+    <section id="container">
+        
+            <!--header start-->
+            <header class="header fixed-top clearfix">
+                <!--logo start-->
+                <div class="brand">
+                    
+                    <a href="#" class="logo">
+                    ADMIN
+                    </a>
+                    <div class="sidebar-toggle-box">
+                        <div class="fa fa-bars"></div>
+                    </div>
                 </div>
-            </div>
-            <!--logo end-->
+                <!--logo end-->
 
-            <div class="top-nav clearfix">
-                <!--search & user info start-->
-                <ul class="nav pull-right top-menu">
+                <div class="top-nav clearfix">
+                    <!--search & user info start-->
+                    <ul class="nav pull-right top-menu">
 
-                    <!-- user login dropdown start-->
-                    <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <!-- hien hình anh thuoc tai khoan do -->
-                            @if(Session::has('users_image'))
-                                <?php
-                                    $user = Session::get('users_image');
-                                ?>
-                                <img alt="" src='public/upload/staff/<?php echo $user ?>' height='45px'/>    
-                                
-                            @else   
-                                <img alt="" src='public/upload/staff/icon.png' height='30'/>
-                            @endif 
-                                <span class="username">
-                                <?php
-                                // hien ten nguoi dung tai khoan
-                                    $name =Session::Get('name');
-                                    if($name)
-                                        echo $name;
-                                ?>
-                                </span>
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu extended logout">
-                                <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                                <li><a href="{{URL::to('/logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
-                            </ul>
-                    </li>
-
-                    <!-- user login dropdown end -->
-                </ul>
-                <!--search & user info end-->
-            </div>
-        </header>
-
-        <aside>
-            <div id="sidebar" class="nav-collapse">
-                <!-- sidebar menu start-->
-                <div class="leftside-navigation">
-                    <ul class="sidebar-menu" id="nav-accordion">
-                        <li>
-                            <a class="active" href="{{URL::to('/admin')}}">
-                                <i class="fa fa-dashboard"></i>
-                                <span>Tổng quan</span>
-                            </a>
+                        <!-- user login dropdown start-->
+                        <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <!-- hien hình anh thuoc tai khoan do -->
+                                @if(Session::has('users_image'))
+                                    <?php
+                                        $user = Session::get('users_image');
+                                    ?>
+                                    <img alt="" src='public/upload/staff/<?php echo $user ?>' height='45px'/>    
+                                    
+                                @else   
+                                    <img alt="" src='public/upload/staff/icon.png' height='30'/>
+                                @endif 
+                                    <span class="username">
+                                    <?php
+                                    // hien ten nguoi dung tai khoan
+                                        $name =Session::Get('name');
+                                        if($name)
+                                            echo $name;
+                                    ?>
+                                    </span>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu extended logout">
+                                    <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
+                                    <li><a href="{{URL::to('/logout')}}"><i class="fa fa-key"></i> Log Out</a></li>
+                                </ul>
                         </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí khách hàng </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/list-users')}}">Danh sách khách hàng</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí tiện ích </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/add-uti')}}">Thêm loại tiện ích </a></li>
-                                <li><a href="{{URL::to('/list-uti')}}">danh sách các tiện ích </a></li>
 
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí loại phòng </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/add-type')}}">Thêm loại phòng </a></li>
-                                <li><a href="{{URL::to('/list-type')}}">danh sách loại phòng </a></li>
-
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí  phòng </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/add-room')}}">Thêm phòng </a></li>
-                                <li><a href="{{URL::to('/list-room')}}">danh sách phòng </a></li>
-                                <li><a href="{{URL::to('/order_room')}}">đặt phòng </a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-book"></i>
-                            <span> Đơn hàng </span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
-                            <li><a href="{{URL::to('ds-xoa')}}">Đơn hàng đã xoá</a></li>
-
-                        </ul>
-                    </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí  nhân viên </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/page_add_staff')}}">Thêm nhân viên </a></li>
-                                <li><a href="{{URL::to('/list_staff')}}">danh sách nhân viên </a></li>
-
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-book"></i>
-                            <span> Quản lí  tin tức </span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
-                            <li><a href="{{URL::to('/list-new')}}">Danh sách tin tức </a></li>
-
-                        </ul>
-                    </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí đánh giá </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/list-new')}}">dsds </a></li>
-                        </li>
-                        
+                        <!-- user login dropdown end -->
                     </ul>
+                    <!--search & user info end-->
                 </div>
-            </div>
-                <!-- sidebar menu end     -->
-        </aside>
+            </header>
 
-            <section id="main-content">
-            	<section class="wrapper">
-                   <!-- @yield('content') -->
+            <aside>
+                <div id="sidebar" class="nav-collapse">
+                    <!-- sidebar menu start-->
+                    <div class="leftside-navigation">
+                        <ul class="sidebar-menu" id="nav-accordion">
+                            <li>
+                                <a class="active" href="{{URL::to('/admin')}}">
+                                    <i class="fa fa-dashboard"></i>
+                                    <span>Tổng quan</span>
+                                </a>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí khách hàng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-users')}}">Danh sách khách hàng</a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí tiện ích </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/add-uti')}}">Thêm loại tiện ích </a></li>
+                                    <li><a href="{{URL::to('/list-uti')}}">danh sách các tiện ích </a></li>
 
-                   @yield('admin_content')
-            </section>
-</section>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí loại phòng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/add-type')}}">Thêm loại phòng </a></li>
+                                    <li><a href="{{URL::to('/list-type')}}">danh sách loại phòng </a></li>
+
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí  phòng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/add-room')}}">Thêm phòng </a></li>
+                                    <li><a href="{{URL::to('/list-room')}}">danh sách phòng </a></li>
+                                    <li><a href="{{URL::to('/order_room')}}">đặt phòng </a></li>
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span> Đơn hàng </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
+                                <li><a href="{{URL::to('ds-xoa')}}">Đơn hàng đã xoá</a></li>
+
+                            </ul>
+                        </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí  nhân viên </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/page_add_staff')}}">Thêm nhân viên </a></li>
+                                    <li><a href="{{URL::to('/list_staff')}}">danh sách nhân viên </a></li>
+
+                                </ul>
+                            </li>
+                            <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span> Quản lí  tin tức </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
+                                <li><a href="{{URL::to('/list-new')}}">Danh sách tin tức </a></li>
+
+                            </ul>
+                        </li>
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí đánh giá </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-new')}}">dsds </a></li>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                    <!-- sidebar menu end     -->
+            </aside>
+
+                <section id="main-content">
+                    <section class="wrapper">
+                    <!-- @yield('content') -->
+
+                    @yield('admin_content')
+                </section>
+    </section>
 
     <script src="{{asset('public/backend/js/bootstrap.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.dcjqaccordion.2.7.js')}}"></script>
     <script src="{{asset('public/backend/js/scripts.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
-
     <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
+
+    <script src="{{asset('public/backend/js/owl.carousel.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <!-- morris JavaScript -->
     <script>
         $(document).ready(function() {

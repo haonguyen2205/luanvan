@@ -78,7 +78,7 @@
                     <div class="col-lg-6">
                         <div class="room-pic-slider owl-carousel">
                             <div class="single-room-pic">
-                                <img src="{{URL::to('public/upload/rooms/'.$showRooms->room_image)}}" alt="">
+                                <img src="{{URL::to('public/upload/rooms/'.$showRooms->image)}}" alt="">
                             </div>
                             
                         </div>
@@ -127,7 +127,9 @@
                 </div>
             </div>
         @endforeach
+        <div class="mt-5 my-3 mb-5">{{$showPageRoom->links()}}</div>
         </div>
+        
     </section>
     <!-- Rooms Section End -->
 <script>
@@ -136,7 +138,7 @@
 $('.input-daterange').datepicker({
 format: 'dd-mm-yyyy',
 todayHighlight: true,
-startDate: '0d'
+startDate: '0d',
 });
 
 });

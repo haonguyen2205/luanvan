@@ -21,36 +21,23 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Image</label>
-                            <input type="file" class="form-control" id="exampleInputEmail1" name="image[]" accept="image/*"  multiple="" >   
+                            <input type="file" class="form-control" id="exampleInputEmail1" name="image" accept="image/*"   >   
                         </div>
                         <span style="color: red;">{{$errors->first('image')}}</span>
 
                         <div class="form-group">
-                            <label for="exampleInputFile">Loại</label>
+                            <label for="exampleInputFile">Loại phong</label>
                             <select name="type" class="form-control m-bot15">
                                 @foreach($typeName as $key=>$value)
                                 <option value="{{$value->type_id}}">{{$value->type_name}}</option>
                                 @endforeach 
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">số lượng</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="amount" required>
-                        </div> 
-                        <span style="color: red;">{{$errors->first('amount')}}</span>
-
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả</label>
                             <textarea style="resize:none" rows="8" class="form-control" name="description" id="exampleInputPassword1">
                             </textarea>
                         </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Capacity(MAX)</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="capacity" required> 
-                        </div>
-                        <span style="color: red;">{{$errors->first('price')}}</span>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Giá</label>

@@ -39,6 +39,8 @@
               <th style="width:20px;"></th>
               <th>mã loại</th>
               <th>Tên loại</th>
+              <th> số lượng phòng</th>
+              <th>tối đa</th>
               <th>Trạng thái</th>
               <th>Display</th>
               <th style="width:30px;"></th>
@@ -50,7 +52,8 @@
               <td><label class="i-checks m-b-none"><i></i></label></td>
                 <td> {{$type->type_id}} </td>
                 <td> {{$type->type_name}} </td>
-
+                <td> {{$type->quality}} </td>
+                <td> {{$type->capacity}} người </td>
                 <td><span class="text-ellipsis">
                     <?php
                       if($type->status==0) {

@@ -4,10 +4,7 @@
 
 
 <div class="table-agile-info">
-    <nav class="nav nav-tabs">
-          <li><a href="{{URL::to('/list-uti')}}"  > <span class="glyphicon glyphicon-bed"></span> DS Nhân Viên </a></li>
-          <li><a href="{{URL::to('/list-block-uti}}" ><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
-    </nav>
+    
     <div class="panel panel-default">
       <div class="panel-heading">
         Danh sách tiện ích 

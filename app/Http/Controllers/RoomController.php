@@ -45,6 +45,7 @@ class RoomController extends Controller
     //thêm phòng admin
     public function addRoomAction(Request $request)
     {
+            $type=type::all();
             $room =new room();     
             $room->room_name        = $request->input('name');
             //$images->room_image     = $request->input('image');
@@ -54,42 +55,37 @@ class RoomController extends Controller
             $room->quality          = 1; // số lượng phòng
             $room->room_price       = $request->input('price');
             $room->room_status      = $request->input('status');
+            $count=0;
+            foreach ($type as $t) {
+                if($t->type_id == $request->input('type')) {
+                    $count=$count+1;
+                }
+            }
+            if($count>4) // kiểm tra số lượng phòng vượt tối da của loại phòng chưa
+            {
+                Session::put('mes_create_fail','không tạo được phòng thuộc loại phòng này');
+                return Redirect::to('/add-room');
+            }else if($request->input('price') >10000)
 
+            if($request->hasFile('image')) 
+            {
+                $image= $request->file('image');
+                    // $imageroom=new image();
+                $get_name_image = $image->getClientOriginalName();
+                $name_image     = current(explode('.',$get_name_image));
+                $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
+                $image->move('public/upload/rooms',$new_image);
+                $room->image=$new_image;
+                $room->save();
+                Session::put('mes_createRoom','Thêm phòng thành công');
+                return Redirect::to('/list-room');
                 
-            if($request->input('price') >10000)
-                // {$this->validate($request,[
-                //     'room_name'=>'required',
-                //     'room_price'=>'required',
-                //     'image'=>'required',
-                //     'quality'=>'required',     
-                // ],[
-                //     'name.required'=>'Tên loại phòng không được để trống',
-                //     'image.required'=>'Hình không được để trống',
-                //     'price.required'=>'giá không được để trống',
-                    
-                // ]);
-                if($request->hasFile('image')) 
-                {
-                    $image= $request->file('image');
-                        // $imageroom=new image();
-                    $get_name_image = $image->getClientOriginalName();
-                    $name_image     = current(explode('.',$get_name_image));
-                    $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
-                    $image->move('public/upload/rooms',$new_image);
-                    $room->image=$new_image;
-                    $room->save();
-                    Session::put('mes_createRoom','Thêm phòng thành công');
-                    return Redirect::to('/list-room');
-                    
-                } 
+            } 
             else
             {
                 Session::put('mes_create_fail','giá trị số không được nhỏ hơn không');
                 return Redirect::to('/add-room');
             }
-            
-            
-        
     }
 
     public function listRoom()

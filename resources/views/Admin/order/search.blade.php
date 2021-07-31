@@ -45,36 +45,36 @@
                 @foreach($list as $key)
 
             <tr>
-            <td><label class="i-checks m-b-none"><i>{{$key->order_id}}</label></td>
-                <td><label class="i-checks m-b-none"><i>{{$key->username}}</label></td>
+            <td><label class="i-checks m-b-none"><i>{{$key['id']}}</label></td>
+                <td><label class="i-checks m-b-none"><i>{{$key['name']}}</label></td>
 
-                <td><span class="text-ellipsis">{{number_format($key->total,0)}}VND</span></td>
-                <td><span class="text-ellipsis">{{$key->dayat}}</span></td>
-                <td><span class="text-ellipsis">{{$key->dayout}}</span></td>
+                <td><span class="text-ellipsis">{{number_format($key['tongtien'],0)}}VND</span></td>
+                <td><span class="text-ellipsis">{{$key['ngaynhan']}}</span></td>
+                <td><span class="text-ellipsis">{{$key['ngaytra']}}</span></td>
                 <td><span class="text-ellipsis">
 
 
 
 
-                @if($key->status==1)
-                        <a style="color:red" href="{{URL::to('uptt',$key->order_id)}}">Chờ xác nhận</a>
+                @if($key['tinhtrang']==1)
+                        <a style="color:red" href="{{URL::to('uptt',$key['id'])}}">Chờ xác nhận</a>
                         @endif
-                            @if($key->status==2)
-                            <a style="color:black" href="{{URL::to('uptt',$key->order_id)}}">Đã xác nhận</a>;
+                            @if($key['tinhtrang']==2)
+                            <a style="color:black" href="{{URL::to('uptt',$key['id'])}}">Đã xác nhận</a>;
                         @endif
-                            @if($key->status==3)
-                            <a style="color:green" href="{{URL::to('uptt',$key->order_id)}}">Đã lấy phòng</a>;
+                            @if($key['tinhtrang']==3)
+                            <a style="color:green" href="{{URL::to('uptt',$key['id'])}}">Đã lấy phòng</a>;
                         @endif
-                            @if($key->status==4)
+                            @if($key['tinhtrang']==4)
                             <p style="color:blue">Hoàn thành</p>
 
 
 
                     @endif
                 </span></td>
-                <td>{{number_format($key->deposit,0)}} VND</td>
+                <td>{{number_format($key['deposit'],0)}} VND</td>
                 <td>
-                <a href="{{URL::to('/admin/chitietorder',$key->order_id)}}" class="active" style="font-size: 21px;"  ui-toggle-class="">
+                <a href="{{URL::to('/admin/chitietorder',$key['id'])}}" class="active" style="font-size: 21px;"  ui-toggle-class="">
                 Chi tiết
                 </a>
                 </td>

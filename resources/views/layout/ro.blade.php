@@ -2,9 +2,6 @@
 @section('content')
 <!-- Hero Section Begin -->
 <?php
-
-
-
 ?>
 <section class="hero-section set-bg" data-setbg="{{URL::asset('public/frontend/img/rooms-bg.jpg')}}">
         <div class="hero-text">

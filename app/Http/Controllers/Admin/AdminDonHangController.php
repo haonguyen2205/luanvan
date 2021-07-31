@@ -12,7 +12,7 @@ class AdminDonHangController extends Controller
 {
     function index(){
         $order=DB::table('order')->where('status','<>',-1)->get();
-
+       
         $list=array();
         foreach($order as $key){
 
@@ -22,7 +22,7 @@ class AdminDonHangController extends Controller
 
 
               $room=DB::table('room')->where('room_id',$temp->room_id)->first();
-
+            
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
@@ -34,7 +34,7 @@ class AdminDonHangController extends Controller
                 'tinhtrang'=>$key->status
             ];
         }
-
+       
         return view('Admin.order.list')->with('list',$list);
 
     }
@@ -171,9 +171,31 @@ class AdminDonHangController extends Controller
     function timkiem(Request $request)
     {
 
-        $list=DB::table('order')->where('status','<>',-1)->where('username','LIKE',"%".$request->search."%")->get();
+        $order=DB::table('order')->where('status','<>',-1)->where('username','LIKE',"%".$request->search."%")->get();
+        $list=array();
+        foreach($order as $key){
 
-        return view('Admin.order.search')->with('list',$list);
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status
+            ];
+        }
+       
+
+        return view('Admin.order.list')->with('list',$list);
     }
     function huy($id){
         DB::table('order')->where('order_id',$id)->update([

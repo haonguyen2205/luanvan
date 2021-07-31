@@ -102,7 +102,7 @@ use Illuminate\Support\Facades\Session;
                                     <span class="username">
                                     <?php
                                     // hien ten nguoi dung tai khoan
-                                        $name =Session::Get('name');
+                                        $name =Session::Get('name_admin');
                                         if($name)
                                             echo $name;
                                     ?>
@@ -128,7 +128,7 @@ use Illuminate\Support\Facades\Session;
                         <ul class="sidebar-menu" id="nav-accordion">
                             <li>
                                 <a class="active" href="{{URL::to('/admin')}}">
-                                    <i class="fa fa-dashboard"></i>
+                                    <i class="fa fa-compass"></i>
                                     <span>Tổng quan</span>
                                 </a>
                             </li>
@@ -165,7 +165,7 @@ use Illuminate\Support\Facades\Session;
                             </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
-                                    <i class="fa fa-book"></i>
+                                    <i class="fa fa-bed"></i>
                                     <span> Quản lí  phòng </span>
                                 </a>
                                 <ul class="sub">

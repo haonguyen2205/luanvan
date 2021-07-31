@@ -13,7 +13,7 @@
       </div>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-          <a href="{{URL::to('/add-type')}}" class="btn btn-info">thêm loại phòng</a>              
+          <a href="{{URL::to('/add-type')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm loại phòng</a>              
         </div>
         <div class="col-sm-4">
           
@@ -21,7 +21,7 @@
         <div class="col-sm-3">
           <div class="input-group">
             <form action="{{URL::to('/list-type')}}"  method="get">
-              <input type="text" class="input-sm form-control" name="search_type" placeholder="Search">
+              <input type="text" class="input-sm  fa fa-search" name="search_type" placeholder="Search">
               <span class="input-group-btn">
                 <button class="btn btn-sm btn-default" name="btn_type" type="button">Search!</button>
               </span>

@@ -7,7 +7,7 @@ use App\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
-
+use DB;
 
 use App\Models\users;
 
@@ -65,6 +65,20 @@ class CustomerController extends Controller
 
     }
 
+    public function list_order(){
+        $id= session::has('users_id');
+
+        $list= DB::table('order')->where('users_id',$id)->get();
+
+        if($list==[]){
+            session::put('mes',"bạn không có đơn đặt nào");
+            return redirect::to('/profile-form');
+        }
+        else{
+            return view('profile.list_order')->with('listorder',$list);
+        }
+        
+    }
 
     //CUS of manager
     public function list_cus(request $request)
@@ -73,7 +87,7 @@ class CustomerController extends Controller
         if($key != null)
         {
             $staff1=users::where('role',0)->where('name', 'like', '%'.$key.'%')->orwhere('email', 'like', '%'.$key.'%')
-            ->where('users_status',0)->where('role',0)->get(); 
+            ->where('users_status',0)->where('role',0)->paginate(5); 
             $manager = view('Admin.customer.list')->with('listCus', $staff1);
             return view('admin_layout')->with('Admin.customer.list', $manager);
         }
@@ -91,13 +105,13 @@ class CustomerController extends Controller
         $key=$request->input('search_cus');
         if($key != null)
         {
-            $staff1=users::where('role',0)->where('name', 'like', '%'.$key.'%')->where('users_status',1)->get(); 
+            $staff1=users::where('role',0)->where('name', 'like', '%'.$key.'%')->where('users_status',1)->paginate(5); 
             $manager = view('Admin.customer.list')->with('listCus', $staff1);
             return view('admin_layout')->with('Admin.customer.list', $manager);
         }
         else
         {
-            $staff=users::where('role',0)->where('users_status',1)->get();
+            $staff=users::where('role',0)->where('users_status',1)->paginate(5);
             $manager = view('Admin.customer.list')->with('listCus', $staff);
             return view('admin_layout')->with('Admin.customer.list_block', $manager);
         }
@@ -107,18 +121,19 @@ class CustomerController extends Controller
     {
         
         $user=users::find($id);
+        // trạng thái tk =0 tức hđ bình thường ..1 là ngược lại
         if($user->users_status==0)
         {
             $user->users_status=1;
             $user->save();
-            Session::put('msg','cập nhật thông tin thành công');
+            Session::put('dlt-success','đã khóa tài khoản');
             return Redirect::to('/list-users-block');
         }
         else if($user->users_status==1)
         {
             $user->users_status=0;
             $user->save();
-            Session::put('msg','cập nhật thông tin thành công');
+            Session::put('dlt-success','đã kích hoạt lại tài khoản');
             return Redirect::to('/list-users');
         }
         

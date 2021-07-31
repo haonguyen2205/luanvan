@@ -200,11 +200,14 @@ route::post('/chance-pass',[CustomerController::class,'change_password']);
 
 route::post('/chance-info',[CustomerController::class,'change_info']);
 
+route::get('/profile/list-order',[CustomerController::class,'list_order']);
+
 Route::get('/list-users','CustomerController@list_cus'); // show trong admin
 
 route::get('delete-cus/{id}',[CustomerController::class,'delete_cus']);
 
 route::get('/list-users-block',[CustomerController::class,'list_cus_block']);
+
 
 //SEND MAIL
 route::get('/send-mail',[MailController::class,'send_mail']);

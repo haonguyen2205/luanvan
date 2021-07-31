@@ -20,10 +20,8 @@
         <div class="col-sm-3">
           <div class="input-group">
           <form action="{{URL::to('/list-users')}}" >
-            <input type="text" class="input-sm form-control find" name="search_cus">
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="search_cus">Go!</button>
-            </span>
+            <input type="text" class="input-sm fa fa-search find" name="search_cus">
+            
           </form>
           </div>
           
@@ -72,4 +70,15 @@
       </footer>
     </div>
           </div>
+          
+@if(Session::has('dlt-success'))
+  <script type="text/javascript" >
+    swal("thông báo!","{{Session::Get('dlt-success')}}","warning",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('dlt-success',null);
+  ?>
+@endif
 @endsection

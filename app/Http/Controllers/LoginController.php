@@ -26,8 +26,8 @@ class LoginController extends Controller
         {
             if($Result->role==1 && $Result->users_status==0)
             {
-                Session::put('name',$Result->name); 
-                Session::put('users_id ',$Result->users_id);
+                Session::put('name_admin',$Result->name); 
+                Session::put('user_id ',$Result->users_id);
                 Session::put('role',$Result->role);
                 session::put('users_image',$Result->users_image);
                 return Redirect::to('/admin');

@@ -54,7 +54,7 @@
         <div class="col-sm-3">
           <div class="input-group">
           <form action="{{URL::to('/search_staff')}}" method="post" >
-              <input type="text" class="input-sm form-control" name="search_staff" placeholder="Search">
+              <input type="text" class="input-sm fa fa-search" name="search_staff" placeholder="Search">
               <span class="input-group-btn">
                 <button class="btn btn-sm btn-default" type="button">Go!</button>
               </span>

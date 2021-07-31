@@ -11,7 +11,7 @@
                     <form action="{{URL::to('timkiem')}}" method="get">
                         @csrf
                         <div class="btn">
-                            <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">
+                            <input type="text" class="input-sm fa fa-search" name="search" placeholder="Nhập tên khách hàng">
                             <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
                         </div>
                     </form>

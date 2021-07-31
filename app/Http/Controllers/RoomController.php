@@ -88,14 +88,25 @@ class RoomController extends Controller
             }
     }
 
-    public function listRoom()
+    public function listRoom(Request $request)
     {
-        $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
+        $key = $request->input('keyword');
+        if($key!='')
+        {
+            $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')->leftjoin('image','image.room_id', '=', 'room.room_id')
+           ->where('room_name', 'like','%'.$key.'%')
             ->orderBy('room.type_id', 'desc')->paginate(5);
-            // ->leftjoin('image','image.room_id', '=', 'room.room_id')
-            // ->where('room_status',1)
-        $image= image::join('room','room.room_id', '=', 'image.room_id')->orderBy('image.room_id', 'desc')->get();
-        return view('Admin.room.list')->with('listRoom', $list)->with('imageroom',$image);
+            return view('Admin.room.list')->with('listRoom', $list);
+        }
+        else
+        {
+            $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
+                ->orderBy('room.type_id', 'desc')->paginate(5);
+                // ->leftjoin('image','image.room_id', '=', 'room.room_id')
+                // ->where('room_status',1)
+            $image= image::join('room','room.room_id', '=', 'image.room_id')->orderBy('image.room_id', 'desc')->get();
+            return view('Admin.room.list')->with('listRoom', $list)->with('imageroom',$image);
+        }
     }
 
     public function list_room_block()

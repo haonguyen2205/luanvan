@@ -20,7 +20,9 @@ class StaffController extends Controller
     //
     public function addpage_staff()
     {
-        return view('Admin.staff.add');
+        $pos = DB::table('postion')->get();
+
+        return view('Admin.staff.add')->with('chucvu',$pos);
     }
     public function add_staff(request $request)
     {
@@ -31,6 +33,7 @@ class StaffController extends Controller
         $users->email     = $request->input('email');
         $users->phone     = $request->input('phone');
         $users->address   = $request->input('address');
+        $users->position_id   = $request->input('chucvu');
         $users->users_status=0;
             $str="abcdefghiklmnopqrstuvwxyz0123456789";
             $str=str_shuffle($str);
@@ -141,7 +144,8 @@ class StaffController extends Controller
         }
         else
         {
-            $staff=users::where('role',1)->Where('users_status',0)->paginate(5);
+            $staff=users::join('postion','postion.postion_id','=', 'users.position_id')->
+            where('role',1)->Where('users_status',0)->paginate(5);
             $manager = view('Admin.staff.list')->with('liststaff', $staff);
             return view('admin_layout')->with('Admin.staff.list', $manager);
         }
@@ -198,7 +202,7 @@ class StaffController extends Controller
     public function diemdanh()
     {
         $time = new timekeep();
-        $time->users_id=session::has('users_id');   
+        $time->users_id=session::get('user_id');   
         $time->time_in =Carbon::now();
         $time->save();
         $id =$time->timekeep_id;

@@ -26,7 +26,7 @@
             <div class="input-group">
               <form action="{{URL::to('/search-room')}}" method="post">
               {{ csrf_field() }}
-                <input type="text" class="input-sm form-control" name="keyword" placeholder="Search">
+                <input type="text" class="input-sm fa fa-search" name="keyword" placeholder="Search">
                 <span class="input-group-btn">
                   <button class="btn btn-sm btn-default" value="submit" type="button">Go!</button>
                 </span>

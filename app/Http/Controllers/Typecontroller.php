@@ -154,7 +154,6 @@ class Typecontroller extends Controller
 
     public function update_cat(Request $request, $id)
     {
-
         $type =type::find($id);
         $type->type_name   = $request->input('typeName');
         $type->status    = $request->input('typeStatus');

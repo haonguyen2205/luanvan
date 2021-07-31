@@ -12,7 +12,7 @@
       
       <div class="row w3-res-tb">
         <div class="col-sm-4 m-b-xs">
-              <A href="{{URL::to('/add-uti')}}" class="btn btn-primary">thêm tiện ích</A>                
+              <A href="{{URL::to('/add-uti')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm tiện ích</A>                
         </div>
 
         <div class="col-sm-5">

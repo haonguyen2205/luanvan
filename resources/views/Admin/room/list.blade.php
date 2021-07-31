@@ -12,18 +12,18 @@
           </ul>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-           <a href="{{URL::to('/add-room')}}" class="btn btn-info fa fa-plus"> thêm phòng</a>       
+           <a href="{{URL::to('/add-room')}}" class="btn btn-info "><i class="fa fa-plus"></i> thêm phòng</a>       
         </div>
         <div class="col-sm-4">
           
         </div>
           <div class="col-sm-3">
             <div class="input-group">
-              <form action="{{URL::to('/search-room')}}" method="post">
+              <form action="{{URL::to('/list-room')}}" method="get">
               {{ csrf_field() }}
-                <input type="text" class="input-sm form-control" name="keyword" placeholder="Search">
+                <input type="text" class="input-sm fa fa-search" name="keyword" placeholder="Search">
                 <span class="input-group-btn">
-                  <button class="btn btn-sm btn-default" value="submit" type="button">Go!</button>
+                  
                 </span>
               </form>
             </div>

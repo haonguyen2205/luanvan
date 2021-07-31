@@ -34,41 +34,95 @@
                     </tr>
                 </tbody>
 			</table>
-            Tiền dịch vụ thêm : {{number_format($tiendichvu,0)}} VNĐ
+            <p style="padding: 5px;">Tiền dịch vụ thêm : {{number_format($tiendichvu,0)}} VNĐ </p>
             <div class="center">
-                <h2><p>Dịch vụ thêm: </p></h2>
-                <div>
+                <h2 style="padding: 5px;"><p>Dịch vụ thêm: </p></h2>
+                <div style="padding: 5px;">
                     <form action="{{URL::to('capnhat')}}" method="post">
                         @csrf
-                           @if(isset($service))
-                           @foreach($service as $ser)
                           
-                          {{$ser->service_name}}  <select name="{{$ser->name}}" >
-                            @for($i=0;$i<=30;$i++)  
-                            <option value="{{$i}}">{{$i}}</option>
-                            @endfor
-                          </select>
-                            @endforeach
-                            @endif
+                         <?php 
+                        echo"<h3>Bạn đã sử dụng :</h3>";
+                        echo "<table border='1px'>";
+                           echo" <tr>";
+                               echo" <td>Tên dịch vụ</td>";
+                               echo" <td>Số lượng</td>";
+                               echo" <td>Đơn giá</td>";
+                           echo" </tr>";
+                         if($status == 3)
+                         {
+                            
+                               if(empty($dichvu[0]))
+                               {
+                                foreach($service as $ser){
+                                echo "<tr>";
+                                echo "<td>".$ser->service_name."</td>";
+                                echo "<td><input type='number' name='".$ser->name."' value=''></td>";
+                                echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                            echo "</tr>"; 
+                                }
+                               }
+                               else if(!empty($dichvu[0])){
+                                foreach($service as $ser){
+                                    foreach($dichvu as $d){
+                                        if($ser->service_id == $d->service_id){
+                                        echo "<tr>";
+                                                echo "<td>".$ser->service_name."</td>";
+                                                echo "<td><input type='number' name='".$ser->name."' value='".$d->quantity."'></td>";
+                                                echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                                            echo "</tr>";                                       
+                                         
+                                        }
+                                    }}
+                                    
+                                }
+                                
+                        
+                            
+                           
+                        }
+                        if($status==4){
+                            foreach($service as $ser){
+                                foreach($dichvu as $d){
+                                    if($ser->service_id == $d->service_id){
+                                    echo "<tr>";
+                                            echo "<td>".$ser->service_name."</td>";
+                                            echo "<td><input type='number' name='".$ser->name."' value='".$d->quantity."'></td>";
+                                            echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                                        echo "</tr>";                                       
+                                     
+                                    }
+                                }}
+                        }
+                        echo "</table>";
+                            ?>
                             <input type="hidden" name="tongtien" value="{{$tongtien}}"><br>
                             <input type="hidden" name="id" value="{{$hoadon}}">
+</br>
+                                   @if($status==3)         
                             <div class="center">
-                                <input type="submit" value="Cập nhật">
+                                <input type="submit" value="Cập nhật" class="btn btn-primary" style="width: 80px;">
                             </div>
+                            @endif
                     </form>
                 </div>
 
 
-                        <h2>Tổng cộng: {{number_format($tongtien,0)}} VNĐ</h2>
-                        <h2>Cọc trước: {{number_format($tiencoc,0)}} VNĐ</h2>
-                        <h1>Tiền cần thanh toán: {{number_format($tongtien - $tiencoc ,0)}} VND</h1>
-                <form action="{{URL::to('checkout')}}" method="post">
+                        <h2 style="padding: 5px;">Tổng cộng: {{number_format($tongtien,0)}} VNĐ</h2>
+                        <h2 style="padding: 5px;">Cọc trước: {{number_format($tiencoc,0)}} VNĐ</h2>
+                       @if($status ==3)
+                        <h1 style="padding: 5px;">Tiền cần thanh toán: {{number_format($tongtien - $tiencoc + $tiendichvu ,0)}} VND</h1>
+                        @endif
+                        <form action="{{URL::to('checkout')}}" method="post" style="padding: 5px;">
                     @csrf
-                    <input type="hidden" name="total" value="{{$tongtien}}">
+                    <input type="hidden" name="total" value="{{$tongtien + $tiendichvu}}">
                     <input type="hidden" name="id" value="{{$hoadon}}">
+                    @if($status==3)  
                     <div class="center">
-                        <input type="submit" value="Hoàn tất">
+                        <input type="submit" value="Hoàn tất" class="btn btn-primary" style="width: 80px;">
+                        <a href="{{URL::to('/admin/manage-order')}}" class="btn btn-primary" style="width: 80px;">Trở về</a>
                     </div>
+                    @endif
                 </form>
             </div>
     </div>

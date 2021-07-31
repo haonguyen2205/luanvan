@@ -3,14 +3,23 @@
 <div class="table-align-info">
     <div class="panel panel-default">
         <div class="panel-heading"> DANH SÁCH ĐƠN HÀNG </div>
-
         <div class="row w3-res-tb">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <div class="input-group">
                     <form action="{{URL::to('timkiem')}}" method="get">
                         @csrf
+                    
+                         <select name="trangthai">
+                                <option value="-2"<?php if($sttse == -2)echo "selected"; ?> >Trạng thái </option>
+                                <option value="0" <?php if($sttse == 0)echo "selected"; ?>>Đã huỷ</option>
+                                <option value="1" <?php if($sttse == 1)echo "selected"; ?>>Đang chờ</option>
+                                <option value="2" <?php if($sttse == 2)echo "selected"; ?>>Đã xác nhận</option>
+                                <option value="3" <?php if($sttse == 3)echo "selected"; ?>>Đã lấy phòng</option>
+                                <option value="4" <?php if($sttse == 4)echo "selected"; ?>>Hoàn thành</option>
+                                </select>
                         <div class="btn">
+                           
                             <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">
                             <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
                         </div>

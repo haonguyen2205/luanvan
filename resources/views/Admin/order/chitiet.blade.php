@@ -126,6 +126,9 @@
                     @if($order->status == 3)
                         <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:black">Thanh toán</a></button>
                     @endif
+                    @if($order->status == 4)
+                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:black">Xem đơn</a></button>
+                    @endif
                 </div>
             </section>
         </div>

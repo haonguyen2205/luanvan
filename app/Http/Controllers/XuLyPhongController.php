@@ -10,6 +10,9 @@ class XuLyPhongController extends Controller
     function index(Request $request){
         $timein=Carbon::create($request->dayat);
         $timeout=Carbon::create($request->dayout);
+        if($timeout<$timein)
+            return redirect('rooms');
+        
         $ngaytrong = array();
         do{
             $ngaytrong[]=
@@ -38,7 +41,7 @@ class XuLyPhongController extends Controller
 
 
     $test=array();
-
+    
     foreach($room as $r){
         foreach($idoder as $d){
             if($d!=null){
@@ -89,13 +92,13 @@ class XuLyPhongController extends Controller
       }
    }
 
-  
+
 $roomkhac=array();
 $hinhanh=DB::table('image')->get();
 foreach($room as $r){
     foreach($check as $i){
 
-        if($r->room_id == $i->room_id)
+        if(empty($i)==false || $r->room_id == $i[0]['room_id'])
         {
             break;
 

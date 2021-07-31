@@ -11,8 +11,9 @@ use App\Models\order;
 class AdminDonHangController extends Controller
 {
     function index(){
+        
         $order=DB::table('order')->where('status','<>',-1)->get();
-       
+        
         $list=array();
         foreach($order as $key){
 
@@ -31,11 +32,15 @@ class AdminDonHangController extends Controller
                 'tongtien'=>$key->total,
                 'ngaynhan'=>$key->dayat,
                 'ngaytra'=>$key->dayout,
-                'tinhtrang'=>$key->status
+                'tinhtrang'=>$key->status,
+               
             ];
         }
-       
-        return view('Admin.order.list')->with('list',$list);
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
 
     }
     function update($id){
@@ -69,14 +74,16 @@ class AdminDonHangController extends Controller
         $songay = $so/86400 ;
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
-       
+       $u=DB::table('service_detail')->where('order_id',$order->order_id)->get();
         $tiendichvu =0;
         foreach($ser as $s){
-            $a=$s->name;
-          if(isset($request->$a)){
-            $tiendichvu = $tiendichvu + $request->$a*$s->service_price;}
-        }
-        $viewData=[
+            foreach($u as $k){
+                if($k->service_id == $s->service_id){
+            $tiendichvu = $tiendichvu + $k->quantity*$s->service_price;}
+        }}
+        $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
+  
+            $viewData=[
             'hoadon' =>$id,
             'tenkhachhang'=>$user->name,
             'phong' => $room->room_name,
@@ -85,13 +92,16 @@ class AdminDonHangController extends Controller
             'dayout' =>$order->dayout,
             'songay' => $songay,
             'tiencoc' =>$order->deposit,
-            'tongtien' =>$order->total,
+            'tongtien' =>$order->total ,
             'tiendichvu' =>$tiendichvu,
-            'service'=>$ser
+            'service'=>$ser,
+            'dichvu'=>$i,
+            'status'=>$order->status
         ];
         return view('Admin.order.thanhtoan',$viewData);
     }
     function capnhat(Request $request){
+      
         $order= DB::table('order')->where('order_id',$request->id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();
@@ -100,13 +110,30 @@ class AdminDonHangController extends Controller
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
         $tiendichvu =0;
+        $id=DB::table('service_detail')->where('order_id',$order->order_id)->first();
+        
         foreach($ser as $s){
             $a=$s->name;
-          
-            $tiendichvu = $tiendichvu + $request->$a*$s->service_price;
+            $tiendichvu = $tiendichvu+ $request->$a*$s->service_price;
+            if($id==null){
+                DB::table('service_detail')->insert([
+                    'order_id'=>$request->id,
+                    'service_id'=>$s->service_id,
+                    'quantity'=>$request->$a
+                ]);
+            }
+            else if($id){
+                DB::table('service_detail')->where([
+                   ['order_id','=',$order->order_id],
+                   ['service_id','=',$s->service_id]
+                ])->update([
+                    'service_id'=>$s->service_id,
+                    'quantity'=>$request->$a
+                ]);
+            }
         }
        
-        
+        $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
         $viewData=[
             'hoadon' =>$request->id,
             'tenkhachhang'=>$user->name,
@@ -118,7 +145,9 @@ class AdminDonHangController extends Controller
             'tiencoc' =>$order->deposit,
             'service' =>$ser,
             'tiendichvu'=>$tiendichvu,
-            'tongtien' =>$order->total + $tiendichvu
+            'tongtien' =>$order->total , 
+            'dichvu'=>$i,
+            'status'=>$order->status
         ];
        
         return view('Admin.order.thanhtoan',$viewData);
@@ -131,6 +160,7 @@ class AdminDonHangController extends Controller
         return redirect('admin/manage-order');
     }
     function checkout(Request $request){
+   
        DB::table('order')->where('order_id',$request->id)->update([
            'total' => $request->total,
            'status' => 4
@@ -170,9 +200,16 @@ class AdminDonHangController extends Controller
     }
     function timkiem(Request $request)
     {
+      $st=$request->trangthai;
+       if($request->trangthai == -2){
 
         $order=DB::table('order')->where('status','<>',-1)->where('username','LIKE',"%".$request->search."%")->get();
-        $list=array();
+       
+
+       }else{
+        $order=DB::table('order')->where('status','<>',-1)->where('status',$request->trangthai)->where('username','LIKE',"%".$request->search."%")->get();
+        
+       }$list=array();
         foreach($order as $key){
 
             $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
@@ -190,13 +227,16 @@ class AdminDonHangController extends Controller
                 'tongtien'=>$key->total,
                 'ngaynhan'=>$key->dayat,
                 'ngaytra'=>$key->dayout,
-                'tinhtrang'=>$key->status
+                'tinhtrang'=>$key->status,
+             
             ];
         }
-       
+        $viewData=[
+            'sttse'=>$st,
+        ];
 
-        return view('Admin.order.list')->with('list',$list);
-    }
+        return view('Admin.order.list',$viewData)->with('list',$list);
+  }
     function huy($id){
         DB::table('order')->where('order_id',$id)->update([
             'status'=>0,

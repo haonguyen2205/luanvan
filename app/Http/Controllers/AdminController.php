@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //public function authlogin()
+    public function authlogin()
     {
         $admin_id=Session::get('users_id');
         if($admin_id)

@@ -66,6 +66,7 @@ class XuLyPhongController extends Controller
             }
         }
     }
+   
     $check=array();
     foreach($room as $r){
         $temp=array();
@@ -78,7 +79,7 @@ class XuLyPhongController extends Controller
         $check[]=$temp;
     }
    
-   for($i=0;$i<count($check);$i++){
+   for($i=0;$i<100;$i++){
       if(empty($check[$i])){
           foreach($room as $r){
               if($r->room_id  == $i+1){
@@ -92,20 +93,21 @@ class XuLyPhongController extends Controller
 $roomkhac=array();
 $hinhanh=DB::table('image')->get();
 foreach($room as $r){
-    foreach($test as $i){
+    foreach($check as $i){
 
-        if($r->room_id == $i['room_id'])
+        if($r->room_id == $i->room_id)
         {
             break;
 
         }
         else {
 
-            $image=DB::table('image')->where('room_id',$r->room_id)->first();
+            
             $roomkhac[]=[
                 'room_id'=>$r->room_id,
                 'room_name'=>$r->room_name,
                 'room_price'=>$r->room_price,
+                'image'=>$r->image
                
             ];
         }

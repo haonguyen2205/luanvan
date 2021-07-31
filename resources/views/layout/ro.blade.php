@@ -76,8 +76,8 @@
 
        @foreach($result as $key)
        
-         @if(is_array($key)==true )
-              
+         @if(is_array($key)==true && !empty($key) )
+            
                  <form action="{{URL::to('datphong')}}" method="post">
                      @csrf
 
@@ -151,9 +151,9 @@
                     </div>
                 </div>
             </div>
-        
+      
         @else
-       
+            @if(!empty($key))
                  <form action="{{URL::to('datphong')}}" method="post">
                      @csrf
 
@@ -221,7 +221,7 @@
                     </div>
                 </div>
             </div>
-          
+            @endif
             @endif
 
 

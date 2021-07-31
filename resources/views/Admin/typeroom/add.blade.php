@@ -7,13 +7,7 @@
                 THÊM LOẠI PHÒNG
             </header>
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
+
                 <div class="position-center">
                     <form role="form" action="{{URL::to('/add-type-action')}}" method="post">
                             {{ csrf_field() }}

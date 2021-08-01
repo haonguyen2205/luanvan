@@ -34,30 +34,38 @@
                     </tr>
                 </tbody>
             </table>
-            <h2><p style="padding: 5px;">Tiền dịch vụ thêm : {{number_format($tiendichvu,0)}} VNĐ </p></h2>
+            
             <div class="center">
+            <h2 style="padding-top: 5px;"><p style="padding: 5px;">Tiền dịch vụ thêm : {{number_format($tiendichvu,0)}} VNĐ </p></h2>
                 <div style="padding: 5px;">
                     <form action="{{URL::to('capnhat')}}" method="post">
-                        @csrf
-                        <?php 
-                            echo"<h2>Bạn đã sử dụng thêm dịch vụ:</h2>";
-                            echo "<table border='2px'>";
-                            echo" <tr>";
-                            echo" <td>Tên dịch vụ</td>";
-                            echo" <td>Số lượng</td>";
-                            echo" <td>Đơn giá</td>";
-                            echo" </tr>";
+                        @csrf            
+                        <div>            
+                            <h2>Bạn đã sử dụng thêm dịch vụ:</h2>
+</br>
+                        </div>
+                            <table class="table table-striped b-t b-light" style="border-top: double; width: 600px;">
+                                <thead>
+                                    <tr>
+                                        <td style="font-weight: bold; text-align: center;">Tên dịch vụ</td>
+                                        <td style="font-weight: bold; text-align: center;">Số lượng</td>
+                                        <td style="font-weight: bold; text-align: right;">Đơn giá</td>
+                                    </tr>
+                                </thead>
+                        <?php
                             if($status == 3)
                             { 
                                 if(empty($dichvu[0]))
                                 {
                                     foreach($service as $ser)
                                     {
+                                        echo "<tbody>";
                                         echo "<tr>";
-                                        echo "<td>".$ser->service_name."</td>";
-                                        echo "<td><input type='number' name='".$ser->name."' value=''></td>";
-                                        echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                                        echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
+                                        echo "<td style='text-align: center;'><input type='number' name='".$ser->name."' value='' style='border: 0px; text-align: center;' min='0'></td>";
+                                        echo "<td style='text-align: right;'>".number_format($ser->service_price,0)."VNĐ </td>";
                                         echo "</tr>"; 
+                                        echo "</tbody>";
                                     }
                                 }
                                 else if(!empty($dichvu[0]))
@@ -68,11 +76,13 @@
                                         {
                                             if($ser->service_id == $d->service_id)
                                             {
+                                                echo "<tbody>";
                                                 echo "<tr>";
-                                                echo "<td>".$ser->service_name."</td>";
-                                                echo "<td><input type='number' name='".$ser->name."' value='".$d->quantity."'></td>";
-                                                echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                                                echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
+                                                echo "<td style='text-align: center;'><input type='number' name='".$ser->name."' value='".$d->quantity."' style='border: 0px; text-align: center;' min='0'></td>";
+                                                echo "<td style='text-align: right;'>".number_format($ser->service_price,0)."VNĐ </td>";
                                                 echo "</tr>";
+                                                echo "</tbody>";
                                             }
                                         }
                                     }
@@ -86,11 +96,13 @@
                                     {
                                         if($ser->service_id == $d->service_id)
                                         {
+                                            echo "<tbody>";
                                             echo "<tr>";
-                                            echo "<td>".$ser->service_name."</td>";
-                                            echo "<td><input type='number' name='".$ser->name."' value='".$d->quantity."'></td>";
-                                            echo "<td>".number_format($ser->service_price,0)."VNĐ </td>";
+                                            echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
+                                            echo "<td style='text-align: center;'><input type='number' name='".$ser->name."' value='".$d->quantity."' style='border: 0px; text-align: center;' min='0'></td>";
+                                            echo "<td style='text-align: right;'>".number_format($ser->service_price,0)."VNĐ </td>";
                                             echo "</tr>";
+                                            echo "</tbody>";
                                         }
                                     }
                                 }
@@ -106,8 +118,8 @@
                         @endif
                     </form>
                 </div>
-                <h2 style="padding: 5px;">Tổng cộng: {{number_format($tongtien,0)}} VNĐ</h2>
-                <h2 style="padding: 5px;">Cọc trước: {{number_format($tiencoc,0)}} VNĐ</h2>
+                <h2 style="padding: 5px; color: red;">Tổng cộng: {{number_format($tongtien,0)}} VNĐ</h2>
+                <h2 style="padding: 5px; color: green;">Cọc trước: {{number_format($tiencoc,0)}} VNĐ</h2>
                 @if($status ==3)
                 <h2 style="padding: 5px;color: red;">Tiền cần thanh toán: {{number_format($tongtien - $tiencoc + $tiendichvu ,0)}} VND</h2>
                 @endif

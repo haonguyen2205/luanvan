@@ -49,9 +49,11 @@
                     @foreach($showPageNew as $key => $showNews)
                     <div class="blog-post">
                         <div class="single-blog-post">
+                        @if($showNews->new_image != null)
                             <div class="blog-pic">
-                                <img src="{{URL::to('images/'.$showNews->new_image)}}" alt="">
+                                <img src="{{URL::to('images/'.$showNews->new_image)}}" alt="" height="379"; width="754";>
                             </div>
+                            @endif
                             <div class="blog-text">
                                 <h4>{{$showNews->new_name}}</h4>
                                 <div class="blog-widget">
@@ -65,7 +67,7 @@
                                             <?php
                                             
                                        $date= date_create($showNews->date_post);
-                                        echo date_format($date,"Y/m/d");
+                                        echo date_format($date,"d/m/Y");
                                         
                                         ?></span>
                                     </div>

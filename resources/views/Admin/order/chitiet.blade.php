@@ -9,7 +9,7 @@
                     Chi tiết đơn đặt phòng
                 </header>
                 <div class="center">
-                    <button class="btn btn-primary"><a href="{{URL::to('back')}}" style="color:black;">Quay lại</a></button>
+                    <button class="btn btn-primary"><a href="{{URL::to('back')}}" style="color:white;">Quay lại</a></button>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped b-t b-light" style="padding: 20px;">
@@ -124,10 +124,10 @@
                 </div>
                 <div class="center">
                     @if($order->status == 3)
-                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:black">Thanh toán</a></button>
+                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:white">Thanh toán</a></button>
                     @endif
                     @if($order->status == 4)
-                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:black">Xem đơn</a></button>
+                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:white">Xem đơn</a></button>
                     @endif
                 </div>
             </section>

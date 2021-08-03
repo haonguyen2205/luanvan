@@ -13,6 +13,7 @@
                     <tr>
                         <th>Số hoá đơn</th>
                         <th>Tên khách hàng</th>
+                        <th>CMND/CCCD</th>
                         <th>Phòng</th>
                         <th>Giá tiền</th>
                         <th>Checkin</th>
@@ -25,6 +26,7 @@
                     <tr>
                         <td>{{$hoadon}}</td>
                         <td>{{$tenkhachhang}}</td>
+                        <td>{{$cmnd}}</td>
                         <td>{{$phong}}</td>
                         <td>{{number_format($price,0) }} VND</td>
                         <td>{{$dayat}}</td>

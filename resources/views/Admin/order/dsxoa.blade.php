@@ -17,6 +17,7 @@
             <tr>
               <th style="width:20px;">ID</th>
               <th>Tên người đặt</th>
+              <th>CMND</th>
               <th> Phòng </th>   
               <th>Tổng tiền</th>
               <th>Ngày nhận</th>
@@ -33,6 +34,7 @@
               <tr>
                 <td><label class="i-checks m-b-none"><i>{{$key['id']}}</i></label></td>
                 <td> {{$key['name']}} </td>
+                <td> {{$key['cmnd']}} </td>
                 <td> {{$key['phong']}} </td>
                
                 <td><span class="text-ellipsis">{{number_format($key['tongtien'],0)}}VND</span></td>

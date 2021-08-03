@@ -19,6 +19,10 @@
                                 <td><span style="color: red;">{{$user->name}}</span></td>
                         </tr>
                         <tr>
+                                <td><label for="exampleInputEmail1">CMND/CCCD</label></td>
+                                <td><span style="color: red;">{{$order->CMND}}</span></td>
+                        </tr>
+                        <tr>
                             <td>   <label for="exampleInputFile">Tên phòng</label></td>
                             <td> <span style="color: red;">{{$room->room_name}}</span></td>
                         </tr>

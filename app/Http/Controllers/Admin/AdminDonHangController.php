@@ -27,6 +27,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
                 'tongtien'=>$key->total,
@@ -74,7 +75,8 @@ class AdminDonHangController extends Controller
         $songay = $so/86400 ;
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
-       $u=DB::table('service_detail')->where('order_id',$order->order_id)->get();
+        $u=DB::table('service_detail')->where('order_id',$order->order_id)->get();
+
         $tiendichvu =0;
         foreach($ser as $s){
             foreach($u as $k){
@@ -86,6 +88,7 @@ class AdminDonHangController extends Controller
             $viewData=[
             'hoadon' =>$id,
             'tenkhachhang'=>$user->name,
+            'cmnd' =>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
             'dayat' => $order->dayat,
@@ -137,6 +140,7 @@ class AdminDonHangController extends Controller
         $viewData=[
             'hoadon' =>$request->id,
             'tenkhachhang'=>$user->name,
+            'cmnd'=>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
             'dayat' => $order->dayat,
@@ -187,6 +191,7 @@ class AdminDonHangController extends Controller
               $ds[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
                 'tongtien'=>$key->total,
@@ -222,6 +227,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
                 'tongtien'=>$key->total,

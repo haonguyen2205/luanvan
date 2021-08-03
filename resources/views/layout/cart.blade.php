@@ -52,7 +52,8 @@ $songay = $so/86400;
                     <p style="">Tổng tiền: <b id="sub-total">{{number_format($room_price*$songay,0)}} VND</b></p>      
                     <div>
                         <p style="color:red">Bạn phải thanh toán cho chúng tôi trước 40% số tiền để chúng tôi xác nhận bạn sẽ đặt. 
-                        Bạn cần chuyển cọc trong vòng 24 tiếng. Nếu quá 24 tiếng đơn phòng của bạn sẽ hủy.</p>
+                        Bạn cần chuyển cọc trong vòng 24 tiếng kể từ khi bạn xác nhận đặt.
+                        Nếu quá 24 tiếng đơn phòng của bạn sẽ hủy.</p>
                         <p>Số tiền cần phải cọc :
                             <?php
                                 $tien = $room_price * $songay;

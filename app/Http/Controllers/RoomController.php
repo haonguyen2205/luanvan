@@ -169,7 +169,7 @@ class RoomController extends Controller
         // $room->quality          = $request->input('amount');
         $room->room_price       = $request->input('price');
 
-        $detail=DB::table('order_detail')->where('room_id',$id)->exists();
+        $detail=DB::table('order_details')->where('room_id',$id)->exists();
         
         if($detail)
         {

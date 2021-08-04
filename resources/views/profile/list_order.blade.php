@@ -7,25 +7,34 @@
                 CUSTOMER PROFILE
             </header>
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
+
+            <div class="row w3-res-tb">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <form action="{{URL::to('timkiem')}}" method="get">
+                        @csrf
+                        <div class="btn">
+                            <input type="date" class="form-control" name="search_order" placeholder="Nhập tên khách hàng">
+                            <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
                 <div class="table-responsive">
-                    <table class="table table-striped b-t b-light" border="1" >
+                    <table class="table table-striped b-t b-light" >
                         <thead>
                             <tr>
                             <th style="width:20px;"></th>
-                            <th>mã đơn</th>
                             <th>Tên người đặt</th>
                             <th>cọc</th>
                             <th>người lón</th>
                             <th>trẻ nhỏ</th>
                             <th>ngày nhận</th>
                             <th>ngày trả</th>
+                            <th> tổng tiền </th>
                             <th>tình trạng</th>
                             <th>action</th>
                             <th style="width:20px;"></th>
@@ -34,19 +43,52 @@
                         <tbody>
                             @foreach($listorder as $list)
                             <tr>
-                            <td><label class="i-checks m-b-none"><i></i></label></td>
-                                <td> {{$list->order_id}} </td>
+                                <td><label class="i-checks m-b-none"><i></i></label></td>
                                 <td> {{$list->username}} </td>
-                                <td> {{$list->deposit}} </td>
+                                <td> {{number_format($list->deposit)}} đ </td>
                                 <td> {{$list->adults}} người </td>
-                                <td> {{$list->children}} người </td>
+                                <td> {{$list->children}} bé </td>
                                 <td> {{$list->dayat}}  </td>
                                 <td> {{$list->dayout}} </td>
-                                <td> {{$list->total}}  </td>
-                                <td>
-                                <a href="{{URL::to('/delete-type/'.$list->order_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
-                                    <i class="fa fa-times text-danger text"></i>
-                                </a>
+                                <td> {{number_format($list->total)}} đ  </td>
+                                <td> 
+                                    <?php
+                                        if($list->status==0)
+                                        {
+                                           echo"đã hủy";
+                                        }else if($list->status==1)
+                                        {
+                                         echo"đã xác nhận";
+                                        }
+                                        else if($list->status==2)
+                                        {
+                                            echo "đã xác nhận";
+                                        }
+                                        else if($list->status==3)
+                                        {
+                                            echo"đã nhân phòng";
+                                        }
+                                        else{
+                                            echo" đã hoàn thành";
+                                        }
+                                    ?>
+                                </td>
+                            
+                                <td width="5%" align="center">
+                                    <?php
+                                    if($list->status==1 ||$list->status==2)
+                                    {?>
+                                        <a href="{{URL::to('/delete-order_cus/'.$list->order_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"
+                                        class="active btn btn-warning" style="font-size: 11px;"  ui-toggle-class="">
+                                        hủy đặt
+                                    </a>
+                                    <?php
+                                    }else
+                                    {
+                                        
+                                    }
+                                    ?>
+                                    
                                 </td>
                             </tr>
                             @endforeach

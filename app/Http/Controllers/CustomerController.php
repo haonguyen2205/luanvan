@@ -19,7 +19,8 @@ class CustomerController extends Controller
     }
     public function show_page_profileDetail()
     {
-        $id=session::has('users_id');
+        if(session::has('users_id'))
+        $id=session::get('users_id');
         $data_cus=users::where('users_id',$id)->get();
         return view('profile.profile_form')->with('datacus', $data_cus);
     }
@@ -48,12 +49,17 @@ class CustomerController extends Controller
             Session::put('msg','cập nhật mật khẩu thành công');
             return Redirect::to('/profile-pass');  
         }
+        else{
+            Session::put('msg','lỗi tài khoản');
+            return Redirect::to('/profile-form');
+        }
 
     }
 
+    // update cus
     public function change_info(request $request)
     {
-        $id=session::has('users_id');
+        $id=$request->session()->has('users_id');
         $cus=users::find($id);
 
         $cus->name=$request->input('name');
@@ -66,11 +72,11 @@ class CustomerController extends Controller
     }
 
     public function list_order(){
-        $id= session::has('users_id');
+        $id= session::get('users_id');
 
         $list= DB::table('order')->where('users_id',$id)->get();
-
-        if($list==[]){
+        //  echo $list; exit;
+        if($list==null){
             session::put('mes',"bạn không có đơn đặt nào");
             return redirect::to('/profile-form');
         }

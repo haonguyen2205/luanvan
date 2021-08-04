@@ -12,7 +12,7 @@ class order_detail extends Model
     protected $table = 'order_details';
     protected $primaryKey = 'order_detail_id';
     public $timestamp = false ;
-    protected $fillable=['order_detail_id','order_id','room_id','room_price'];
+    protected $fillable=['order_detail_id','order_id','room_id','room_qty'];
 
     public function room()
     {

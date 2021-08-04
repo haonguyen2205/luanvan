@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Session;
     <!-- bootstrap-css -->
     <link rel="stylesheet" href="{{asset('public/backend/css/bootstrap.min.css')}}" >
     
-    
-
     <!-- //bootstrap-css -->
 
-    <link rel="stylesheet" href="{{asset('public/backend/css/owl.carousel.min.css')}}" >
+    <link rel="stylesheet" href="{{URL::asset('public/frontend/css/owl.carousel.min.css')}}" type="text/css">
+	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/jquery-ui.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('public/backend/css/owl.theme.default.min.css')}}" >
     <!-- Custom CSS -->
     <link href="{{asset('public/backend/css/style.css')}}" rel='stylesheet' type='text/css' />
@@ -41,7 +40,7 @@ use Illuminate\Support\Facades\Session;
     <!-- sweetAlert; -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>   
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"> -->
     <style>
         .btn {
         display: inline-block;
@@ -85,13 +84,14 @@ use Illuminate\Support\Facades\Session;
                 <div class="top-nav clearfix">
                     <!--search & user info start-->
                     <ul class="nav pull-right top-menu">
-
                         <!-- user login dropdown start-->
                         <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <!-- hien hình anh thuoc tai khoan do -->
+                                
                                 @if(Session::has('users_image'))
                                     <?php
+                                    echo session::get('admin_id');
                                         $user = Session::get('users_image');
                                     ?>
                                     <img alt="" src='public/upload/staff/<?php echo $user ?>' height='45px'/>    
@@ -117,7 +117,9 @@ use Illuminate\Support\Facades\Session;
 
                         <!-- user login dropdown end -->
                     </ul>
+                    
                     <!--search & user info end-->
+                
                 </div>
             </header>
 
@@ -129,12 +131,12 @@ use Illuminate\Support\Facades\Session;
                             <li>
                                 <a class="active" href="{{URL::to('/admin')}}">
                                     <i class="fa fa-compass"></i>
-                                    <span>Tổng quan</span>
+                                    <span>Báo cáo tổng hợp</span>
                                 </a>
                             </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
-                                    <i class="fa fa-book"></i>
+                                    <i class="fa fa-user"></i>
                                     <span> Quản lí khách hàng </span>
                                 </a>
                                 <ul class="sub">
@@ -187,7 +189,7 @@ use Illuminate\Support\Facades\Session;
                         </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
-                                    <i class="fa fa-book"></i>
+                                    <i class="fa fa-user"></i>
                                     <span> Quản lí  nhân viên </span>
                                 </a>
                                 <ul class="sub">
@@ -236,12 +238,8 @@ use Illuminate\Support\Facades\Session;
     <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
     <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
-
+    <script src="{{URL::asset('public/frontend/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('public/backend/js/owl.carousel.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <!-- morris JavaScript -->
     <script>
         $(document).ready(function() {

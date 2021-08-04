@@ -1,23 +1,23 @@
 @extends('../admin_layout')
 @section('admin_content')
 
-	<div class="row">
+	<div class="form-group">
 		@if(Session::has('mes_diemdanh'))
-			<A class="btn btn-success" href="{{URL::to('/diemdanhra')}}"> điểm danh ra</A>
+			<A class="btn btn-success" href="{{URL::to('/diemdanhra')}}"> chấm công ra</A>
 		@else
-			<A class="btn btn-success" href="{{URL::to('/diemdanh')}}">điểm danh</A>
+			<A class="btn btn-success" href="{{URL::to('/diemdanh')}}">chấm công vào</A>
 		@endif
 	</div>
-    <h1> thông tin thống kê 2 </h1>
+    <h1> thông tin thống kê </h1>
     <div class="market-updates">
 			<div class="col-md-3 market-update-gd">
 				<div class="market-update-block clr-block-2">
 					<div class="col-md-4 market-update-right">
-						<i class="fa fa-eye"> </i>
+						<i class="fa fa-total"> </i>
 					</div>
 					 <div class="col-md-8 market-update-left">
-					 <h4>Visitors</h4>
-					<h3>13,500</h3>
+					 <h4>Total</h4>
+					<h3>{{number_format($tongtien)}}</h3>
 					<p>Other hand, we denounce</p>
 				  </div>
 				  <div class="clearfix"> </div>
@@ -29,8 +29,8 @@
 						<i class="fa fa-users" ></i>
 					</div>
 					<div class="col-md-8 market-update-left">
-					<h4>Users</h4>
-						<h3>1,250</h3>
+					<h4>Customer</h4>
+						<h3>{{$count_cus}}</h3>
 						<p>Other hand, we denounce</p>
 					</div>
 				  <div class="clearfix"> </div>
@@ -39,11 +39,11 @@
 			<div class="col-md-3 market-update-gd">
 				<div class="market-update-block clr-block-3">
 					<div class="col-md-4 market-update-right">
-						<i class="fa fa-usd"></i>
+						<i class="fa fa-users"></i>
 					</div>
 					<div class="col-md-8 market-update-left">
-						<h4>Sales</h4>
-						<h3>1,500</h3>
+						<h4>Employees</h4>
+						<h3>{{number_format($countuser)}}</h3>
 						<p>Other hand, we denounce</p>
 					</div>
 				  <div class="clearfix"> </div>
@@ -55,8 +55,8 @@
 						<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 					</div>
 					<div class="col-md-8 market-update-left">
-						<h4>Orders</h4>
-						<h3>1,500</h3>
+						<h4>Order</h4>
+						<h3>{{$count_order}}</h3>
 						<p>Other hand, we denounce</p>
 					</div>
 				  <div class="clearfix"> </div>

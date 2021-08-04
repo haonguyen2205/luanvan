@@ -23,10 +23,11 @@
           <div class="input-group">
             <form action="{{URL::to('/list-uti')}}"  >
             {{ csrf_field() }}  
+            <Span>Search</Span>
                 <input type="text" class="input-sm fa fa-search" name="search_uti" placeholder="Search">
-                <span class="input-group-btn">             
+                <!-- <span class="input-group-btn">             
                   <button class="btn btn-sm btn-default" name="btn_uti" type="button">Search!</button>
-                </span>
+                </span> -->
             </form>
           </div>  
         </div>
@@ -41,6 +42,8 @@
               <th style="width:10px;"></th> 
               <th width="30%" >Mã</th>
               <Th>Tên tiện ích</th>
+              <Th>giá tiện ích</th>
+              <Th>ảnh</th>
               <th width="20%">Action</th>
               <th style="width:10px;"></th>
             </tr>
@@ -51,6 +54,8 @@
                 <td><label class="i-checks m-b-none"><i></i></label></td>
                 <td> {{$uti->utility_id}} </td>
                 <td> {{$uti->utility_name}} </td>
+                <td> {{$uti->utility_price}} </td>
+                <td> <img src="public/upload/utility/{{$uti->utility_image}}" width="70px" height="50px"> </td>
                 <td>
                   <a href="{{URL::to('/edit-uti/'.$uti->utility_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
@@ -100,4 +105,14 @@
   ?>
 @endif
 
+@if(Session::has('mes_fails'))
+  <script type="text/javascript" >
+    swal("lỗi!","{{Session::Get('mes_update')}}","error",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('mes_fails',null);
+  ?>
+@endif
 @endsection

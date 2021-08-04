@@ -29,7 +29,7 @@ class RegisterController extends Controller
         $users->phone     = $request->input('phone');
         $users->address = $request->input('address');
         $users->role =0;
-        $users->users_stauts=0;
+        $users->users_status=0;
 
         $checkmail= users::all();
         
@@ -37,22 +37,27 @@ class RegisterController extends Controller
         {
             if($request->input('email')==$user->email)
             {
-                Session::put('msg','địa chỉ mail đã được sử dụng');
+                Session::put('email_uni','địa chỉ mail đã được sử dụng');
                 return Redirect::to('/showregister');
             }
-            elseif($data['password'] == $data['repassword'])
+            else if($data['password'] == $data['repassword'])
             {
-            $users->save();
-            Session::put('msg','Thêm tài khoản thành công');
-            return Redirect::to('/');
-            }
-            else
+                $users->save();
+                Session::put('msg','Thêm tài khoản thành công');
+                if(session::has('user_id'))
+                {
+                    return Redirect::to('/admin');
+                }
+                else
+                {
+                    return Redirect::to('/');
+                }
+            }else
             {
-                Session::put('msg','sai mật khẩu nhập lại');
+                Session::put('pass_uni','sai mật khẩu nhập lại');
                 return Redirect::to('/showregister');
             }
-        }
-        
+        }        
         
     }
 }

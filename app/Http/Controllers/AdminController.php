@@ -7,42 +7,62 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use DB;
 use App\Models\users;
+use App\Models\orders;
 
 class AdminController extends Controller
 {
     public function authlogin()
     {
-        $admin_id=Session::get('user_id');
-        if($admin_id)
+        $admin_id=Session::get('users_id');
+        if(session::has('users_id'))
         {
             Redirect::to('Admin.dashboard');
         }
         else
         {
-            Redirect::to('login')->send();
+            Redirect::to('login');
         }
     }
-
 
     function index()
     {
-        $this->authlogin();
-        return view('Admin.dashboard');
-    }
+        // $this->authlogin();
 
-    function thongketaikhoan()
-    {
+        $order= DB::table('order')->Get();
+        $staff= DB::table('users')->where('role',1)->get();
 
-        $tb=users::where('role',0)->Get();
-        $count=0;
+        $customer= DB::table('users')->where('role',0)->get();
 
-        foreach($tb as $so)
+        $tongtien=0;
+        $countuser=0;
+        $count_cus=0;
+        $count_order=0;
+        foreach($order as $od)
         {
-            $count=$count+1;
+            if($od->status==4)
+            {
+                $tongtien=$tongtien +$od->total;
+            }
+            
+            else
+            {
+                $count_order+=1;
+            }
+        } 
+
+        foreach($staff as $st)
+        {
+            $countuser=$countuser +1;
         }
-        
-        return view('Amin.dashboard')->with('countuser',$count);
+
+        foreach($customer as $cus)
+        {
+            $count_cus +=1;
+        }
+
+        return view('Admin.dashboard',compact('tongtien','countuser','count_cus','count_order'));
     }
+
 
 
 }

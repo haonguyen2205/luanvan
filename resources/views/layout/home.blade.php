@@ -171,18 +171,13 @@
     </div>
     <!-- Facilities Section End -->
 
-    <script>
+<script>
 
    <?php 
             if(Session::has('datphong'))
                 echo 'alert("Cảm ơn bạn đã tin tưởng và đặt phòng ở website")';
             Session::forget('datphong');
-   
-   ?>
-        
- 
-  
-
+   ?> 
 </script>
     <!-- Follow Instagram Section Begin -->
     <section class="follow-instagram">
@@ -207,4 +202,15 @@
         </div>
     </div>
     <!-- Footer Room Pic Section End -->
-    @endsection
+
+    @if(Session::has('msg'))
+  <script type="text/javascript" >
+    swal("thông báo!","{{Session::Get('msg')}}","success",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('msg',null);
+  ?>
+@endif
+@endsection

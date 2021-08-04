@@ -55,9 +55,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-info" name="addType">Submit</button>
-                    </form>
-
-                    
+                    </form> 
                 </div>
             </div>
         </section>

@@ -105,7 +105,6 @@ foreach($room as $r){
                 'room_id'=>$r->room_id,
                 'room_name'=>$r->room_name,
                 'room_price'=>$r->room_price,
-               
             ];
         }
         break;

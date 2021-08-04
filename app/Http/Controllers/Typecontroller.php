@@ -23,6 +23,31 @@ class Typecontroller extends Controller
         return view('admin.typeroom.add',compact('img'))->with('utility',$list);
     }
 
+    public function listType(request $request)
+    {
+        $key = $request->input('search_type');
+        if($key !=null)
+        {
+            $list= type::where('type_name', 'like','%'.$key.'%')->where('status',1)->paginate(5);
+            $manager = view('Admin.typeroom.list')->with('listType', $list);
+            return view('admin_layout')->with('Admin.typeroom.list', $manager);
+        }
+        else
+        {
+            // where('status',0)->
+            $list= type::where('status',1)->paginate(5);
+            $manager = view('Admin.typeroom.list')->with('listType', $list);
+            return view('admin_layout')->with('Admin.typeroom.list', $manager);
+        }
+    }
+
+    public function list_type_block()
+    {
+        $list= type::where('status',0)->paginate(5);
+        $manager = view('Admin.typeroom.list_block')->with('listType', $list);
+        return view('admin_layout')->with('Admin.typeroom.list_block', $manager);
+    }
+    
     public function addTypeAction(Request $request)
     {
         $type = new Type();
@@ -70,32 +95,6 @@ class Typecontroller extends Controller
             Session::put('mes_tienich','chưa chọn loại tiện ích cho loại phòng');
             return Redirect::to('/add-type');
         }   
-    }
-
-
-    public function listType(request $request)
-    {
-        $key = $request->input('search_type');
-        if($key !=null)
-        {
-            $list= type::where('type_name', 'like','%'.$key.'%')->where('status',1)->paginate(5);
-            $manager = view('Admin.typeroom.list')->with('listType', $list);
-            return view('admin_layout')->with('Admin.typeroom.list', $manager);
-        }
-        else
-        {
-            // where('status',0)->
-            $list= type::where('status',1)->paginate(5);
-            $manager = view('Admin.typeroom.list')->with('listType', $list);
-            return view('admin_layout')->with('Admin.typeroom.list', $manager);
-        }
-    }
-
-    public function list_type_block()
-    {
-        $list= type::where('status',0)->paginate(5);
-        $manager = view('Admin.typeroom.list_block')->with('listType', $list);
-        return view('admin_layout')->with('Admin.typeroom.list_block', $manager);
     }
 
     public function deleteType($id)
@@ -146,32 +145,38 @@ class Typecontroller extends Controller
 
     public function showPageEdit($id)
     {
-        $tu=DB::table('type_utility')->where('type_id', $id)->Get();
+        //$tu=DB::table('type_utility')->where('type_id', $id)->Get(); // lấy dữ liệu loại phòng theo id->with('utility', $tu)
         $edit = type::where('type_id', $id)->get();
-        $manager = view('admin.typeroom.edit')->with('edittype', $edit)->with('utility', $tu);
+        $manager = view('admin.typeroom.edit')->with('edittype', $edit);
         return view('admin_layout')->with('admin.typeroom.edit', $manager);
     }
 
     public function update_cat(Request $request, $id)
     {
         $type =type::find($id);
-        $type->type_name   = $request->input('typeName');
-        $type->status    = $request->input('typeStatus');
-
+        $type->type_name  = $request->input('typeName');
+        // $type->status     = $request->input('typeStatus');
+        $type->quality    = $request->input('quality');
+        $type->capacity   = $request->input('capacity');
        
-        if($request->typeName==null||$request->typeStatus == null)
+        // echo $type; exit;
+
+        if($request->typeName==null)
         {
             $this->validate($request,[
                 'typeName'=>'bail|required|min:3|max:50',
                 'typeStatus'=>'bail|required', 
+                'quality'=>'bail|required|min:1|max:12', 
+                'capacity'=>'bail|required|min:1|max:6', 
             ],[
                 'typeName.required'=>'Tên loại phòng không được để trống',
                 'typeName.max'=>'Tên loại phòng không được dài quá 50 kí tự',
                 'typeName.min'=>'Tên loại phòng không được ngán hơn quá 3 kí tự',
-                'typeStatus.required'=>'Tài khoản nhân viên không được để trống',
+                'quality.max'=>'số lượng loại phòng không được ít hơn 1',
+                'quality.min'=>'số lượng loại phòng không được nhiều hơn 12',
+                'capacity.max'=>'số người tối đa của loại phòng không nhiều hơn 6',
+                'quality.min'=>'số người tối đa của loại phòng không ít hơn 1',
             ]);
-
-    
         }
         else 
         {

@@ -71,8 +71,8 @@ class StaffController extends Controller
                     $message->from($to_email,$to_name);
                 });
                 $users->save();
-                Session::put('msg','đang  chờ xác thực mail');
-                return Redirect::to('/page_add_staff');
+                Session::put('msg','mật khẩu tài khoản đã chuyển vào mail');
+                return Redirect::to('/list_staff');
             }
                 
         }
@@ -113,7 +113,13 @@ class StaffController extends Controller
             'phone.max'=>'địa chỉ không được dài quá 15 kí tự',
             'phone.min'=>'số điện thoại  không được ngắn hơn quá 10 kí tự',
         ]);
-        if($request->hasFile('image'))
+        if($request->input('image')=='')
+        {
+            $users->save();
+            session::put('mes',"cập nhật thành công");
+            
+        }
+        else if($request->hasFile('image'))
         {
             $image=$request->file('image');
             $get_name_image = $image->getClientOriginalName(); // lấy tên của img
@@ -121,11 +127,13 @@ class StaffController extends Controller
             $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
             $image->move('public/upload/staff',$new_image);
             $users->users_image     = $new_image;
+
+            session::put('mes',"cập nhật thành công");
             $users->save();
         }else
         {
             session::put('mes',"không phải file hình");
-            return view('Admin.staff.edit');
+            return redirect::to('/list_staff    ');
         }
             
         return Redirect::to('/list_staff');
@@ -202,20 +210,22 @@ class StaffController extends Controller
     public function diemdanh()
     {
         $time = new timekeep();
-        $time->users_id=session::get('user_id');   
+        $s=Session::has('admin_id');
+        $time->users_id=$s;
         $time->time_in =Carbon::now();
         $time->save();
         $id =$time->timekeep_id;
         session::put('timekeep_id',$id);
-        session::put('mes_diemdanh',"diem thanh thanh cong");
+        session::put('mes_diemdanh',"điểm danh thanh công");
         return redirect::to('/admin');
+        
     }
     public function diemdanhra()
     {
         $id = session::get('timekeep_id');
         $data =timekeep::where('timekeep_id',$id)->first(); //sài first or find lấy singel get là lấy many .. haizz
         $users=$data->users_id;
-        if($users == session::Get('users_id'))
+        if($users == session::Get('admin_id'))
         {
             $t_o=$data->time_out =Carbon::now();
             //  

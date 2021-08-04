@@ -8,8 +8,8 @@
       </div>
       <div>
           <ul class="nav nav-tabs">
-              <li><a href="{{URL::to('/list-staff')}}" > <span class="glyphicon glyphicon-bed"></span> DS Nhân Viên </a></li>
-              <li><a href="{{URL::to('/list_staff/list-staff-block')}}"><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
+              <li><a href="{{URL::to('/list_staff')}}" > <span class="glyphicon glyphicon-user"></span> DS Nhân Viên </a></li>
+              <li><a href="{{URL::to('/list_staff/list-staff-block')}}"><span class="glyphicon glyphicon-user"></span> DS NV khóa</a></li>
           </ul>
         </div>
       <div class="row w3-res-tb">
@@ -17,19 +17,20 @@
               <a href="{{URL::to('/page_add_staff')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm nhân viên</a> 
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-sm-4">
 
         </div>
 
         <!-- thanh search -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="input-group">
             <form action="{{URL::to('/list_staff')}}"  >
             {{ csrf_field() }}  
+            <span>Search</span>
                 <input type="text" class="input-sm fa fa-search" name="search_staff" placeholder="Search">
-                <span class="input-group-btn">             
+                <!-- <span class="input-group-btn">             
                   <button class="btn btn-sm btn-default" type="button">Go!</button>
-                </span>
+                </span> -->
             </form>
           </div>
         </div>

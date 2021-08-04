@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\StoreEventRequest;
+use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
 use Validator;
+
+use Carbon\Carbon;
 
 use App\Models\type; 
 use App\Models\room;
 use App\Models\image;
 use App\Models\order_detail;
+use App\Models\order;
 use Input;
 
 class RoomController extends Controller
@@ -93,17 +98,19 @@ class RoomController extends Controller
         $key = $request->input('keyword');
         if($key!='')
         {
-            $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')->leftjoin('image','image.room_id', '=', 'room.room_id')
-           ->where('room_name', 'like','%'.$key.'%')
+            //->leftjoin('image','image.room_id', '=', 'room.room_id')
+            $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
+           ->where('room_name', 'like','%'.$key.'%')->Where('room_status',1)
+           ->orwhere('category_room.type_name', 'like','%'.$key.'%')->where('room_status',1)
             ->orderBy('room.type_id', 'desc')->paginate(5);
             return view('Admin.room.list')->with('listRoom', $list);
         }
         else
         {
             $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
-                ->orderBy('room.type_id', 'desc')->paginate(5);
+                ->orderBy('room.type_id', 'desc')->where('room_status',1)->paginate(5);
                 // ->leftjoin('image','image.room_id', '=', 'room.room_id')
-                // ->where('room_status',1)
+                
             $image= image::join('room','room.room_id', '=', 'image.room_id')->orderBy('image.room_id', 'desc')->get();
             return view('Admin.room.list')->with('listRoom', $list)->with('imageroom',$image);
         }
@@ -111,7 +118,7 @@ class RoomController extends Controller
 
     public function list_room_block()
     {
-        $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')->leftjoin('image','image.room_id', '=', 'room.room_id')
+        $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
         ->where('room_status',0)
             ->orderBy('room.type_id', 'desc')->paginate(5);
 
@@ -175,8 +182,7 @@ class RoomController extends Controller
         $room->room_description = $request->input('description');
         // $room->quality          = $request->input('amount');
         $room->room_price       = $request->input('price');
-
-        $detail=DB::table('order_detail')->where('room_id',$id)->exists();
+        $detail=DB::table('order_details')->where('room_id',$id)->exists();
         
         if($detail)
         {
@@ -229,21 +235,61 @@ class RoomController extends Controller
     // code trang giao diện chính ws
 
        // trang này của giao diện chính
-       function rooms() 
-       {
-           //$room = room::where('room_status', '1')->orderBy('room_id','asc')->get();
-           $room = room::where('room_status', '1')
-           ->orderBy('room.room_id', 'desc')->paginate(6);
-           return view('/layout.rooms')->with('showPageRoom', $room);
-       }
-       
-       public function checkRoom(request $request)
-       {
-            $data=$request->input('dayat');
-            $data1=$request->input('dayout');
+    function rooms() 
+    {
+        //$room = room::where('room_status', '1')->orderBy('room_id','asc')->get();
+        $room = room::where('room_status', '1')
+        ->orderBy('room.room_id', 'desc')->paginate(6);
+        return view('/layout.rooms')->with('showPageRoom', $room);
+    }
+    
+    public function check_avaliable(request $request)
+    {
+        $order=order::get();
+        $order_detail =order_detail::get();
+        $room= room::where('room_status','1')->Get();
+        $star= $request->input('start_time');
+        $end= $request->input('end_time');
+         
+        if($request->filled(['start_time', 'end_time'])) {
+            foreach($order as $o)
+            {
+                foreach($order_detail as $od )
+                {
+                    if($o->order_id == $od->order_id) 
+                    {          
+                        foreach($room as $r)
+                        {
+                            if($od->room_id !== $r->room_id)
+                            {
+                                $emptyroom=room::where('room_id','<>',$od->room_id)->Get();
+                            }
+                        }
+                    }
+                }
 
-            $room=room::wherebetween('day');
+            }
+            
+            
+            // $rooms = Room::where('capacity', '>=', $request->input('capacity'))
+            //     ->whereDoesntHave('events', function ($query) use ($times) {
+            //         $query->whereBetween('start_time', $times)
+            //             ->orWhereBetween('end_time', $times)
+            //             ->orWhere(function ($query) use ($times) {
+            //                 $query->where('start_time', '<', $times[0])
+            //                     ->where('end_time', '>', $times[1]);
+            //             });
+            //     })
+            //     ->get();
+        }
+        return view('/Admin.room.list_empty',compact('emptyroom'));
+    }
 
-            return view('/layout.check_room');
-       }
+    public function list_empty_room(request $request)
+    {
+        return view('Admin.room.check_availability');
+    }
+
+    
+
 }

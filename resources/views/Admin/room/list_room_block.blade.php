@@ -44,8 +44,8 @@
               <th width="8%">Tên phòng</th>
               <th width="8%" >Hình ảnh</th>
               <th width="10%">Loại phòng</th>
-              <th>Capacity</th>
-              <th width="8%">số lượng tồn</th>
+              <th width="8%">số người</th>
+              <th width="8%">số lượng</th>
               <th>Giá</th>
               <th >Mô tả</th>
               <th>Tình trạng</th>
@@ -54,37 +54,36 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($listRoom as $key => $value)
+            @foreach($listRoom as $key => $val)
                 <tr>
                     <td><label class="i-checks m-b-none"><i></i></label></td>
-                    <td> {{$value->room_name}} </td>
+                    <td> {{$val->room_name}} </td>
                     <td>
                         <div class="single-room-pic">
-                        <img src="public/upload/rooms/{{$value->room_image}}" height="100"; width="100";>
+                        <img src="public/upload/rooms/{{$val->image}}" height="100"; width="150";>
                         </div>
                     </td>
-                    <td> Loại : {{$value->type_name}} </td>
-                    <td> Max : {{$value->capacity}} </td>
-                    <td> {{$value->quality}} </td>
-                    <td> {{number_format($value->room_price).' đ /night'}} </td>
-                    <td> {{$value->room_description}} </td>
+                    <td> Loại : {{$val->type_name}} </td>
+                    <td> Max : {{$val->capacity}} </td>
+                    <td> {{$val->quality}} </td>
+                    <td> {{number_format($val->room_price).' đ /ngày'}} </td>
+                    <td> {{$val->room_description}} </td>
                     <td><span class="text-ellipsis">
-                      @if($value->room_status==0)
-                            <a href="{{URL::to('/inactive-room/'.$value->room_id)}}" style="color:red">Không hoạt động</a>
+                      @if($val->room_status==0)
+                            <a href="{{URL::to('/inactive-room/'.$val->room_id)}}" style="color:red">Không hoạt động</a>
                         
                         @else 
-                            <a href="{{URL::to('/active-room/'.$value->room_id)}}" style="color:green">Hoạt động</a>
+                            <a href="{{URL::to('/active-room/'.$val->room_id)}}" style="color:green">Hoạt động</a>
                         
                         @endif
                         </span>
                     </td> 
                     <td >
-                    <a href="{{URL::to('/edit-room/'.$value->room_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
-                        <i class="fa fa-pencil-square-o text-success text-active"></i>
+                    <a href="{{URL::to('/edit-room/'.$val->room_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
+                      <i class="fa fa-pencil-square-o text-success text-active"></i>
                     </a>
-                    <!-- <a href="{{URL::to('/delete-room/'.$value->room_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
-                        <i class="fa fa-times text-danger text"></i>
-                    </a> -->
+                    
+                    </a> 
                     </td>
                 </tr>
             @endforeach

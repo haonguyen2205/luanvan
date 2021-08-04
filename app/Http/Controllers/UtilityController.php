@@ -20,24 +20,32 @@ class UtilityController extends Controller
 
     public function Add_uti(request $request)
     {
-        $uti = new utility();
+        $uti = array();
+        $uti['utility_id'] = $request->uti_id;
+        $uti['utility_price']=$request->uti_price;
+        $uti['utility_name'] = $request->uti_name;
+        $uti['status'] = 1;
 
+
+        // print_r($uti); exit;
         $this->validate($request,[
-            'uti_id'=>'bail|required|min:1|max:5',
-            'uti_name'=>'bail|required|min:2|max:100',
+            'uti_id'=>'bail|required|min:2|max:5',
+            'uti_name'=>'bail|required|min:2|max:30',
+            
             
             
         ],[
             'uti_id.required'=>' Mã tiện ích không được để trống',
             'uti_id.max'=>'Mã tiện ích không được dài quá 5 kí tự',
+            'uti_id.min'=>'Mã tiện ích không được ngắn hơn 2 kí tự',
             'uti_name.required'=>'tên tiện ích không được để trống',
-            'uti_name.min'=>'tên tiện ích không được ngắn hơn 3 kí tự',
-            'uti_name.max'=>'tên tiện ích không được dài hơn 100 kí tự',
+            'uti_name.min'=>'tên tiện ích không được ngắn hơn 2 kí tự',
+            'uti_name.max'=>'tên tiện ích không được dài hơn 30 kí tự',
+            
         ]);
 
-        $uti->utility_id = $request->input('uti_id');
-        $uti->utility_name = $request->input('uti_name');
-        $uti->save();
+        
+        DB::table('utility')->insert($uti);
         Session::put('mes_create_uti','thêm tiện ích thành công');
         return Redirect::to('/list-uti');
     }
@@ -87,7 +95,7 @@ class UtilityController extends Controller
     public function update_uti($id,request $request)
     {
         $uti['utility_name'] = $request->input('uti_name');
-
+        $uti['utility_price']=$request->input('uti_price');
         $this->validate($request,[
             'uti_id'=>'bail|required|min:1|max:5',
             'uti_id'=>'bail|required|min:2|max:100',
@@ -98,26 +106,37 @@ class UtilityController extends Controller
             'uti_name.min'=>'tên tiện ích không được ngắn hơn 3 kí tự',
             'uti_name.max'=>'tên tiện ích không được dài hơn 100 kí tự',
         ]);
-
-        if($request->hasFile('uti_image')) 
+        if($request->input('uti_image')=='')
         {
-            $image = $request->file('uti_image');
-            if($image) {
-                $get_name_image = $image->getClientOriginalName(); //lay ten hình
-                $name_image     = current(explode('.',$get_name_image));
-                $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
-                $image->move('public/upload/utility',$new_image);
-                $uti['utility_image']=$new_image;
+            DB::table('utility')->where('utility_id',$id)->update($uti);
+            Session::put('mes_update_uti','cập nhật tên tiện nghi thành công');
+            return redirect::to('/list-uti');
+        }
+        else 
+        {
+            if($request->hasFile('uti_image')) 
+            {
+                $image = $request->file('uti_image');
+                if($image) 
+                {
+                    $get_name_image = $image->getClientOriginalName(); //lay ten hình
+                    $name_image     = current(explode('.',$get_name_image));
+                    $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
+                    $image->move('public/upload/utility',$new_image);
 
-                DB::table('utility')->where('utility_id',$id)->update($uti);
-                Session::put('mes_update_uti','cập nhật thành công');
+                    $uti['utility_image']=$new_image;
+
+                    DB::table('utility')->where('utility_id',$id)->update($uti);
+                    Session::put('mes_update_uti','cập nhật thành công');
+                    return redirect::to('/list-uti');
+                }
+            }
+            else{
+                Session::put('mes_fails','không phải file hình');
                 return redirect::to('/list-uti');
             }
         }
-        else{
-            Session::put('mes_fails','không phải file hình');
-            return redirect::to('/list-uti');
-        }
+        
         
     }
 

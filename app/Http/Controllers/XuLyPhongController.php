@@ -10,6 +10,9 @@ class XuLyPhongController extends Controller
     function index(Request $request){
         $timein=Carbon::create($request->dayat);
         $timeout=Carbon::create($request->dayout);
+        if($timeout<$timein)
+            return redirect('rooms');
+        
         $ngaytrong = array();
         do{
             $ngaytrong[]=
@@ -37,7 +40,7 @@ class XuLyPhongController extends Controller
 
 
     $test=array();
-
+    
     foreach($room as $r){
         foreach($idoder as $d){
             if($d!=null){
@@ -46,18 +49,18 @@ class XuLyPhongController extends Controller
                     //$4d->order_id
                     foreach($trongvl as $vl){
                         if($vl!=null){
-                        if($vl->order_id == $d->order_id ){
-                            $image = DB::table('image')->where('room_id',$r->room_id)->first();
-                            $test[]=[
-                                'dayat'=>$vl->dayat,
-                                'dayout'=>$vl->dayout,
-                                'room_id'=>$r->room_id,
-                                'room_name'=>$r->room_name,
-                                'room_price'=>$r->room_price,
-                                'room_image'=>$r->image
-                                
-                            ];
-                        }
+                            if($vl->order_id == $d->order_id ){
+                                $image = DB::table('image')->where('room_id',$r->room_id)->first();
+                                $test[]=[
+                                    'dayat'=>$vl->dayat,
+                                    'dayout'=>$vl->dayout,
+                                    'room_id'=>$r->room_id,
+                                    'room_name'=>$r->room_name,
+                                    'room_price'=>$r->room_price,
+                                    'room_image'=>$r->image
+                                    
+                                ];
+                            }
                         }
 
                     }
@@ -65,6 +68,7 @@ class XuLyPhongController extends Controller
             }
         }
     }
+   
     $check=array();
     foreach($room as $r){
         $temp=array();
@@ -77,7 +81,7 @@ class XuLyPhongController extends Controller
         $check[]=$temp;
     }
    
-   for($i=0;$i<count($check);$i++){
+   for($i=0;$i<100;$i++){
       if(empty($check[$i])){
           foreach($room as $r){
               if($r->room_id  == $i+1){
@@ -87,24 +91,26 @@ class XuLyPhongController extends Controller
       }
    }
 
-  
+
 $roomkhac=array();
 $hinhanh=DB::table('image')->get();
 foreach($room as $r){
-    foreach($test as $i){
+    foreach($check as $i){
 
-        if($r->room_id == $i['room_id'])
+        if(empty($i)==false || $r->room_id == $i[0]['room_id'])
         {
             break;
 
         }
         else {
 
-            $image=DB::table('image')->where('room_id',$r->room_id)->first();
+            
             $roomkhac[]=[
                 'room_id'=>$r->room_id,
                 'room_name'=>$r->room_name,
                 'room_price'=>$r->room_price,
+                'image'=>$r->image
+               
             ];
         }
         break;

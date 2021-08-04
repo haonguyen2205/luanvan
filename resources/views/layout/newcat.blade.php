@@ -38,10 +38,10 @@
                         <div class="tags-item">
                             <h4>Tags</h4>
                             <div class="tag-links">
-                                <a href="#">hotel</a>
-                                <a href="#">theme</a>
-                                <a href="#">room</a>
-                                <a href="#">accommodation</a>
+                                <a href="/">hotel</a>
+                                <a href="https://w3layouts.com/">theme</a>
+                                <a href="/rooms">room</a>
+                                <a href="https://color.adobe.com/create/color-wheel">Color</a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,13 @@
                                     </div>
                                     <div class="blog-info">
                                         <img src="{{URL::asset('public/frontend/img/clock.png')}}" alt="">
-                                        <span>{{$showNews->date_post}}</span>
+                                        <span>
+                                            <?php
+                                            
+                                       $date= date_create($showNews->date_post);
+                                        echo date_format($date,"d/m/Y");
+                                        
+                                        ?></span>
                                     </div>
                                 </div>
                                 <?php

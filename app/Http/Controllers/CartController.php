@@ -11,6 +11,7 @@ class CartController extends Controller
     //
     function cart($id)
     {
+        
         $room=DB::table('room')->where('room_id',$id)->first();
         $user=null;
         if(Session::has('users_id')){
@@ -41,7 +42,7 @@ class CartController extends Controller
     {
         Session::put('datphong',1);
         
-
+      
         $at= new Carbon($request->dayat);
 
        $out = new Carbon($request->dayout);
@@ -50,7 +51,7 @@ class CartController extends Controller
 
         $oder=DB::table('order')->insertGetId([
             'users_id'=>$request->user_id,
-            'username'=>null,
+            'username'=>Session::get('name'),
             'status'=>1,
             'deposit'=>($request->price * $request->songay)*0.4,
             'cmnd'=>$request->cmnd,

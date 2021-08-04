@@ -52,7 +52,8 @@ $songay = $so/86400;
                     <p style="">Tổng tiền: <b id="sub-total">{{number_format($room_price*$songay,0)}} VND</b></p>      
                     <div>
                         <p style="color:red">Bạn phải thanh toán cho chúng tôi trước 40% số tiền để chúng tôi xác nhận bạn sẽ đặt. 
-                        Bạn cần chuyển cọc trong vòng 24 tiếng. Nếu quá 24 tiếng đơn phòng của bạn sẽ hủy.</p>
+                        Bạn cần chuyển cọc trong vòng 24 tiếng kể từ khi bạn xác nhận đặt.
+                        Nếu quá 24 tiếng đơn phòng của bạn sẽ hủy.</p>
                         <p>Số tiền cần phải cọc :
                             <?php
                                 $tien = $room_price * $songay;
@@ -98,11 +99,17 @@ $songay = $so/86400;
                     </div>
                     <div class="form-group">
                         <label for="address">Người lớn <span class="cRed" style="color:red;">(*)</span></label>
-                        <input  id="address"  type="text" class="form-control" name="adults" value="0">
+                        <div>
+                        <input  id="address"  type="number" class="form-control" name="adults" value="0" min="1">
+                        <!-- <p>
+                            <span class="js-increase">+</span>
+                            <span class="js-reduction">-</span>
+                        </p> -->
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="address">Trẻ em </label>
-                        <input  id="address"  type="text" class="form-control" name="children" value="0">
+                        <input  id="address"  type="number" class="form-control" name="children" value="0">
                     </div>
                     <div class="form-group">
                         <label for="address">Ngày đến <span class="cRed" style="color:red;">(*): </span></label>
@@ -126,6 +133,33 @@ $songay = $so/86400;
         </div>       
     </div>
 </form>
+<!-- <script>
+    jsReductionQty()
+    {
+        $('.js-reduction').click(function (event) {
+            let $this  = $(this);
+            let $input = $this.parent().prev();
+            let number = parseInt($input.val());
+            if (number <= 1) {
+                toast.warning("Số lượng sản phẩm phải >= 1");
+                return false;
+            }
+        })
+    },
 
+    jsIncreaseQty()
+    {
+        $('.js-increase').click(function (event) {
+            event.preventDefault();
+            let $this = $(this);
+            let $input = $this.parent().prev();
+            let number = parseInt($input.val());
+            if (number >= 10) {
+                toast.warning("Mỗi sản phẩm chỉ được mua tối đa số lượng 10 lần / 1 lần mua");
+                return false;
+            }
+        })
+    }
+</script> -->
 
 @endsection

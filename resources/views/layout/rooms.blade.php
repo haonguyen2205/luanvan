@@ -89,7 +89,7 @@
                             <div class="room-title">
                             <h2>{{$showRooms->room_name}}</h2>
                             <div class="room-price">
-                                <span>  Giá</span>
+                                <span>Giá</span>
                                 <h2>{{number_format($showRooms->room_price).' đ'}}</h2>
                                 <sub>/đêm</sub>
                             </div>

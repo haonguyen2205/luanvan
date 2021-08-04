@@ -8,61 +8,19 @@
                 <header class="panel-heading">
                     Chi tiết đơn đặt phòng
                 </header>
-                <div class="center">
-                    <button class="btn btn-primary"><a href="{{URL::to('back')}}" style="color:black;">Quay lại</a></button>
+                <div class="center" style="padding: 15px;">
+                    <button class="btn btn-primary"><a href="{{URL::to('back')}}" style="color:white;">Quay lại</a></button>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped b-t b-light" style="padding: 20px;">
-                        <!-- <thead>
-                            <tr>
-                                <td>Người đặt phòng</td>
-                                <td>Tên phòng</td>
-                                <td>Ngày đặt phòng : </td>
-                                <td>Số lượng người lớn</td>
-                                <td>Số lượng trẻ em</td>
-                                <td>Ngày nhận phòng</td>
-                                <td>Ngày trả phòng</td>
-                                <td>Số lượng phòng</td>
-                                <td>Giá</td>
-                                <td>Số tiền cọc trước</td>
-                                <td>Tổng tiền</td>
-                                <td>Tình trạng</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$user->name}}</td>
-                                <td>{{$room->room_name}}</td>
-                                <td>{{$order->created_at}}</td>
-                                <td>{{$order->adults}}</td>
-                                <td>{{$order->children}}</td>
-                                <td>{{$order->dayat}}</td>
-                                <td>{{$order->dayout}}</td>
-                                <td>{{$detail->room_qty}}</td>
-                                <td>{{number_format($room->room_price,0)}}VND</td>
-                                <td>{{number_format($order->deposit,0)}} VND</td>
-                                <td>{{number_format($order->total,0)}}VND</td>
-                                <td>
-                                    @if($order->status==1)
-                                    <a style="color:red" href="{{URL::to('uptt',$order->order_id)}}">Chờ xác nhận</a>
-                                    @endif
-                                        @if($order->status==2)
-                                        <a style="color:black" href="{{URL::to('uptt',$order->order_id)}}">Đã xác nhận</a>;
-                                    @endif
-                                        @if($order->status==3)
-                                        <a style="color:green" href="{{URL::to('uptt',$order->order_id)}}">Đã lấy phòng</a>;
-                                    @endif
-                                        @if($order->status==4)
-                                        <p style="color:blue">Hoàn thành</p>
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody> -->
-
-
+                       
                         <tr>
                                 <td><label for="exampleInputEmail1">Người đặt phòng</label></td>
                                 <td><span style="color: red;">{{$user->name}}</span></td>
+                        </tr>
+                        <tr>
+                                <td><label for="exampleInputEmail1">CMND/CCCD</label></td>
+                                <td><span style="color: red;">{{$order->CMND}}</span></td>
                         </tr>
                         <tr>
                             <td>   <label for="exampleInputFile">Tên phòng</label></td>
@@ -122,9 +80,12 @@
                         </tr>
                     </table>
                 </div>
-                <div class="center">
+                <div class="center" style="padding: 15px;">
                     @if($order->status == 3)
-                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:black">Thanh toán</a></button>
+                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:white">Thanh toán</a></button>
+                    @endif
+                    @if($order->status == 4)
+                        <button class="btn btn-primary"><a href="{{URL::to('thanhtoan' ,$order->order_id)}}" style="color:white">Xem đơn</a></button>
                     @endif
                 </div>
             </section>

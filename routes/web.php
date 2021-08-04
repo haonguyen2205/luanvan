@@ -63,7 +63,6 @@ Route::get('/add-uti', [UtilityController::class,'ShowPageAdd_uti']);
 
 Route::post('/add-uti-action', [UtilityController::class,'Add_uti']);
 
-// Route::get('/list-uti', [UtilityController::class,'list_uti']);
 Route::get('/list-uti', [UtilityController::class,'list_uti'])->name('list-uti.list_uti');
 
 route::Get('/list-block-uti',[UtilityController::class,'list_uti_block']);
@@ -115,11 +114,13 @@ route::get('/delete_room/{id}', [RoomController::class, 'deleteRoom']);
 
 Route::post('/search-room', [RoomController::class, 'search']);
 
-Route::get('cat-search','CategoryController@catsearch');
+route::get('/list-empty-room',[RoomController::class, 'list_empty_room']);
 
-Route::get('new-search','NewController@newsearch');
+route::post('/check-avalibility',[RoomController::class, 'check_avaliable']);
 
-route::get('/check-availability',[RoomController::class, 'checkRoom'])->name('checkRoom');
+Route::get('/order_room/{id}',[OrderController::class,'add_order_page']);
+
+Route::post('book-room', [RoomController::class, 'bookRoom'])->name('bookRoom');
 //ket thuc quan ly phong
 
 // quản lý nhân viên
@@ -148,7 +149,7 @@ route::get('/diemdanhra',[StaffController::class,'diemdanhra']);
 //đặt phòng// đơn đặt phòng
 //Route::get('/order_room',[OrderController::class,'add_order_page']);
 //Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
-Route::get('/order_room',[OrderController::class,'add_order_page']);
+
 Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
 Route::get('/admin/chitietorder/{id}','Admin\AdminDonHangController@chitiet');
 Route::get('/admin/chitietorder}','Admin\AdminDonHangController@chitiet');
@@ -189,6 +190,9 @@ Route::post('/add-cat-action', [CategoryController::class, 'addCatAction']);
 Route::get('/edit-cat/{id}', [CategoryController::class, 'editCat']);
 Route::post('/update-cat/{id}', [CategoryController::class, 'editCatAction']);
 route::get('/delete-cat/{id}', [CategoryController::class, 'deleteCatAction']);
+Route::get('cat-search','CategoryController@catsearch');
+
+Route::get('new-search','NewController@newsearch');
 //trang thông tin cua khach hang
 Route::get('/profile','CustomerController@show_page_profile');
 
@@ -200,12 +204,19 @@ route::post('/chance-pass',[CustomerController::class,'change_password']);
 
 route::post('/chance-info',[CustomerController::class,'change_info']);
 
+route::get('/profile/list-order',[CustomerController::class,'list_order']);
+
 Route::get('/list-users','CustomerController@list_cus'); // show trong admin
 
 route::get('delete-cus/{id}',[CustomerController::class,'delete_cus']);
 
 route::get('/list-users-block',[CustomerController::class,'list_cus_block']);
 
+
 //SEND MAIL
 route::get('/send-mail',[MailController::class,'send_mail']);
 
+
+//EXPORT
+Route::get('export-timekeep', 'ExportController@export_timekeep')->name('export-timekeep');
+Route::get('export-staff', 'ExportController@export_staff')->name('export-staff');

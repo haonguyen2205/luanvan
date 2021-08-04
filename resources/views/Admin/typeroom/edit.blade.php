@@ -20,40 +20,23 @@
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="exampleInputEmail1">Mã loại phòng</label>
-                            <input type="text" value="{{$edit_type->type_id}}" readonly class="form-control" id="exampleInputEmail1" name="typeName">
+                            <input type="text" value="{{$edit_type->type_id}}" readonly disabled class="form-control my-2"  name="typeName">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Tên loại</label>
-                            <input type="text" value="{{$edit_type->type_name}}" required class="form-control" id="exampleInputEmail1" name="typeName">
+                            <input type="text" value="{{$edit_type->type_name}}" required class="form-control my-2" name="typeName">
                         </div>
                         <span style="color: red;">{{$errors->first('typeName')}}</span>
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">số lượng phòng </label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" min="1" max="5" name="quality">
+                            <input type="number" class="form-control my-2" value="{{$edit_type->quality}}" min="1" max="12" name="quality">
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputFile">Trạng thái</label>
-                            <select name="typeStatus" class="form-control m-bot15">
-                                <option value="1">Hoạt động</option>
-                                <option value="0">Không hoạt động</option>
-                            </select>
+                            <label for="exampleInputEmail1">số người tối đa </label>
+                            <input type="number" class="form-control my-2" value="{{$edit_type->capacity}}" min="1" max="6" name="capacity">
                         </div>
-                        <span style="color: red;">{{$errors->first('typeStatus')}}</span>
-                        <!-- <div class="form-group">
-                                <label for="exampleInputEmail1">tiện ích :  </label></br>
-                                <label for="exampleInputEmail1"></label></br>
-                                @foreach ($utility as $key => $uti)
-                                    @if($edit_type->type_id ==$uti->type_id)
-                                    <input type="checkbox" ischecked="checked"  value="{{$uti->utility_id}}" name="tienich[]">
-                                    {{$uti->utility_name}}
-                                    @else
-                                    <input type="checkbox"  value="{{$uti->utility_id}}" name="tienich[]">
-                                    {{$uti->utility_name}}
-                                    @endif
-                                @endforeach
-                        </div> -->
 
                         <button type="submit" class="btn btn-info" name="updateType">Cập nhật</button>
                     </form>

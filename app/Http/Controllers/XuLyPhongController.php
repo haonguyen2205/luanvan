@@ -25,7 +25,6 @@ class XuLyPhongController extends Controller
 
         foreach($ngaytrong as $s)
         {
-
             $trongvl[]=DB::table('order')->where('dayat',$s)->where('order_status_id','<>',0)->first();
 
         }

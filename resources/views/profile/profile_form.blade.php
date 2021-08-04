@@ -7,15 +7,32 @@
                 CUSTOMER PROFILE
             </header>
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
-                
+
+                <div class=col-md-4>
+
                 @foreach($datacus as $key => $cus_info)
+                <h2 margin_left="30px"> thông tin tài khoản: </h2>
+                <table class="table" bordere="1">
+                        <tr>
+                            <td><label for="exampleInputEmail1">tên người dùng </label></td>
+                            <td><span >{{$cus_info->name}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>  <label for="exampleInputFile">số điện thoại </label></td>
+                            <td> <span >{{$cus_info->phone}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>  <label for="exampleInputEmail1">địa chỉ nhà </label></td>
+                            <td>  <span >{{$cus_info->address}}</span></td>
+                        </tr>
+                </table>
+                @endforeach
+                </div>
+
+
+
+                @foreach($datacus as $key => $cus_info)
+                <div class=col-md-6>
                     <div class="position-center">
                         <form class="form" action="{{URL::to('/chance-info')}}" method="post">
                                 @csrf
@@ -37,6 +54,7 @@
                             <button type="submit" class="btn btn-info" name="addType">Cập nhật</button>
                         </form>  
                     </div>
+                </div>
                 @endforeach
             </div>
         </section>

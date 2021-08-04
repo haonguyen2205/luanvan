@@ -48,18 +48,14 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">chức vụ </label>
-                            <select  class="mdb-select md-form" name="">
-                                <option value="1">lễ tân</option>
-                                <option value="2">kế toán</option>
-                                <option value="3">lao công</option>
-                                <option value="4">quản lý</option>
+                            <select  class="mdb-select md-form" name="chucvu">
+                                @foreach($chucvu as $key=>$cv)
+                                    <option value="{{$cv->postion_id}}">{{$cv->postion_name}}</option>
+                                @endforeach 
                             </select>
                         </div>
-
                         <button type="submit" class="btn btn-info" name="addType">Submit</button>
-                    </form>
-
-                    
+                    </form> 
                 </div>
             </div>
         </section>

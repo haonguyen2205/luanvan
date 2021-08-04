@@ -2,6 +2,11 @@
 @extends('admin_layout')
 
 @section('admin_content')
+<?php
+// $so = $endt->day - $start->day;
+// // $songay = $so/86400;
+// echo $so;
+?>
 <div class="row">
     <div class="col-lg-12">
         <section class="panel">
@@ -10,100 +15,35 @@
             </header>
            
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
-                        Session::put('msg',null);
-                    }
-                ?>
+
                 <div class="position-center">
+                    
                     <form role="form" action="{{URL::to('/add_order')}}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                        
+                        <input type="hidden" name="start_time" value="{{$start}}">
+                        <input type="hidden" name="end_time" value="{{$endt}}">
                         <div class="form-group">
                         <label for="exampleInputEmail1">người đặt phòng</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" name="name" required>
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="name" value="{{Session::Get('name_admin')}}" required>
                         </div>
                         <span style="color: red;">{{$errors->first('name')}}</span>
 
-                        <div class="form-group">
-                            <label for="exampleInputFile">loại phòng</label>
-                            <select name="type" class="form-control m-bot15 type_id" id="type_id" onchance>
-                            <option value="0" disabled="true" selected="true">-Select-</option>
-                            @foreach($type_room as $key => $type)
-                                <option value="{{$type->type_id}}">{{$type->type_name}}</option>
-                            @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputFile">tên phòng</label>
-                            
-                            <select name="type" class="room_name form-control" id="room_name">
-                                <option value="0" disabled="true" selected="true">choose name</option>
-                            </select>
-                        </div>
                         <span style="color: red;">{{$errors->first('name')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">ngày đặt phòng : </label>
-                            <input  type="date" class="form-control" id="exampleInputEmail1" name="day_order" required>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="exampleInputEmail1">Adults</label>
+                                <input type="number" class="form-control" min="1" max="2" id="exampleInputEmail1" name="adults" required>
+                            </div> 
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <label for="exampleInputEmail1">Kids</label>
+                                <input type="number" class="form-control" id="exampleInputEmail1" min="0" max="2" name="children" required>
+                            </div> 
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">số lượng người lớn</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="adults" required>
-                        </div> 
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">số lượng trẻ em</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="children" required>
-                        </div> 
-
-                        <span style="color: red;">{{$errors->first('name')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">ngày nhận phòng</label>
-                            <input type="date" class="form-control" id="exampleInputEmail1" name="dayat" required>
-                        </div>
-                        <span style="color: red;">{{$errors->first('name')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">ngày trả phòng</label>
-                            <input type="date" class="form-control" id="exampleInputEmail1" name="dayout" required>
-                        </div>
-                        <span style="color: red;">{{$errors->first('name')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">số lượng phòng</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="room_qty" required>
-                        </div> 
-                        <span style="color: red;">{{$errors->first('quality')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Giá</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="price" required> 
-                        </div>
-                        <span style="color: red;">{{$errors->first('price')}}</span>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">tổng tiền</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="price" required> 
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">sô tiền cần cọc</label>
-                            <input type="number" class="form-control" id="exampleInputEmail1" name="price" required> 
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Tình trạng</label>
-                            <select name="status" class="form-control m-bot15">
-                                <option value="1">chờ xác nhận</option>
-                                <option value="0">đã xác nhận</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-info" name="addorder">Submit</button>
-                    </form>
+                        <label for="exampleInputEmail1">Căn cước công dân</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" min="10" max="12" name="CMND" required>
+                        <label for="exampleInputEmail1">tổng tiền</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" min="10" max="12" name="CMND" required>
 
                 </div>
             </div>

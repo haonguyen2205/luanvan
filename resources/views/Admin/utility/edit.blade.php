@@ -22,6 +22,11 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="exampleInputEmail1">giá tiện ích</label>
+                                <input type="number" value="{{$uti->utility_price}}" min="10000" max="30000000" class="form-control" id="exampleInputEmail1" name="uti_price">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">ảnh tiện ích</label>
                                 <input type="file" value="" class="form-control" accept="image/*"  name="uti_image">
                                 <img src="{{URL::to('/public/upload/utility/'.$uti->utility_image)}}" height="100" weight="100"/>

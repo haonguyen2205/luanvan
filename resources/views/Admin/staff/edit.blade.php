@@ -7,13 +7,6 @@
                     CẬP NHẬT THÔNG TIN NHÂN VIÊN
             </header>
             <div class="panel-body">
-                <?php
-                    $msg = Session::get('msg');
-                    if($msg) {
-                        echo "<h3 style='color:red; padding-left:500px;'>".$msg."</h3>";
-                        Session::put('msg',null);
-                    }
-                ?>
 
                 <!-- nhập thong tin chinh sua -->
                 <div class="position-center">

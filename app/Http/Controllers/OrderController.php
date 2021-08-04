@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 use App\Models\type; 
 use App\Models\room;
@@ -17,12 +18,16 @@ use App\Models\order;
 class OrderController extends Controller
 {
     //
-    function add_order_page(request $request)
+    function add_order_page(request $request,$id)
     {
-        $type=type::orderBy('type_id', 'asc')->get();
+
+           $start= $request->input('start_time');
+           $endt= $request->input('end_time');
+
+        $room=room::where('room_id',$id)->first();
         //$room=room::orderBy('type_id','desc')->where('type_id',$type_name)->get();
 
-        return view("admin.order.add_order")->with('type_room',$type);
+        return view("admin.order.add_order",compact('start','endt'))->with('room',$room);
     }
 
     public function findroomName(Request $request)

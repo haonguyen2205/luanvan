@@ -9,21 +9,22 @@
     <ul class="nav nav-tabs">
               <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
               <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
+              <li><a href="{{URL::to('/list-empty-room')}}" ><span class="glyphicon glyphicon-bed"></span> tìm phòng rỗng</a></li>
           </ul>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-           <a href="{{URL::to('/add-room')}}" class="btn btn-info fa fa-plus"> thêm phòng</a>       
+           <a href="{{URL::to('/add-room')}}" class="btn btn-info "><i class="fa fa-plus"></i> Thêm phòng</a>       
         </div>
         <div class="col-sm-4">
           
         </div>
           <div class="col-sm-3">
             <div class="input-group">
-              <form action="{{URL::to('/search-room')}}" method="post">
-              {{ csrf_field() }}
-                <input type="text" class="input-sm form-control" name="keyword" placeholder="Search">
+              <form action="{{URL::to('/list-room')}}" method="get">
+              {{ csrf_field() }} Search :
+                <input type="text" class="input-sm fa fa-search" name="keyword" placeholder="Search">
                 <span class="input-group-btn">
-                  <button class="btn btn-sm btn-default" value="submit" type="button">Go!</button>
+                  
                 </span>
               </form>
             </div>
@@ -57,7 +58,7 @@
                 </td>
                 <td> Loại : {{$value->type_name}} </td>
 
-                <td> {{number_format($value->room_price).' đ /night'}} </td>
+                <td> {{number_format($value->room_price).' đ/ngày'}} </td>
                  <td><span class="text-ellipsis">
                   <?php
                     if($value->room_status==0) {
@@ -133,7 +134,7 @@
 
   @if(Session::has('mes_update_fail'))
     <script type="text/javascript" >
-      swal("oh Failed!","{{Session::Get('mes_update_fail')}}","error",{
+      swal("Thông báo!","{{Session::Get('mes_update_fail')}}","error",{
         button:"OK",
       });
       <?php

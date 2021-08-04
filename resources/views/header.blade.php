@@ -15,7 +15,6 @@
                                         <li><a href="{{URL::to('/rooms')}}">Rooms</a></li>
                                         <li><a href="{{URL::to('/news')}}">News</a></li>
                                         <li><a href="{{URL::to('/contact')}}">Contact</a></li>
-                                        <li><a href="{{URL::to('#')}}">Room Order</a></li>
                                 </ul>
                             </nav>
 

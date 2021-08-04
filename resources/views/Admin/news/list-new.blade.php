@@ -12,7 +12,7 @@
                     <form action="{{URL::to('new-search')}}" method="get">
                         @csrf
                         <div class="btn">
-                            <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">
+                            <input type="text" class="input-sm fa fa-search" name="search" placeholder="Nhập tên khách hàng">
                             <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
                             <a href="{{URL::to('/add-new')}}" class="btn btn-primary">Thêm tin tức</a>
                         </div>

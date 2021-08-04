@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Session;
     <header class="header fixed-top clearfix">
         <!--logo start-->
         <div class="brand">
-            <a href="index.html" class="logo"> CUSTOMER</a>
+            <a href="#" class="logo"> CUSTOMER</a>
             <div class="sidebar-toggle-box">
                 <div class="fa fa-bars"></div>
             </div>
@@ -95,7 +95,7 @@ use Illuminate\Support\Facades\Session;
                             <span> Đơn đặt </span>
                         </a>
                         <ul class="sub">
-                                <li><a href="#">Danh sách đơn đặt</a></li>
+                                <li><a href="{{URL::to('/profile/list-order')}}">Danh sách đơn đặt</a></li>
                             </ul>
                     </li>
                 </ul>

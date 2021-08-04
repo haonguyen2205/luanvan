@@ -8,33 +8,29 @@
       </div>
       <div>
           <ul class="nav nav-tabs">
-              <li><a href="{{URL::to('/list-staff')}}" > <span class="glyphicon glyphicon-bed"></span> DS Nhân Viên </a></li>
-              <li><a href="{{URL::to('/list_staff/list-staff-block')}}"><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
+              <li><a href="{{URL::to('/list_staff')}}" > <span class="glyphicon glyphicon-user"></span> DS Nhân Viên </a></li>
+              <li><a href="{{URL::to('/list_staff/list-staff-block')}}"><span class="glyphicon glyphicon-user"></span> DS NV khóa</a></li>
           </ul>
         </div>
       <div class="row w3-res-tb">
         <div class="col-sm-4 m-b-xs">
-            <!-- <select class="input-sm form-control w-sm inline v-middle">
-              <option value="0">Bulk action</option>
-              <option value="1">Delete selected</option>
-              <option value="2">Bulk edit</option>
-              <option value="3">Export</option>
-            </select>
-            <button class="btn btn-sm btn-default">Apply</button>                 -->
+              <a href="{{URL::to('/page_add_staff')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm nhân viên</a> 
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-sm-4">
+
         </div>
 
         <!-- thanh search -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="input-group">
             <form action="{{URL::to('/list_staff')}}"  >
             {{ csrf_field() }}  
-                <input type="text" class="input-sm form-control" name="search_staff" placeholder="Search">
-                <span class="input-group-btn">             
+            <span>Search</span>
+                <input type="text" class="input-sm fa fa-search" name="search_staff" placeholder="Search">
+                <!-- <span class="input-group-btn">             
                   <button class="btn btn-sm btn-default" type="button">Go!</button>
-                </span>
+                </span> -->
             </form>
           </div>
         </div>
@@ -49,6 +45,7 @@
               <th style="width:20px;"></th>
               <th>tên nhân viên</th>
               <Th>avatar</th>
+              <Th>chức vụ</th>
               <th>email</th>
               <th>số điện thoại</th>
               <th>địa chỉ nhà</th>
@@ -66,6 +63,7 @@
                       <img src="public/upload/staff/{{$staff->users_image}}" height="100"; width="100";>
                     </div>
                 </td>
+                <td> {{$staff->postion_name}} </td>
                 <td> {{$staff->email}} </td>
                 <td> {{$staff->phone}} </td>
                 <td> {{$staff->address}} </td>

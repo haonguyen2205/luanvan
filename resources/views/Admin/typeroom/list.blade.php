@@ -4,36 +4,39 @@
 
 <div class="table-agile-info">
     <div class="panel panel-default">
+     
+      <div class="panel-heading">
+        Danh sách loại phòng
+      </div>
       <ul class="nav nav-tabs">
           <li><a href="{{URL::to('/list-type')}}"> <span class="glyphicon glyphicon-bed"></span> DS loại phòng </a></li>
           <li><a href="{{URL::to('/list-type-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
       </ul>
-      <div class="panel-heading">
-        Danh sách loại phòng
-      </div>
       <div class="row w3-res-tb">
-        <div class="col-sm-5 m-b-xs">
-          <a href="{{URL::to('/add-type')}}" class="btn btn-info">thêm loại phòng</a>              
-        </div>
+        <div class="col-sm-0"></div>
+
         <div class="col-sm-4">
-          
+          <a href="{{URL::to('/add-type')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm loại phòng</span> </a>              
         </div>
         <div class="col-sm-3">
-          <div class="input-group">
+          
+        </div>
+        <div class="col-sm-4">
+        <div class="input-group">
             <form action="{{URL::to('/list-type')}}"  method="get">
-              <input type="text" class="input-sm form-control" name="search_type" placeholder="Search">
-              <span class="input-group-btn">
+            <span>Search</span>
+              <input type="text" class="input-sm  fa fa-search" name="search_type" placeholder="Search">
+              <!-- <span class="input-group-btn">
                 <button class="btn btn-sm btn-default" name="btn_type" type="button">Search!</button>
-              </span>
+              </span> -->
             </form>
           </div>
-          
         </div>
       </div>
 
       <!-- // show dữ liệu -->
-      <div class="table-responsive">
-        <table class="table table-striped b-t b-light">
+      <div class="table-responsive" >
+        <table class="table table-striped b-t b-light" >
           <thead>
             <tr>
               <th style="width:20px;"></th>
@@ -52,7 +55,7 @@
               <td><label class="i-checks m-b-none"><i></i></label></td>
                 <td> {{$type->type_id}} </td>
                 <td> {{$type->type_name}} </td>
-                <td> {{$type->quality}} </td>
+                <td> {{$type->quality}} phòng </td>
                 <td> {{$type->capacity}} người </td>
                 <td><span class="text-ellipsis">
                     <?php
@@ -141,7 +144,7 @@
 
 @if(Session::has('mes_update'))
   <script type="text/javascript" >
-    swal("Báo cáo đọi trưởng!","{{Session::Get('mes_update')}}","success",{
+    swal("Thông báo!","{{Session::Get('mes_update')}}","success",{
       button:"OK",
     });
   </script> 

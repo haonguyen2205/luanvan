@@ -4,15 +4,15 @@
 <div class="table-agile-info">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Danh sách tài khoản,thông tin khách hàng
+        Danh sách tài khoản,thông tin khách hàng  
       </div>
           <ul class="nav nav-tabs">
-              <li><a href="{{URL::to('/list-users')}}" > <span class="glyphicon glyphicon-bed"></span> Đang hoạt dộng </a></li>
-              <li><a href="{{URL::to('/list-users-block')}}"><span class="glyphicon glyphicon-bed"></span> tài khoản khóa(KH) </a></li>
+              <li><a href="{{URL::to('/list-users')}}" > <span class="fa fa-user"></span> Đang hoạt dộng </a></li>
+              <li><a href="{{URL::to('/list-users-block')}}"><i class="glyphicon glyphicon-user"></i> tài khoản khóa(KH) </a></li>
           </ul>  
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-          <a href="{{URL::to('/showregister')}}" class="btn btn-info fa fa-plus"> tạo tài khoản</a>                         
+          <a href="{{URL::to('/showregister')}}" class="btn btn-info"> <span class=" fa fa-plus"></span> tạo tài khoản</a>                         
         </div>
         <div class="col-sm-4">
           
@@ -20,10 +20,9 @@
         <div class="col-sm-3">
           <div class="input-group">
           <form action="{{URL::to('/list-users')}}" >
-            <input type="text" class="input-sm form-control find" name="search_cus">
-            <span class="input-group-btn">
-              <button class="btn btn-sm btn-default" type="search_cus">Go!</button>
-            </span>
+          <span class="">Search</span>
+            <input type="text" class="input-sm fa fa-search find" name="search_cus">
+            
           </form>
           </div>
           
@@ -72,4 +71,15 @@
       </footer>
     </div>
           </div>
+          
+@if(Session::has('dlt-success'))
+  <script type="text/javascript" >
+    swal("thông báo!","{{Session::Get('dlt-success')}}","warning",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('dlt-success',null);
+  ?>
+@endif
 @endsection

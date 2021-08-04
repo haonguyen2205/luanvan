@@ -29,32 +29,36 @@
 	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/style.css')}}" type="text/css">
 	<link rel="stylesheet" href="{{URL::asset('public/frontend/css/style1.css')}}" type="text/css">
 
-<style>
-	.header-left-bottom input[type="email"] {
-    outline: none;
-    font-size: 15px;
-    font-weight: 400;
-    color: #ececec;
-    padding: 12px 13px 20px 11px;
-    border: none;
-    width: 80%;
-    display: inline-block;
-    background: transparent;
-    font-family: 'CinzelDecorative-Regular';
-}
-.header-left-bottom input[type="password"] {
-    outline: none;
-    font-size: 15px;
-    font-weight: 400;
-    color: #ececec;
-    border: none;
-    padding: 12px 13px 20px 20px;
-    width: 80%;
-    display: inline-block;
-    background: transparent;
-    font-family: 'CinzelDecorative-Regular';
-}
-</style>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script> 
+
+	<style>
+		.header-left-bottom input[type="email"] {
+		outline: none;
+		font-size: 15px;
+		font-weight: 400;
+		color: #ececec;
+		padding: 12px 13px 20px 11px;
+		border: none;
+		width: 80%;
+		display: inline-block;
+		background: transparent;
+		font-family: 'CinzelDecorative-Regular';
+	}
+	.header-left-bottom input[type="password"] {
+		outline: none;
+		font-size: 15px;
+		font-weight: 400;
+		color: #ececec;
+		border: none;
+		padding: 12px 13px 20px 20px;
+		width: 80%;
+		display: inline-block;
+		background: transparent;
+		font-family: 'CinzelDecorative-Regular';
+	}
+	</style>
 </head>
 <body>
 <script src="{{URL::asset('public/register/js/jquery.vide.min.js')}}"></script>
@@ -132,3 +136,27 @@
 <script src="{{URL::asset('public/frontend/js/main.js')}}"></script>
 </body>
 </html>
+
+@if(Session::has('email_uni'))
+  <script type="text/javascript" >
+    swal("thông báo!","{{Session::Get('email_uni')}}","warning",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('email_uni',null);
+  ?>
+@endif
+
+
+
+@if(Session::has('pass_uni'))
+  <script type="text/javascript" >
+    swal("thông báo!","{{Session::Get('pass_uni')}}","error",{
+      button:"OK",
+    });
+  </script> 
+  <?php
+    session::put('pass_uni',null);
+  ?>
+@endif

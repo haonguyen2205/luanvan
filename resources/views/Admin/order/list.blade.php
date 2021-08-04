@@ -19,7 +19,7 @@
                                 <option value="4" <?php if($sttse == 4)echo "selected"; ?>>Hoàn thành</option>
                                 </select>
                         <div class="btn">
-                           
+
                             <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">
                             <button type="submit"  class="btn btn-primary" value="Tìm kiếm"><i class="fas fa-search"></i> TÌM KIẾM</button>
                         </div>

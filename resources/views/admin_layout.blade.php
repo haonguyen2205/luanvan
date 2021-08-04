@@ -182,6 +182,12 @@ use Illuminate\Support\Facades\Session;
                             <ul class="sub">
                                 <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
                                 <li><a href="{{URL::to('ds-xoa')}}">Đơn hàng đã xoá</a></li>
+                                <li><a href="{{URL::to('ds-huy')}}">Đơn hàng đã huỷ</a></li>
+                                <li><a href="{{URL::to('ds-cho')}}">Đơn hàng chờ xác nhận</a></li>
+                                <li><a href="{{URL::to('ds-da')}}">Đơn hàng đã xác nhận</a></li>
+                                <li><a href="{{URL::to('ds-lay')}}">Đơn hàng đã lấy phòng</a></li>
+                                <li><a href="{{URL::to('ds-done')}}">Đơn hàng đã hoàn tất</a></li>
+
 
                             </ul>
                         </li>

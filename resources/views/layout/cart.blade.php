@@ -95,7 +95,7 @@ $songay = $so/86400;
                     </div>
                     <div class="form-group">
                         <label for="address">CMND/CCCD <span class="cRed" style="color:red;">(*)</span></label>
-                        <input  id="address" required="" type="text" class="form-control" name="cmnd">
+                        <input  id="address" required="" type="text" class="form-control" name="cmnd" maxlength="9">
                     </div>
                     <div class="form-group">
                         <label for="address">Người lớn <span class="cRed" style="color:red;">(*)</span></label>

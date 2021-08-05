@@ -92,9 +92,12 @@ $songay = $so/86400;
                     <div class="form-group">
                         <label for="phone">Điện thoại <span class="cRed" style="color:red;">(*)</span></label>
                         <input  id="phone"  value="{{$user->phone}}" type="text" class="form-control" >
+                    </div> <div class="form-group">
+                        <label for="address">Họ tên người nhận</label> <span class="cRed" style="color:red;">(*)</span></label>
+                        <input  id="address" required="" type="text" class="form-control" name="hoten" maxlength="50">
                     </div>
                     <div class="form-group">
-                        <label for="address">CMND/CCCD <span class="cRed" style="color:red;">(*)</span></label>
+                        <label for="address">CMND/CCCD Người nhận <span class="cRed" style="color:red;">(*)</span></label>
                         <input  id="address" required="" type="text" class="form-control" name="cmnd" maxlength="9">
                     </div>
                     <div class="form-group">

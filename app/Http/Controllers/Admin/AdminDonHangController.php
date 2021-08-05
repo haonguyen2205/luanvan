@@ -27,6 +27,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -68,6 +69,7 @@ class AdminDonHangController extends Controller
         ]);
     }
     function thanhtoan($id){
+        
         $order= DB::table('order')->where('order_id',$id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();
@@ -76,18 +78,30 @@ class AdminDonHangController extends Controller
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
         $u=DB::table('service_detail')->where('order_id',$order->order_id)->get();
-
+        $ul=DB::table('utility')->get();
         $tiendichvu =0;
         foreach($ser as $s){
             foreach($u as $k){
                 if($k->service_id == $s->service_id){
             $tiendichvu = $tiendichvu + $k->quantity*$s->service_price;}
         }}
+        $tiendenbu=0;
+        
+        $denbu= DB::table('o_u')->where('order_id',$id)->get();
+        foreach($denbu as $d){
+            foreach($ul as $u){
+                if($u->utility_id == $d->u_id){
+                    $tiendenbu = $tiendenbu + $u->utility_price;
+                }
+            
+            
+        }}
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
   
             $viewData=[
             'hoadon' =>$id,
             'tenkhachhang'=>$user->name,
+            'hoten'=>$order->hoten,
             'cmnd' =>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
@@ -99,22 +113,26 @@ class AdminDonHangController extends Controller
             'tiendichvu' =>$tiendichvu,
             'service'=>$ser,
             'dichvu'=>$i,
-            'status'=>$order->status
+            'status'=>$order->status,
+            'ul'=>$ul,
+            'tiendenbu'=>$tiendenbu,
+            'denbu'=>$denbu
         ];
         return view('Admin.order.thanhtoan',$viewData);
     }
     function capnhat(Request $request){
-      
+        
         $order= DB::table('order')->where('order_id',$request->id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();
         $so = strtotime($order->dayout) - strtotime($order->dayat);
-        $songay = $so/86400 + 1;
+        $songay = $so/86400 ;
+        
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
         $tiendichvu =0;
         $id=DB::table('service_detail')->where('order_id',$order->order_id)->first();
-        
+        $ul=DB::table('utility')->get();
         foreach($ser as $s){
             $a=$s->name;
             $tiendichvu = $tiendichvu+ $request->$a*$s->service_price;
@@ -135,11 +153,38 @@ class AdminDonHangController extends Controller
                 ]);
             }
         }
-       
+        $tiendenbu=0;
+      
+        
+        foreach($ul as $s){
+            $name=$s->utility_id;
+            if($request->$name){
+                DB::table('o_u')->insert([
+                    'order_id'=>$request->id,
+                    'u_id'=>$request->$name                
+                ]);
+            }
+        }
+        if($request->phuthu){
+            $order->total = $order->total + $order->total*0.3;
+            DB::table('order')->where('order_id',$request->id)->update([
+                'total'=>$order->total
+            ]);
+        }
+        $denbu= DB::table('o_u')->where('order_id',$request->id)->get();
+    
+        foreach($denbu as $k){
+            foreach($ul as $u){
+                if($u->utility_id == $k->u_id){
+                    $tiendenbu=$tiendenbu + $u->utility_price;
+                }
+            }
+        }
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
         $viewData=[
             'hoadon' =>$request->id,
             'tenkhachhang'=>$user->name,
+            'hoten'=>$order->hoten,
             'cmnd'=>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
@@ -151,7 +196,9 @@ class AdminDonHangController extends Controller
             'tiendichvu'=>$tiendichvu,
             'tongtien' =>$order->total , 
             'dichvu'=>$i,
-            'status'=>$order->status
+            'status'=>$order->status,
+            'ul'=>$ul,
+            'tiendenbu' =>$tiendenbu
         ];
        
         return view('Admin.order.thanhtoan',$viewData);
@@ -191,6 +238,7 @@ class AdminDonHangController extends Controller
               $ds[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -227,6 +275,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -267,6 +316,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -301,6 +351,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -335,6 +386,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -369,6 +421,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -403,6 +456,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,

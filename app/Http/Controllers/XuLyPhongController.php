@@ -9,10 +9,30 @@ class XuLyPhongController extends Controller
 {
     function index(Request $request){
         $timein=Carbon::create($request->dayat);
+        $now= Carbon::now('Asia/Ho_Chi_Minh')->toDateString(); 
+        if($timein->toDateString() < $now) return redirect('rooms');
         $timeout=Carbon::create($request->dayout);
-        if($timeout<$timein)
-            return redirect('rooms');
-        
+        if($timeout<$timein) return redirect('rooms');
+        $timein=$timein->year."-".$timein->month."-".$timein->day;
+        $timeout=$timeout->year."-".$timeout->month."-".$timeout->day;
+        $t=DB::table('order')->where('dayout','>=',$timein)->where('dayat','<=',$timeout)->where([['status','<>',4],['status','<>',-1],['status','<>',0]])->get();
+    
+
+        $r=DB::table('room')->get();
+        $viewData=[
+            'room'=>$r,
+            'order'=>$t,
+            'dayat'=>$timein,
+            'dayout'=>$timeout
+        ];
+       
+        return view('layout.ro',$viewData);
+
+
+
+
+
+
         $ngaytrong = array();
         do{
             $ngaytrong[]=
@@ -20,14 +40,17 @@ class XuLyPhongController extends Controller
             ;
             $timein->addDay();
         }while($timein->day!=$timeout->day);
+        
+        
         $ngaytrong[]=$timein->year."-".$timein->month."-".$timein->day;
         $trongvl=array();
+       
+        //foreach($ngaytrong as $s)
+        //{
+          //$trongvl[]=DB::table('order')->where('dayout','>=',$s)->orWhere('dayat',$s)->where('order_status_id','<>',0)->first();
 
-        foreach($ngaytrong as $s)
-        {
-            $trongvl[]=DB::table('order')->where('dayat',$s)->where('order_status_id','<>',0)->first();
-
-        }
+        //}
+        
     $idoder=array();
     foreach($trongvl as $vl){
         if($vl!=null){
@@ -125,7 +148,7 @@ for( $i = 0 ; $i < count($roomkhac);$i++){
     }}
 }
 
-
+    
     $viewData=[
         'result'=>$check,
         'dsngay'=>$ngaytrong,

@@ -13,6 +13,7 @@
                     <tr>
                         <th>Số hoá đơn</th>
                         <th>Tên khách hàng</th>
+                        <th>Họ tênn người nhận</th>
                         <th>CMND/CCCD</th>
                         <th>Phòng</th>
                         <th>Giá tiền</th>
@@ -26,6 +27,7 @@
                     <tr>
                         <td>{{$hoadon}}</td>
                         <td>{{$tenkhachhang}}</td>
+                        <td>{{$hoten}}</td>
                         <td>{{$cmnd}}</td>
                         <td>{{$phong}}</td>
                         <td>{{number_format($price,0) }} VND</td>
@@ -44,7 +46,6 @@
                         @csrf            
                         <div>            
                             <h2>Bạn đã sử dụng thêm dịch vụ:</h2>
-</br>
                         </div>
                             <table class="table table-striped b-t b-light" style="border-top: double; width: 600px;">
                                 <thead>
@@ -61,6 +62,7 @@
                                 {
                                     foreach($service as $ser)
                                     {
+                                        // chưa sử dụng trong khi thuê
                                         echo "<tbody>";
                                         echo "<tr>";
                                         echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
@@ -77,7 +79,8 @@
                                         foreach($dichvu as $d)
                                         {
                                             if($ser->service_id == $d->service_id)
-                                            {
+                                            {   
+                                                // Có sử dụng dịch vụ trong khi thuê
                                                 echo "<tbody>";
                                                 echo "<tr>";
                                                 echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
@@ -111,8 +114,38 @@
                             }
                             echo "</table>";
                         ?>
+
+                        <!-- BẢNG THANH TOÁN TIỀN ĐỀN BÙ HƯ HẠI TIỆN ÍCH -->
+                        <h2>Các khoản đền bù do khách hàng gây ra</h2>
+                        <span class="cRed" style="color:red;">(Nếu khách hàng gây thiệt hại về tải sản)</span>
+                        <div class="container">
+                        <table class="table table-striped b-t b-light">
+                            <thead>
+                                <tr>                             
+                                    <th style="text-align: center; width: 45%;">Tên tiện ích</th>
+                                    <th style="text-align: center; width: 45%;">Giá</th>
+                                    <th style="text-align: center; width: 10%;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($ul as $u)
+                                <tr>                             
+                                    <td style="text-align: center; width: 45%;">{{$u->utility_name}}</td>
+                                    <td style="text-align: center; width: 45%;">{{number_format($u->utility_price,0)}} VNĐ</td>
+                                    <th style="text-align: left; width: 10%;"><input type="checkbox" name="{{$u->utility_id}}" value="{{$u->utility_id}}" <?php if(isset($denbu)){ foreach($denbu as $d){ if($u->utility_id == $d->u_id) echo "checked disabled";}} ?> style="border: 4px; height: 17px; width: 17px;"></th>
+                                </tr>
+                               @endforeach
+                            </tbody>
+                        </table>
+                        </div>
+
+
                         <input type="hidden" name="tongtien" value="{{$tongtien}}"><br>
                         <input type="hidden" name="id" value="{{$hoadon}}">
+                        <div  class="form-check">
+                        <h4><input type="checkbox" class="form-check-input" name="phuthu" value="ok" style="height: 15px; width: 15px;"> Phụ thu cuối tuần hoặc  ngày lễ</h4>
+                        <span style="color: red;">(Nhân viên cần kiểm tra lại trước khi chọn)</span>
+                        </div>
                         @if($status==3)         
                         <div class="center">
                             <input type="submit" value="Cập nhật" class="btn btn-primary" style="width: 80px;">
@@ -121,13 +154,15 @@
                     </form>
                 </div>
                 <h2 style="padding: 5px; color: red;">Tổng cộng: {{number_format($tongtien,0)}} VNĐ</h2>
+                <h2 style="padding: 5px; color: red;">Tổng tiền đền bù: <?php if(isset($tiendenbu)) echo number_format($tiendenbu,0)." VNĐ";  ?></h2> <!-- TỔNG TIỀN ĐỀN BÙ -->
                 <h2 style="padding: 5px; color: green;">Cọc trước: {{number_format($tiencoc,0)}} VNĐ</h2>
                 @if($status ==3)
-                <h2 style="padding: 5px;color: red;">Tiền cần thanh toán: {{number_format($tongtien - $tiencoc + $tiendichvu ,0)}} VND</h2>
+                <h2 style="padding: 5px;color: red;">Tiền cần thanh toán: {{number_format($tongtien - $tiencoc + $tiendichvu + $tiendenbu ,0)}} VND</h2>
                 @endif
                 <form action="{{URL::to('checkout')}}" method="post" style="padding: 5px;">
                     @csrf
                     <input type="hidden" name="total" value="{{$tongtien + $tiendichvu}}">
+                   
                     <input type="hidden" name="id" value="{{$hoadon}}">
                     @if($status==3)  
                     <div class="center">

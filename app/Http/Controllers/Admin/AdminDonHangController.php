@@ -97,7 +97,10 @@ class AdminDonHangController extends Controller
             
         }}
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
-  
+        $cuoituan = $order->cuoituan;
+        $ngayle=$order->ngayle;
+        $soct=0;
+        $sonl =0;
             $viewData=[
             'hoadon' =>$id,
             'tenkhachhang'=>$user->name,
@@ -116,7 +119,11 @@ class AdminDonHangController extends Controller
             'status'=>$order->status,
             'ul'=>$ul,
             'tiendenbu'=>$tiendenbu,
-            'denbu'=>$denbu
+            'denbu'=>$denbu,
+            'cuoituan'=>$cuoituan,
+            'ngayle'=>$ngayle,
+            'sonl'=>$sonl,
+            'soct'=>$soct
         ];
         return view('Admin.order.thanhtoan',$viewData);
     }
@@ -165,12 +172,50 @@ class AdminDonHangController extends Controller
                 ]);
             }
         }
-        if($request->phuthu){
-            $order->total = $order->total + $order->total*0.3;
+
+        $cuoituan =0;
+        $ngayle =0;
+        $sonl=0;
+        $soct=0;
+        if($request->cuoituan && $request->ngayle){
+            $cuoituan = ($room->room_price * 0.2)*$request->cuoituan;
+            $ngayle = ($room->room_price *0.3)*$request->ngayle;
+            $sonl=$request->ngayle;
+            $soct=$request->cuoituan;
             DB::table('order')->where('order_id',$request->id)->update([
-                'total'=>$order->total
+                'cuoituan'=>$cuoituan,
+                'ngayle'=>$ngayle
             ]);
         }
+        if($request->cuoituan){
+            $cuoituan = ($room->room_price * 0.2)*$request->cuoituan;
+           
+            $soct=$request->cuoituan;
+            DB::table('order')->where('order_id',$request->id)->update([
+                'cuoituan'=>$cuoituan,
+               
+            ]);
+        }
+        if( $request->ngayle){
+           
+            $ngayle = ($room->room_price *0.3)*$request->ngayle;
+            $sonl=$request->ngayle;
+           
+            DB::table('order')->where('order_id',$request->id)->update([
+                
+                'ngayle'=>$ngayle
+            ]);
+        }
+
+        // if($request->phuthule){
+        //     $order->total = $order->total + $order->total*0.3;
+        //     DB::table('order')->where('order_id',$request->id)->update([
+        //         'total'=>$order->total
+        //     ]);
+        // }
+
+
+
         $denbu= DB::table('o_u')->where('order_id',$request->id)->get();
     
         foreach($denbu as $k){
@@ -180,6 +225,7 @@ class AdminDonHangController extends Controller
                 }
             }
         }
+        
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
         $viewData=[
             'hoadon' =>$request->id,
@@ -198,7 +244,11 @@ class AdminDonHangController extends Controller
             'dichvu'=>$i,
             'status'=>$order->status,
             'ul'=>$ul,
-            'tiendenbu' =>$tiendenbu
+            'tiendenbu' =>$tiendenbu,
+            'cuoituan'=>$cuoituan,
+            'ngayle'=>$ngayle,
+            'sonl'=>$sonl,
+            'soct'=>$soct
         ];
        
         return view('Admin.order.thanhtoan',$viewData);

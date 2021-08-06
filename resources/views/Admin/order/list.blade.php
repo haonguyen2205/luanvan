@@ -2,7 +2,7 @@
 @section('admin_content')
 <div class="table-align-info">
     <div class="panel panel-default">
-        <div class="panel-heading"> DANH SÁCH ĐƠN HÀNG </div>
+        <div class="panel-heading"> DANH SÁCH ĐƠN PHÒNG </div>
         <div class="row w3-res-tb">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">

@@ -63,6 +63,8 @@ class CartController extends Controller
             'room_id'=>$request->room_id,
             'total'=>$request->price*$request->songay,
             'order_status_id'=>1,
+            'cuoituan'=>0,
+            'ngayle'=>0,
             'created_at'=>Carbon::now(),
         ]);
 

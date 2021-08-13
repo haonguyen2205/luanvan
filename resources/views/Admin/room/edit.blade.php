@@ -47,7 +47,7 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Giá</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="price"
+                                <input type="number" class="form-control" id="exampleInputEmail1" name="price"
                                 value="{{$valueRoom->room_price}}">
                             </div>
                             <!-- <div class="form-group">

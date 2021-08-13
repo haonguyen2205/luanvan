@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class room extends Model
 {
@@ -23,5 +24,11 @@ class room extends Model
 
         return $this->hasMany('App\Models\order_detail; ','order_detail_id','order_id','room_id','room_qty','room_price');
 
+    }
+
+    public static function getRoomonday()
+    {
+        $Records=DB::table('room')->Select('room_id','room_name','type_id','room_price');
+        return $Records;
     }
 }

@@ -1,32 +1,35 @@
-
 @extends('admin_layout')
-<?php
-use Illuminate\Support\Facades\Session;
-?>
 @section('admin_content')
 <div class="table-agile-info">
     
     <div class="panel panel-default">
       <div class="panel-heading">
-        <Div>Danh sách phòng</Div>
+        <Div>Danh sách phòng có người ở trong ngày</Div>
     </div>
     <ul class="nav nav-tabs">
               <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
               <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
               <li><a href="{{URL::to('/list-empty-room')}}" ><span class="glyphicon glyphicon-bed"></span> tìm phòng rỗng</a></li>
-              <li><a href="{{URL::to('/list-of-occupied')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng có ngưởi ở</a></li>
+              <li><a href="{{URL::to('/list-of-occupied')}}" ><span class="glyphicon glyphicon-bed"></span> phòng có khách ở trong ngày</a></li>
           </ul>
       <div class="row w3-res-tb">
+        
         <div class="col-sm-5 m-b-xs">
-          @if(session::get('postion')==4)
-           <a href="{{URL::to('/add-room')}}" class="btn btn-info "><i class="fa fa-plus"></i> Thêm phòng</a>    
-          @endif
-             
+        <label> số người ở tại khách sạn trong ngày:{{$songuoilon + $sotreem}}</label>
+          <form class="form-horizontal">
+          
+            <label class="control-label m mt-3">
+             người lớn: {{$songuoilon}}
+            </label>
+            <label class="control-label m mt-3">
+              trẻ em: {{$sotreem}}
+            </label>
+          </form>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           
         </div>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <div class="input-group">
               <form action="{{URL::to('/list-room')}}" method="get">
               {{ csrf_field() }} Search :
@@ -46,47 +49,34 @@ use Illuminate\Support\Facades\Session;
               <th width="10%">Tên phòng</th>
               <th width="25%" >Hình ảnh</th>
               <th width="15%">Loại phòng</th>
-
+              <th width="15%">số người ở</th>
+              <th width="15%">ngày trả phòng</th>
               <th>Giá</th>
-              <th>Tình trạng</th>
               <th width="5%">Action</th>
               <th style="width:30px;"></th>
             </tr>
           </thead>
           <tbody>
-            @foreach($listRoom as $key => $value)
+            @foreach($r as $key => $room)
 
               <tr>
                 <td><label class="i-checks m-b-none"><i></i></label></td>
-                <td> {{$value->room_name}} </td>
+                <td> {{$room->room_name}} </td>
                 <td>
                     <div class="single-room-pic">
-                      <img src="public/upload/rooms/{{$value->image}}" height="150"; width="250";>
+                      <img src="public/upload/rooms/{{$room->image}}" height="150"; width="250";>
                     </div>
                 </td>
-                <td> Loại : {{$value->type_name}} </td>
-
-                <td> {{number_format($value->room_price).' đ/ngày'}} </td>
-                 <td><span class="text-ellipsis">
-                  <?php
-                    if($value->room_status==0) {
-                  ?>
-                  <a href="{{URL::to('/inactive-room/'.$value->room_id)}}" style="color:red">Không hoạt động</a>
-                  <?php
-                  }
-                  else {
-                  ?>
-                    <a href="{{URL::to('/active-room/'.$value->room_id)}}" style="color:green">Hoạt động</a>
-                  <?php
-                    }
-                  ?>
-                  </span>
-                </td> 
+                <td> Loại : {{$room->type_id}} </td>
+                <td> ?????????? </td>
+                <td> ??????? </td>
+                <td> {{number_format($room->room_price).' đ/ngày'}} </td>
+                 
                 <td >
-                  <a href="{{URL::to('/edit-room/'.$value->room_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
+                  <a href="{{URL::to('/edit-room/'.$room->room_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                   </a>
-                  <!-- <a href="{{URL::to('/delete-room/'.$value->room_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <!-- <a href="{{URL::to('/delete-room/'.$room->room_id)}}" onClick="return confirm('Are you confirm to delete ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
                   </a> -->
                 </td>
@@ -98,7 +88,7 @@ use Illuminate\Support\Facades\Session;
       <footer class="panel-footer">
         <div class="row">
           <div class="col-sm-7 text-right text-center-xs"> 
-          {{$listRoom->links()}}               
+            
           </div>
         </div>
       </footer>

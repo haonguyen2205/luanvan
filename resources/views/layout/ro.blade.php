@@ -45,8 +45,8 @@
         <input type="text" class="datepicker-2" value="yyyy / mm / dd" name="dayout" required>
         <img src="{{URL::asset('public/frontend/img/calendar.png')}}" alt="">
         <input type="submit" value="Tìm phòng" class="btn btn-facebook"> -->
-    </form>
-    </div>
+    <!-- </form>
+    </div> -->
 </div>
 
 <div class="container px-1 px-sm-5 mx-auto">
@@ -180,7 +180,7 @@
                         <div class="room-price">
                             <span>Giá</span>
                             <h2>{{number_format($key->room_price).' đ'}}</h2>
-                            <sub>/Đêm</sub>
+                            <sub>/ngày</sub>
                         </div>
                         </div>
                         <div class="room-desc">

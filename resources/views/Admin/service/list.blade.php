@@ -12,7 +12,7 @@
       
       <div class="row w3-res-tb">
         <div class="col-sm-4 m-b-xs">
-              <A href="{{URL::to('/add-uti')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm tiện ích</A>                
+              <A href="{{URL::to('/show-page-add')}}" class="btn btn-info"><i class="fa fa-plus"></i> thêm dịch vụ</A>                
         </div>
 
         <div class="col-sm-3">
@@ -21,7 +21,7 @@
         <!-- thanh search -->
         <div class="col-sm-4">
           <div class="input-group">
-            <form action="{{URL::to('/list-uti')}}"  >
+            <form action="{{URL::to('/list-service')}}"  >
             {{ csrf_field() }}  
             <Span>Search</Span>
                 <input type="text" class="input-sm fa fa-search" name="search_uti" placeholder="Search">
@@ -40,8 +40,7 @@
           <thead>
             <tr>
               <th style="width:10px;"></th> 
-              <th width="30%" >Mã</th>
-              <Th>Tên tiện ích</th>
+              <Th>Tên dịch vụ</th>
               <Th>giá tiện ích</th>
               <Th>ảnh</th>
               <th width="20%">Action</th>
@@ -49,18 +48,18 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($list_uti as $key => $uti)
+            @foreach($sevice as $key => $sv)
               <tr>
                 <td><label class="i-checks m-b-none"><i></i></label></td>
-                <td> {{$uti->utility_id}} </td>
-                <td> {{$uti->utility_name}} </td>
-                <td> {{$uti->utility_price}} </td>
-                <td> <img src="public/upload/utility/{{$uti->utility_image}}" width="70px" height="50px"> </td>
+                
+                <td> {{$sv->service_name}} </td>
+                <td> {{$sv->service_price}} </td>
+                <td> <img src="" width="70px" height="50px"> </td>
                 <td>
-                  <a href="{{URL::to('/edit-uti/'.$uti->utility_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
+                  <a href="{{URL::to('/edit-service/'.$sv->service_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                   </a>
-                  <a href="{{URL::to('/delete-uti/'.$uti->utility_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <a href="{{URL::to('/delete-sevice/'.$sv->service_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
                   </a>
                 </td>
@@ -72,36 +71,36 @@
     </div>  
 </div>
 
-@if(Session::has('mes_create_uti'))
+@if(Session::has('mes_create_sv'))
   <script type="text/javascript" >
-    swal("Congratulation!","{{Session::Get('mes_create_uti')}}","success",{
+    swal("Congratulation!","{{Session::Get('mes_create_sv')}}","success",{
       button:"OK",
     });
   </script> 
   <?php
-    session::put('mes_create_uti',null);
+    session::put('mes_create_sv',null);
   ?>
 @endif
 
-@if(Session::has('mes_update_uti'))
+@if(Session::has('mes_update_sv'))
   <script type="text/javascript" >
-    swal("thành công!","{{Session::Get('mes_update_uti')}}","success",{
+    swal("thành công!","{{Session::Get('mes_update_sv')}}","success",{
       button:"OK",
     });
   </script> 
   <?php
-    session::put('mes_update_uti',null);
+    session::put('mes_update_sv',null);
   ?>
 @endif
 
-@if(Session::has('mes_delete_uti'))
+@if(Session::has('mes_delete_sv'))
   <script type="text/javascript" >
-    swal("thông báo!","{{Session::Get('mes_delete_uti')}}","warning",{
+    swal("thông báo!","{{Session::Get('mes_delete_sv')}}","warning",{
       button:"OK",
     });
   </script> 
   <?php
-    session::put('mes_delete_uti',null);
+    session::put('mes_delete_sv',null);
   ?>
 @endif
 

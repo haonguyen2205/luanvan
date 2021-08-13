@@ -1,3 +1,5 @@
+
+
 @extends('admin_layout')
 @section('admin_content')
 <div class="table-agile-info">
@@ -6,13 +8,14 @@
       <div class="panel-heading">
         <Div>Danh sách phòng</Div>
     </div>
-          <ul class="nav nav-tabs">
+          <<ul class="nav nav-tabs">
               <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
               <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
               <li><a href="{{URL::to('/list-empty-room')}}" ><span class="glyphicon glyphicon-bed"></span> tìm phòng rỗng</a></li>
+              <li><a href="{{URL::to('/list-of-occupied')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng có ngưởi ở</a></li>
           </ul>
         <div class="row w3-res-tb">
-          <form class="form-group" action="{{URL::To('/check-avalibility')}}" method="post">
+          <form class="form-group" action="{{URL::To('/check-avalibility')}}" method="get">
           {{ csrf_field() }}
               <div class="row">
 
@@ -42,7 +45,9 @@
       
         </div>
 
-        @if($emptyroom !==null) 
+        @if($room!==null) 
+            
+
           <hr />
           <div class="table-responsive">
               <table class=" table table-bordered table-striped table-hover datatable datatable-Event">
@@ -66,35 +71,33 @@
                       </tr>
                   </thead>
                   <tbody>
-                        <input type="hidden" name="start_time" value="{{ request()->input('start_time') }}">
-                        <input type="hidden" name="end_time" value="{{ request()->input('end_time') }}">
-                      @foreach($emptyroom as $room)
-                        
-                          <tr>
-                              <td class="room-name">
-                                  {{ $room->room_name  }}
-                              </td>
-                              <td class="room-name">
-                                <div class="single-room-pic">
-                                  <img src="public/upload/rooms/{{$room->image}}" height="150"; width="350";>
-                                </div>
-                              </td>
-                              <td>
-                                  {{ $room->type_id }}
-                              </td>
-                              <td>
-                                  {{number_format($room->room_price)}} /ngày
-                              </td>
-                              <td>
-                                  <!-- <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#bookRoom" data-room-id="{{ $room->room_id }}">
-                                      Đặt phòng
-                                  </button> -->
-                                  <a href="{{URL::to('/order_room/'.$room->room_id)}}" data-room-id="{{ $room->room_id}}" class="btn btn-primary">
-                                  
-                                  Đặt phòng</a>
-                              </td>
+                        <input type="hidden" name="start_time" value="{{ $star }}">
+                        <input type="hidden" name="end_time" value="{{ $end }}">
+                      @foreach($room as $r)
+                    
+                            <tr>
+                                <td class="room-name">
+                                    {{ $r->room_name  }}
+                                </td>
+                                <td class="room-name">
+                                    <div class="single-room-pic">
+                                    <img src="public/upload/rooms/{{$r->image}}" height="150"; width="350";>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ $r->type_id }}
+                                </td>
+                                <td>
+                                    {{number_format($r->room_price)}} đ/ngày
+                                </td>
+                                <td>
+                                    
+                                    <a href="{{URL::to('/order_room/'.$r->room_id)}}" data-room-id="{{ $r->room_id}}" class="btn btn-primary">
+                                    
+                                    Đặt phòng</a>
+                                </td>
 
-                          </tr>
+                            </tr>
                       @endforeach
                   </tbody>
               </table>

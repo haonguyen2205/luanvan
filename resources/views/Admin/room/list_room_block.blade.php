@@ -1,28 +1,25 @@
 @extends('admin_layout')
 @section('admin_content')
 <div class="table-agile-info">
-    <ul class="nav nav-tabs">
-              <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
-              <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
-          </ul>
+    
     <div class="panel panel-default">
       <div class="panel-heading">
         <Div>Danh sách phòng</Div>
       </div>
+      <ul class="nav nav-tabs">
+              <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
+              <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
+              <li><a href="{{URL::to('/list-empty-room')}}" ><span class="glyphicon glyphicon-bed"></span> tìm phòng rỗng</a></li>
+              <li><a href="{{URL::to('/list-of-occupied')}}" ><span class="glyphicon glyphicon-bed"></span> phòng có khách ở trong ngày</a></li>
+          </ul>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
-            <select class="input-sm form-control w-sm inline v-middle">
-              <option value="0">Bulk action</option>
-              <option value="1">Delete selected</option>
-              <option value="2">Bulk edit</option>
-              <option value="3">Export</option>
-            </select>
-            <button class="btn btn-sm btn-default">Apply</button>                
+                          
         </div>
           
-        <div class="col-sm-4">
+        <div class="col-sm-3">
         </div>
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <div class="input-group">
               <form action="{{URL::to('/search-room')}}" method="post">
               {{ csrf_field() }}

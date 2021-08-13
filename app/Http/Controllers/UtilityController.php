@@ -99,14 +99,14 @@ class UtilityController extends Controller
         $this->validate($request,[
             'uti_id'=>'bail|required|min:1|max:5',
             'uti_id'=>'bail|required|min:2|max:100',
-        ],[
+        ],[ 
             'uti_id.required'=>' Mã tiện ích không được để trống',
             'uti_id.max'=>'Mã tiện ích không được dài quá 5 kí tự',
             'uti_name.required'=>'tên tiện ích không được để trống',
             'uti_name.min'=>'tên tiện ích không được ngắn hơn 3 kí tự',
             'uti_name.max'=>'tên tiện ích không được dài hơn 100 kí tự',
         ]);
-        if($request->input('uti_image')=='')
+        if($request->file('uti_image')=='')
         {
             DB::table('utility')->where('utility_id',$id)->update($uti);
             Session::put('mes_update_uti','cập nhật tên tiện nghi thành công');

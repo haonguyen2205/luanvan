@@ -51,6 +51,7 @@ class RoomController extends Controller
     public function addRoomAction(Request $request)
     {
             $type=type::all();
+            $listroom=room::all();
             $room =new room();     
             $room->room_name        = $request->input('name');
             //$images->room_image     = $request->input('image');
@@ -61,36 +62,51 @@ class RoomController extends Controller
             $room->room_price       = $request->input('price');
             $room->room_status      = $request->input('status');
             $count=0;
-            foreach ($type as $t) {
-                if($t->type_id == $request->input('type')) {
-                    $count=$count+1;
-                }
-            }
-            if($count>4) // kiểm tra số lượng phòng vượt tối da của loại phòng chưa
-            {
-                Session::put('mes_create_fail','không tạo được phòng thuộc loại phòng này');
-                return Redirect::to('/add-room');
-            }else if($request->input('price') >10000)
 
-            if($request->hasFile('image')) 
+            foreach ($listroom as $r)  // lấy số phòng đã tạo của loại phòng đã chọn
             {
-                $image= $request->file('image');
-                    // $imageroom=new image();
-                $get_name_image = $image->getClientOriginalName();
-                $name_image     = current(explode('.',$get_name_image));
-                $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
-                $image->move('public/upload/rooms',$new_image);
-                $room->image=$new_image;
-                $room->save();
-                Session::put('mes_createRoom','Thêm phòng thành công');
-                return Redirect::to('/list-room');
-                
-            } 
-            else
-            {
-                Session::put('mes_create_fail','giá trị số không được nhỏ hơn không');
-                return Redirect::to('/add-room');
+                if($r->type_id == $request->input('type')) 
+                {
+                    $count+=1; 
+                } 
             }
+            // 
+            foreach($type as $t)
+            {
+                if($t->type_id == $request->input('type')) 
+                {
+                    if($t->quality > $count) 
+                    {
+                        if($request->hasFile('image')) 
+                        {
+                            $image= $request->file('image');
+                                // $imageroom=new image();
+                            $get_name_image = $image->getClientOriginalName();
+                            $name_image     = current(explode('.',$get_name_image));
+                            $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension();// đuổi mở rộng của ảnh
+                            $image->move('public/upload/rooms',$new_image);
+                            $room->image=$new_image;
+                            $room->save();
+                            Session::put('mes_createRoom','Thêm phòng thành công');
+                            return Redirect::to('/list-room');
+                            
+                        }
+                        else
+                        {
+                            Session::put('mes_create_fail','giá trị số không được nhỏ hơn không');
+                            return Redirect::to('/add-room');
+                        }
+                    }
+                    else    
+                    {
+                        Session::put('mes_create_fail','loại phòng này đã đạt số lượng tối đa vui lòng tạo phòng có loại phòng khác ');
+                        return Redirect::to('/add-room');
+                    }
+                }
+                
+            }
+
+            
     }
 
     public function listRoom(Request $request)
@@ -182,6 +198,9 @@ class RoomController extends Controller
         $room->room_description = $request->input('description');
         // $room->quality          = $request->input('amount');
         $room->room_price       = $request->input('price');
+
+        $order=order::where('status',0)->orwhere('status',4)->Get();
+
         $detail=DB::table('order_details')->where('room_id',$id)->exists();
         
         if($detail)
@@ -245,44 +264,46 @@ class RoomController extends Controller
     
     public function check_avaliable(request $request)
     {
-        $order=order::get();
-        $order_detail =order_detail::get();
-        $room= room::where('room_status','1')->Get();
-        $star= $request->input('start_time');
-        $end= $request->input('end_time');
-         
-        if($request->filled(['start_time', 'end_time'])) {
-            foreach($order as $o)
-            {
-                foreach($order_detail as $od )
-                {
-                    if($o->order_id == $od->order_id) 
-                    {          
-                        foreach($room as $r)
-                        {
-                            if($od->room_id !== $r->room_id)
-                            {
-                                $emptyroom=room::where('room_id','<>',$od->room_id)->Get();
-                            }
-                        }
-                    }
-                }
+        $mytime= date("Y-m-d");
+        $star= carbon::parse($request->input('start_time'))->format('Y-m-d');
+        $end= carbon::parse($request->input('end_time'))->format('Y-m-d');
 
+        $countroom=0;
+        if($star >= $mytime && $end >= $mytime && $end>=$star) {
+
+            $order=order::where('status',3)->where('dayat','<=',$star)->where('dayout','>=',$end) //TH1: ---|.---.|---
+            ->orwhere('status',3)->where('dayat','>=',$star)->Where('dayat','<',$end) //TH2: ---.|.---|---
+            ->orwhere('status',3)->where('dayat','>=',$star)->Where('dayout','<=',$end) //TH3: ---.|---|.---
+            ->orwhere('status',3)->where('dayat','<=',$star)->where('dayout','>',$star)->Where('dayout','<',$end) //TH4: ---|--.--|.---
+            ->get();
+            $order_detail=array();
+            $room =array();
+            foreach ($order as $o)
+            {
+                $order_detail[]=order_detail::where('order_id',$o->order_id)->get();
             }
             
-            
-            // $rooms = Room::where('capacity', '>=', $request->input('capacity'))
-            //     ->whereDoesntHave('events', function ($query) use ($times) {
-            //         $query->whereBetween('start_time', $times)
-            //             ->orWhereBetween('end_time', $times)
-            //             ->orWhere(function ($query) use ($times) {
-            //                 $query->where('start_time', '<', $times[0])
-            //                     ->where('end_time', '>', $times[1]);
-            //             });
-            //     })
-            //     ->get();
+            foreach ($order_detail as $od)
+            {
+                $room= room::where('room_id','<>',$od[0]->room_id)->get();
+                $countroom+=1;
+            }
+            session::put('startime',$star);
+            session::put('endtime',$end);
+            return view('/Admin.room.list_empty',compact('room','countroom','star','end'));
         }
-        return view('/Admin.room.list_empty',compact('emptyroom'));
+        else{
+            session::put('mes_saingay',"không duoc dat ngay trong qua khu");
+            return redirect::to('/list-empty-room');
+        }
+
+
+        
+         
+        // $dontrongngay=array();
+        // $countroom=0;
+        
+        
     }
 
     public function list_empty_room(request $request)
@@ -290,6 +311,44 @@ class RoomController extends Controller
         return view('Admin.room.check_availability');
     }
 
+    public function check_occupied(request $request) // danh sách phòng đang sử dụng trong ngày
+    {
+        $mytime = date("Y-m-d");
+        $order=DB::table('order')->where('status',3)->get();
+        $order_detail =order_detail::get();
+        $r=array();
+        $mytime = date("Y-m-d");
+
+        $order=DB::table('order')->where('status',3)->get();
+        $songuoilon=0;
+        $sotreem=0;
+        foreach($order as $o)
+        {  
+            if($mytime >= $o->dayat && $mytime <= $o->dayout)
+            {
+                $songuoilon =$songuoilon+ $o->adults;
+                $sotreem=$sotreem+ $o->children;
+            }
+
+        }
+        foreach($order as $o)
+        {  
+            if($mytime >= $o->dayat && $mytime <= $o->dayout)
+            {
+                foreach($order_detail as $od)
+                {
+                    if($o->order_id==$od->order_id)
+                    {
+                        $r[]=room::where('room_id',$od->room_id)
+                        ->first();
+                    }
+                }
+
+            }
+
+        }
+        return view('Admin.room.list_of_occupied',compact('r','songuoilon','sotreem'));
+    }
     
 
 }

@@ -1,21 +1,14 @@
 @extends('../admin_layout')
 @section('admin_content')
 
-	<div class="form-group">
-		@if(Session::has('mes_diemdanh'))
-			<A class="btn btn-success" href="{{URL::to('/diemdanhra')}}"> chấm công ra</A>
-		@else
-			<A class="btn btn-success" href="{{URL::to('/diemdanh')}}">chấm công vào</A>
-		@endif
-	</div>
-    <h1> thông tin thống kê </h1>
+    <h1> thống kê tổng quát </h1>
     <div class="market-updates">
 			<div class="col-md-3 market-update-gd">
 				<div class="market-update-block clr-block-2">
-					<div class="col-md-4 market-update-right">
+					<div class="col-md-2 market-update-right">
 						<i class="fa fa-total"> </i>
 					</div>
-					 <div class="col-md-8 market-update-left">
+					 <div class="col-md-10 market-update-left">
 					 <h4>Total</h4>
 					<h3>{{number_format($tongtien)}}</h3>
 					<p>Other hand, we denounce</p>
@@ -63,15 +56,30 @@
 				</div>
 			</div>
 		   <div class="clearfix"> </div>
-		</div>
-<!-- @if(Session::has('mes_diemdanh'))
-  <script type="text/javascript" >
-    swal("thông báo!","{{Session::Get('mes_diemdanh')}}","success",{
-      button:"OK",
-    });
-  </script> 
-@endif -->
+	</div>
 
+<!-- -----------thống kê khác -->
+
+<h1> Thống kê người ở </h1>
+
+	<div class="market-updates">
+			<div class="col-md-3 market-update-gd" >
+				<div class="market-update-block clr-block-2" style="background-color: goldenrod;">
+					<div class="col-md-2 ">
+						<i class="fa fa-user"> </i>
+					</div>
+					 <div class="col-md-10 ">
+					 <h4>người ở tại ks</h4>
+					<h3>{{$songuoi}}</h3>
+					<p>số khách ở trong ngày</p>
+				  </div>
+				  <div class="clearfix"> </div>
+				</div>
+			</div>
+			
+		   <div class="clearfix"> </div>
+	</div>
+<!-- ---------------thống kê khác------------------ -->
 @if(Session::has('mes_fails'))
   <script type="text/javascript" >
     swal("thông báo!","{{Session::Get('mes_fails')}}","error",{

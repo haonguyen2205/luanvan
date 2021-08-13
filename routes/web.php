@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
@@ -14,9 +17,9 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\UtilityController;
+use App\Http\Controllers\UtilityController; 
 use App\Http\Controllers\MailController;
-
+use App\Http\Controllers\ServiceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -116,11 +119,19 @@ Route::post('/search-room', [RoomController::class, 'search']);
 
 route::get('/list-empty-room',[RoomController::class, 'list_empty_room']);
 
-route::post('/check-avalibility',[RoomController::class, 'check_avaliable']);
+route::get('/check-avalibility',[RoomController::class, 'check_avaliable']);
+
+route::Get('/list-of-occupied',[RoomController::class,'check_occupied']);
+
+//đặt phòng bên nhân viên
+Route::post('book-room', [RoomController::class, 'bookRoom'])->name('bookRoom');
 
 Route::get('/order_room/{id}',[OrderController::class,'add_order_page']);
 
-Route::post('book-room', [RoomController::class, 'bookRoom'])->name('bookRoom');
+route::post('/add-order-by-admin/{id}',[OrderController::class,'add_order_by_admin']);
+
+
+
 //ket thuc quan ly phong
 
 // quản lý nhân viên
@@ -147,8 +158,6 @@ route::get('/diemdanh',[StaffController::class, 'diemdanh']);
 route::get('/diemdanhra',[StaffController::class,'diemdanhra']);
 
 //đặt phòng// đơn đặt phòng
-//Route::get('/order_room',[OrderController::class,'add_order_page']);
-//Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
 
 Route::get('/admin/manage-order','Admin\AdminDonhangController@index');
 Route::get('/admin/chitietorder/{id}','Admin\AdminDonHangController@chitiet');
@@ -217,10 +226,30 @@ route::get('delete-cus/{id}',[CustomerController::class,'delete_cus']);
 
 route::get('/list-users-block',[CustomerController::class,'list_cus_block']);
 
+// quản lý dịch vụ
+route::Get('/list-service',[ServiceController::class,'list_service']);
+
+route::Get('/show-page-add',[ServiceController::class,'show_page_add']);
+
+route::post('/add-service',[ServiceController::class,'add_service']);
+
+route::get('/edit-service/{id}',[ServiceController::class,'show_page_edit']);
+
+route::post('update-service/{id}',[ServiceController::class,'update_service']);
+
+route::get('/delete-sevice/{id}',[ServiceController::class,'delete_service']);
 
 //SEND MAIL
 route::get('/send-mail',[MailController::class,'send_mail']);
 
+// route::get('/showregister/verifycode',function () {
+//     return view('layout.verifycode');});
+
+Route::get('/register/verify-token','RegisterController@verify_token');
+
+route::get('/register/resend-token/{id}','RegisterController@resend_token');
+
+route::post('/verify-account/{$token}','RegisterController@verify_account');
 
 //EXPORT
 Route::get('export-timekeep', 'ExportController@export_timekeep')->name('export-timekeep');

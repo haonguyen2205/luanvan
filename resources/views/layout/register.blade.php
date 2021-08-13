@@ -94,7 +94,7 @@
 
 								<div class="icon1">
 									<i class="fa fa-phone" aria-hidden="true"></i>
-									<input type="tel" placeholder="Phone number" name="phone" required=""/>
+									<input type="tel" placeholder="Phone number" name="phone" minlength="10" maxlength="12" required=""/>
 								</div>
 
 								<div class="icon1">
@@ -104,12 +104,12 @@
 
 								<div class="icon1">
 									<i class="fa fa-lock" aria-hidden="true"></i>
-									<input type="password" placeholder="Create password" name="password" required=""/>
+									<input type="password" placeholder="Create password" minlength="6" maxlength="50" name="password" required=""/>
 								</div>
 
 								<div class="icon1">
 									<i class="fa fa-lock" aria-hidden="true"></i>
-									<input type="password" placeholder="Confirm password" name="repassword" required=""/>
+									<input type="password" placeholder="Confirm password" min.length="6" maxlength="50" name="repassword" required=""/>
 								</div>
 
 								<div class="bottom">

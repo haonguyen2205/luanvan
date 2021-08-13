@@ -52,7 +52,7 @@
                                 <option value="0">Inactive</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-info" name="addRoom">Submit</button>
+                        <button type="submit" class="btn btn-info" name="addRoom">Xác nhận thêm </button>
                     </form>
                 </div>
 

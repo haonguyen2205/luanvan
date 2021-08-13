@@ -62,8 +62,8 @@ class StaffController extends Controller
             }
             else
             {
-                $to_name="KHÁCH SẠN KALENDA";
-                $to_email=$request->input('email');
+                $to_name="KHÁCH SẠN KALENDA"; // tên người gửi mail
+                $to_email=$request->input('email'); // đx gửi // mail đăng ký tk
                 $data= array("name"=>$request->input('name'),"body"=>"thư yêu cầu xác thực tài khoản ","password"=>$str);
                 Mail::send('Admin.staff.verify',$data,function($message)use ($to_name,$to_email)
                 {
@@ -94,7 +94,7 @@ class StaffController extends Controller
         $users->name      = $request->input('name');
         $users->phone     = $request->input('phone');
         $users->address   = $request->input('address');
-        // $users->users_image=$data['image'];
+        // $s=$data['image'];
 
         // echo $users; exit;
         $this->validate($request,[
@@ -113,13 +113,8 @@ class StaffController extends Controller
             'phone.max'=>'địa chỉ không được dài quá 15 kí tự',
             'phone.min'=>'số điện thoại  không được ngắn hơn quá 10 kí tự',
         ]);
-        if($request->input('image')=='')
-        {
-            $users->save();
-            session::put('mes',"cập nhật thành công");
-            
-        }
-        else if($request->hasFile('image'))
+       
+        if($request->hasFile('image'))
         {
             $image=$request->file('image');
             $get_name_image = $image->getClientOriginalName(); // lấy tên của img
@@ -130,14 +125,13 @@ class StaffController extends Controller
 
             session::put('mes',"cập nhật thành công");
             $users->save();
+            return redirect::to('/list_staff');
         }else
         {
             session::put('mes',"không phải file hình");
-            return redirect::to('/list_staff    ');
+            return redirect::to('/list_staff');
         }
-            
-        return Redirect::to('/list_staff');
-        
+    
     }
     //danh sách nhân viên
     public function list_staff(request $request) 
@@ -145,7 +139,8 @@ class StaffController extends Controller
         $key=$request->input('search_staff');
         if($key != null)
         {
-            $staff1=users::where('role',1)->where('users_status',0)->where('name', 'like', '%'.$key.'%')
+            $staff1=users::join('postion','postion.postion_id','=', 'users.position_id')->
+            where('role',1)->where('users_status',0)->where('name', 'like', '%'.$key.'%')
                 ->orwhere('email', 'like', '%'.$key.'%')->where('role',1)->where('users_status',0)->paginate(5); 
             $manager = view('Admin.staff.list')->with('liststaff', $staff1);
             return view('admin_layout')->with('Admin.staff.list', $manager);

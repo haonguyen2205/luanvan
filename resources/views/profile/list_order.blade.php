@@ -58,7 +58,7 @@
                                            echo"đã hủy";
                                         }else if($list->status==1)
                                         {
-                                         echo"đã xác nhận";
+                                         echo"chờ xác nhận";
                                         }
                                         else if($list->status==2)
                                         {

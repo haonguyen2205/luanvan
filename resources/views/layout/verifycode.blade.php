@@ -8,10 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hotel | Template</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>   
-
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Taviraj:300,400,500,600,700,800,900&display=swap"
         rel="stylesheet">
@@ -37,45 +33,37 @@
     <div class="container"> 
 	   <!--header-->
         <div class="header-w3l">
-            <h1>Online Login Form</h1>
+            <h1>VerifyCsrfToken</h1>
         </div>
         <!--End Header-->
         
         <div class="main-content-agile">
             <div class="sub-main-w3">
                 <div class="wthree-pro">
-                    <h2 style="color:yellow">Login Quick</h2>
+                    <h2>VERIFY ACCOUNT</h2>
                 </div>
                 <div class="wthree-pro">
 
                 </div>
                 
-                <form action="{{URL::to('/checklogin')}}" method="post">
+                <form action="{{URL::to('/register/verify-token')}}" method="get">
                 {{ csrf_field() }}
                     <div class="pom-agile">
-                        <input placeholder="E-mail" name="email" class="user" type="email" required="">
-                        
-                        <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+                        <input  class="user" type="hidden" name="id" value="{{$id}}" required="">
                     </div>
                     <div class="pom-agile">
-                        <input  placeholder="Password" name="password" class="pass" type="password" required="">
-                        <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span>
-                    </div>
-
-                    <div class="sub-w3l">
-                        <h6 style="color:red"><a href="#" style="color:red">Forgot Password?</a></h6>
-                        <div class="right-w3l">
-                            <input type="submit" value="Login">
-                        </div>
+							<h3 stype="color:red;">nhập mã xác nhận</h3>
+                        <input  placeholder="mã xác nhận" name="token" class="form-control" minlength="6" maxlength="6" type="text" required="">
                     </div>
                    
+					<A href="{{URL::to('/register/resend-token/')}}"></A>
+					<input type="submit" name="submit" value="xác nhận">
                 </form>
             </div>
         </div>
     </div>
     <!-- End Login -->
 
-	@include('footer')
 
 	<!-- Js Plugins -->
     <script src="{{URL::asset('public/frontend/js/jquery-3.3.1.min.js')}}"></script>
@@ -86,28 +74,5 @@
     <script src="{{URL::asset('public/frontend/js/jquery.slicknav.js')}}"></script>
     <script src="{{URL::asset('public/frontend/js/owl.carousel.min.js')}}"></script>
     <script src="{{URL::asset('public/frontend/js/main.js')}}"></script>
-
-@if(Session::has('verify-email'))
-  <script type="text/javascript" >
-    swal("Congratulation!","{{Session::Get('verify-email')}}","success",{
-      button:"OK",
-    });
-  </script> 
-  <?php
-    session::put('verify-email',null);
-  ?>
-@endif
-
-@if(Session::has('message'))
-  <script type="text/javascript" >
-    swal("thông báo!","{{Session::Get('message')}}","warning",{
-      button:"OK",
-    });
-  </script> 
-  <?php
-    session::put('message',null);
-  ?>
-@endif
 </body>
 </html>
-@

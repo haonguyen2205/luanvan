@@ -27,7 +27,8 @@ class LoginController extends Controller
             if($Result->role==1 && $Result->users_status==0) // tài khoản nhân viên và không bị khóa
             {
                 Session::put('name_admin',$Result->name); 
-                Session::put('admin_id ',$Result->users_id);    
+                Session::put('admin_id',$Result->users_id);   
+                Session::put('postion',$Result->position_id); 
                 Session::put('role',$Result->role);
                 session::put('users_image',$Result->users_image);
                 return Redirect::to('/admin');
@@ -38,6 +39,10 @@ class LoginController extends Controller
                 Session::put('users_id',$Result->users_id);
                 Session::put('role',$Result->role);
                 return Redirect::to('/');
+            }
+            else{
+                Session::put('message','tài khoản đang khóa không thể đăng nhập');
+                return Redirect::to('/login');
             }
         }
         else

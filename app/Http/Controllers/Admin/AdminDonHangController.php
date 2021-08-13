@@ -27,6 +27,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -68,6 +69,7 @@ class AdminDonHangController extends Controller
         ]);
     }
     function thanhtoan($id){
+        
         $order= DB::table('order')->where('order_id',$id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();
@@ -76,18 +78,33 @@ class AdminDonHangController extends Controller
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
         $u=DB::table('service_detail')->where('order_id',$order->order_id)->get();
-
+        $ul=DB::table('utility')->get();
         $tiendichvu =0;
         foreach($ser as $s){
             foreach($u as $k){
                 if($k->service_id == $s->service_id){
             $tiendichvu = $tiendichvu + $k->quantity*$s->service_price;}
         }}
+        $tiendenbu=0;
+        
+        $denbu= DB::table('o_u')->where('order_id',$id)->get();
+        foreach($denbu as $d){
+            foreach($ul as $u){
+                if($u->utility_id == $d->u_id){
+                    $tiendenbu = $tiendenbu + $u->utility_price;
+                }
+            
+            
+        }}
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
-  
+        $cuoituan = $order->cuoituan;
+        $ngayle=$order->ngayle;
+        $soct=0;
+        $sonl =0;
             $viewData=[
             'hoadon' =>$id,
             'tenkhachhang'=>$user->name,
+            'hoten'=>$order->hoten,
             'cmnd' =>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
@@ -99,22 +116,30 @@ class AdminDonHangController extends Controller
             'tiendichvu' =>$tiendichvu,
             'service'=>$ser,
             'dichvu'=>$i,
-            'status'=>$order->status
+            'status'=>$order->status,
+            'ul'=>$ul,
+            'tiendenbu'=>$tiendenbu,
+            'denbu'=>$denbu,
+            'cuoituan'=>$cuoituan,
+            'ngayle'=>$ngayle,
+            'sonl'=>$sonl,
+            'soct'=>$soct
         ];
         return view('Admin.order.thanhtoan',$viewData);
     }
     function capnhat(Request $request){
-      
+        
         $order= DB::table('order')->where('order_id',$request->id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();
         $so = strtotime($order->dayout) - strtotime($order->dayat);
-        $songay = $so/86400 + 1;
+        $songay = $so/86400 ;
+        
         $room= DB::table('room')->where('room_id',$orderdetail->room_id)->first();
         $ser=DB::table('service')->get();
         $tiendichvu =0;
         $id=DB::table('service_detail')->where('order_id',$order->order_id)->first();
-        
+        $ul=DB::table('utility')->get();
         foreach($ser as $s){
             $a=$s->name;
             $tiendichvu = $tiendichvu+ $request->$a*$s->service_price;
@@ -135,11 +160,77 @@ class AdminDonHangController extends Controller
                 ]);
             }
         }
-       
+        $tiendenbu=0;
+      
+        
+        foreach($ul as $s){
+            $name=$s->utility_id;
+            if($request->$name){
+                DB::table('o_u')->insert([
+                    'order_id'=>$request->id,
+                    'u_id'=>$request->$name                
+                ]);
+            }
+        }
+
+        $cuoituan =0;
+        $ngayle =0;
+        $sonl=0;
+        $soct=0;
+        if($request->cuoituan && $request->ngayle){
+            $cuoituan = ($room->room_price * 0.2)*$request->cuoituan;
+            $ngayle = ($room->room_price *0.3)*$request->ngayle;
+            $sonl=$request->ngayle;
+            $soct=$request->cuoituan;
+            DB::table('order')->where('order_id',$request->id)->update([
+                'cuoituan'=>$cuoituan,
+                'ngayle'=>$ngayle
+            ]);
+        }
+        if($request->cuoituan){
+            $cuoituan = ($room->room_price * 0.2)*$request->cuoituan;
+           
+            $soct=$request->cuoituan;
+            DB::table('order')->where('order_id',$request->id)->update([
+                'cuoituan'=>$cuoituan,
+               
+            ]);
+        }
+        if( $request->ngayle){
+           
+            $ngayle = ($room->room_price *0.3)*$request->ngayle;
+            $sonl=$request->ngayle;
+           
+            DB::table('order')->where('order_id',$request->id)->update([
+                
+                'ngayle'=>$ngayle
+            ]);
+        }
+
+        // if($request->phuthule){
+        //     $order->total = $order->total + $order->total*0.3;
+        //     DB::table('order')->where('order_id',$request->id)->update([
+        //         'total'=>$order->total
+        //     ]);
+        // }
+
+
+
+        $denbu= DB::table('o_u')->where('order_id',$request->id)->get();
+    
+        foreach($denbu as $k){
+            foreach($ul as $u){
+                if($u->utility_id == $k->u_id){
+                    $tiendenbu=$tiendenbu + $u->utility_price;
+                }
+            }
+        }
+        
         $i=DB::table('service_detail')->where('order_id',$order->order_id)->get();
         $viewData=[
             'hoadon' =>$request->id,
             'tenkhachhang'=>$user->name,
+            'hoten'=>$order->hoten,
             'cmnd'=>$order->CMND,
             'phong' => $room->room_name,
             'price' => $room->room_price,
@@ -151,7 +242,13 @@ class AdminDonHangController extends Controller
             'tiendichvu'=>$tiendichvu,
             'tongtien' =>$order->total , 
             'dichvu'=>$i,
-            'status'=>$order->status
+            'status'=>$order->status,
+            'ul'=>$ul,
+            'tiendenbu' =>$tiendenbu,
+            'cuoituan'=>$cuoituan,
+            'ngayle'=>$ngayle,
+            'sonl'=>$sonl,
+            'soct'=>$soct
         ];
        
         return view('Admin.order.thanhtoan',$viewData);
@@ -191,6 +288,7 @@ class AdminDonHangController extends Controller
               $ds[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -227,6 +325,7 @@ class AdminDonHangController extends Controller
               $list[]=[
                 'id'=>$key->order_id,
                 'name'=>$user->name,
+                'hoten'=>$key->hoten,
                 'cmnd'=>$key->CMND,
                 'phong'=>$room->room_name,
                 'deposit'=>$key->deposit,
@@ -249,5 +348,180 @@ class AdminDonHangController extends Controller
             
         ]);
         return redirect('/admin/manage-order');
+    }
+    function dshuy(){
+        
+        $order=DB::table('order')->where('status',0)->get();
+        
+        $list=array();
+        foreach($order as $key){
+
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'hoten'=>$key->hoten,
+                'cmnd'=>$key->CMND,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status,
+               
+            ];
+        }
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
+
+    }
+    function dscho(){
+        
+        $order=DB::table('order')->where('status',1)->get();
+        
+        $list=array();
+        foreach($order as $key){
+
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'hoten'=>$key->hoten,
+                'cmnd'=>$key->CMND,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status,
+               
+            ];
+        }
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
+
+    }
+    function dsda(){
+        
+        $order=DB::table('order')->where('status',2)->get();
+        
+        $list=array();
+        foreach($order as $key){
+
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'hoten'=>$key->hoten,
+                'cmnd'=>$key->CMND,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status,
+               
+            ];
+        }
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
+
+    }
+    function dslay(){
+        
+        $order=DB::table('order')->where('status',3)->get();
+        
+        $list=array();
+        foreach($order as $key){
+
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'hoten'=>$key->hoten,
+                'cmnd'=>$key->CMND,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status,
+               
+            ];
+        }
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
+
+    }
+    function dsdone(){
+        
+        $order=DB::table('order')->where('status',4)->get();
+        
+        $list=array();
+        foreach($order as $key){
+
+            $temp=DB::table('order_details')->where('order_id',$key->order_id)->first();
+
+              $user=DB::table('users')->where('users_id',$key->users_id)->first();
+
+
+              $room=DB::table('room')->where('room_id',$temp->room_id)->first();
+            
+              $list[]=[
+                'id'=>$key->order_id,
+                'name'=>$user->name,
+                'hoten'=>$key->hoten,
+                'cmnd'=>$key->CMND,
+                'phong'=>$room->room_name,
+                'deposit'=>$key->deposit,
+                'tongtien'=>$key->total,
+                'ngaynhan'=>$key->dayat,
+                'ngaytra'=>$key->dayout,
+                'tinhtrang'=>$key->status,
+               
+            ];
+        }
+        $viewData=[
+            'sttse'=>-1,
+        ];
+      
+        return view('Admin.order.list',$viewData)->with('list',$list);
+
     }
 }

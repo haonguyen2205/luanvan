@@ -172,6 +172,11 @@ Route::get('xoa/{id}','Admin\AdminDonHangController@xoa');
 Route::get('ds-xoa','Admin\AdminDonHangController@dsxoa');
 Route::get('timkiem','Admin\AdminDonHangController@timkiem');
 Route::get('/admin/huy/{id}','Admin\AdminDonHangController@huy');
+Route::get('ds-huy','Admin\AdminDonHangController@dshuy');
+Route::get('ds-cho','Admin\AdminDonHangController@dscho');
+Route::get('ds-da','Admin\AdminDonHangController@dsda');
+Route::get('ds-lay','Admin\AdminDonHangController@dslay');
+Route::get('ds-done','Admin\AdminDonHangController@dsdone');
 
 // quản lý trang tin tức
 //Route::get('/list-new', [NewController::class, 'listNew']);

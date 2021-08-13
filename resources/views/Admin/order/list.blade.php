@@ -2,7 +2,7 @@
 @section('admin_content')
 <div class="table-align-info">
     <div class="panel panel-default">
-        <div class="panel-heading"> DANH SÁCH ĐƠN HÀNG </div>
+        <div class="panel-heading"> DANH SÁCH ĐƠN PHÒNG </div>
         <div class="row w3-res-tb">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
@@ -35,6 +35,7 @@
                     <tr>
                         <th style="width:20px;">ID</th>
                         <th>Tên người đặt</th>
+                        <th>Tên người nhận</th>
                         <th>CMND</th>
                         <th> Phòng </th>
                         <th>Tổng tiền</th>
@@ -51,6 +52,7 @@
                     <tr>
                         <td><label class="i-checks m-b-none"><i>{{$key['id']}}</i></label></td>
                         <td> {{$key['name']}} </td>
+                        <td>{{$key['hoten']}}</td>
                         <td> {{$key['cmnd']}} </td>
                         <td> {{$key['phong']}} </td>
 
@@ -65,10 +67,10 @@
                             <a style="color:red" href="{{URL::to('uptt',$key['id'])}}">Chờ xác nhận</a>
                             @endif
                                 @if($key['tinhtrang']==2)
-                                <a style="color:black" href="{{URL::to('uptt',$key['id'])}}">Đã xác nhận</a>;
+                                <a style="color:black" href="{{URL::to('uptt',$key['id'])}}">Đã xác nhận</a>
                             @endif
                                 @if($key['tinhtrang']==3)
-                                <a style="color:green" href="{{URL::to('uptt',$key['id'])}}">Đã lấy phòng</a>;
+                                <a style="color:green" href="{{URL::to('uptt',$key['id'])}}">Đã nhận phòng</a>
                             @endif
                                 @if($key['tinhtrang']==4)
                                 <p style="color:blue">Hoàn thành</p>
@@ -78,7 +80,7 @@
                         <td>
                             @if($key['tinhtrang']==0)
                         <a href="{{URL::to('xoa',$key['id'])}}" class="btn btn-danger" style="font-size: 13px"  ui-toggle-class="">
-                        <i class="fas fa-trash-alt"></i> Xóa
+                        <i class="fas fa-trash-alt"></i> Danh sách hủy
                         </a>
                         @endif
                         </td>

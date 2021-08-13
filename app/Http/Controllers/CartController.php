@@ -54,13 +54,17 @@ class CartController extends Controller
             'username'=>Session::get('name'),
             'status'=>1,
             'deposit'=>($request->price * $request->songay)*0.4,
+            'hoten'=>$request->hoten,
             'cmnd'=>$request->cmnd,
             'adults'=>$request->adults,
             'children'=>$request->children,
             'dayat'=>$at->format('Y-m-d'),
             'dayout'=>$out->format('Y-m-d'),
+            'room_id'=>$request->room_id,
             'total'=>$request->price*$request->songay,
             'order_status_id'=>1,
+            'cuoituan'=>0,
+            'ngayle'=>0,
             'created_at'=>Carbon::now(),
         ]);
 

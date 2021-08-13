@@ -190,15 +190,22 @@ use Illuminate\Support\Facades\Session;
                                 </ul>
                             </li>
                             <li class="sub-menu">
-                                <a href="javascript:;">
-                                    <i class="fa fa-book"></i>
-                                    <span> Đơn hàng </span>
-                                </a>
-                                <ul class="sub">
-                                    <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
-                                    <li><a href="{{URL::to('ds-xoa')}}">Đơn hàng đã xoá</a></li>
-                                </ul>
-                            </li>
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span> Đơn phòng </span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn phòng</a></li>
+                                <li><a href="{{URL::to('ds-xoa')}}">Danh sách đơn đã hủy</a></li>
+                                <li><a href="{{URL::to('ds-huy')}}">Trạng thái đã huỷ</a></li>
+                                <li><a href="{{URL::to('ds-cho')}}">Trạng thái chờ xác nhận</a></li>
+                                <li><a href="{{URL::to('ds-da')}}">Trạng thái đã xác nhận</a></li>
+                                <li><a href="{{URL::to('ds-lay')}}">Trạng thái đã nhận phòng</a></li>
+                                <li><a href="{{URL::to('ds-done')}}">Trạng thái đã hoàn tất</a></li>
+
+
+                            </ul>
+                        </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-user"></i>

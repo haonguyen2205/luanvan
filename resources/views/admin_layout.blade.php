@@ -78,12 +78,23 @@ use Illuminate\Support\Facades\Session;
                     <div class="sidebar-toggle-box">
                         <div class="fa fa-bars"></div>
                     </div>
+                   
                 </div>
                 <!--logo end-->
 
                 <div class="top-nav clearfix">
                     <!--search & user info start-->
+                   
                     <ul class="nav pull-right top-menu">
+                    <li>
+                        <div class="form-group" >
+                            @if(Session::has('mes_diemdanh'))
+                                <A class="btn btn-success " font-size="18px" type="submit" href="{{URL::to('/diemdanhra')}}"> chấm công ra</A>
+                            @else
+                                <A class="btn btn-success" type="submit" height="45px" href="{{URL::to('/diemdanh')}}">chấm công vào</A>
+                            @endif
+                        </div>
+                    </li>
                         <!-- user login dropdown start-->
                         <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -91,7 +102,6 @@ use Illuminate\Support\Facades\Session;
                                 
                                 @if(Session::has('users_image'))
                                     <?php
-                                    echo session::get('admin_id');
                                         $user = Session::get('users_image');
                                     ?>
                                     <img alt="" src='public/upload/staff/<?php echo $user ?>' height='45px'/>    
@@ -123,10 +133,14 @@ use Illuminate\Support\Facades\Session;
                 </div>
             </header>
 
+
             <aside>
                 <div id="sidebar" class="nav-collapse">
                     <!-- sidebar menu start-->
                     <div class="leftside-navigation">
+                        
+                    @if(session::get('postion')==4)
+                                
                         <ul class="sidebar-menu" id="nav-accordion">
                             <li>
                                 <a class="active" href="{{URL::to('/admin')}}">
@@ -151,7 +165,6 @@ use Illuminate\Support\Facades\Session;
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/add-uti')}}">Thêm loại tiện ích </a></li>
                                     <li><a href="{{URL::to('/list-uti')}}">danh sách các tiện ích </a></li>
-
                                 </ul>
                             </li>
                             <li class="sub-menu">
@@ -205,16 +218,16 @@ use Illuminate\Support\Facades\Session;
                                 </ul>
                             </li>
                             <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-book"></i>
-                                <span> Quản lí  tin tức </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
-                                <li><a href="{{URL::to('/list-new')}}">Danh sách tin tức </a></li>
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí  tin tức </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
+                                    <li><a href="{{URL::to('/list-new')}}">Danh sách tin tức </a></li>
 
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
@@ -223,9 +236,89 @@ use Illuminate\Support\Facades\Session;
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/list-new')}}">dsds </a></li>
                             </li>
-                            
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-bed"></i>
+                                    <span> Quản lí  dịch vụ </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/show-page-add')}}">thêm dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/list-service')}}">danh sách dịch vụ </a></li>
+                                </ul>
+                            </li>
                         </ul>
+
+                        <!-- KẾT THÚC danh sách mục của quản lý -->
+                    @else
+                        <ul class="sidebar-menu" id="nav-accordion">
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-user"></i>
+                                    <span> Quản lí khách hàng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-users')}}">Danh sách khách hàng</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-bed"></i>
+                                    <span> Quản lí  phòng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-room')}}">danh sách phòng </a></li>
+                                </ul>
+                            </li>
+                            <!-- quản lý, xử lý đơn hàng -->
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Đơn hàng </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn hàng</a></li>
+                                    <li><a href="{{URL::to('ds-xoa')}}">Đơn hàng đã xoá</a></li>
+
+                                </ul>
+                            </li>
+                            <!-- quản lý tin tức + danh mục tin tức -->
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí  tin tức </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
+                                    <li><a href="{{URL::to('/list-new')}}">Danh sách tin tức </a></li>
+
+                                </ul>
+                            </li>
+                                <!-- quản lý đánh giá -->
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-book"></i>
+                                    <span> Quản lí đánh giá </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/list-new')}}">dsds </a></li>
+                                </ul>
+                            </li>
+                            <!-- quản lý dịch vụ -->
+                            <li class="sub-menu">
+                                <a href="javascript:;">
+                                    <i class="fa fa-hotel"></i>
+                                    <span> Quản lí  dịch vụ </span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a href="{{URL::to('/show-page-add')}}">thêm dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/list-service')}}">danh sách dịch vụ </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    @endif
                     </div>
+                    
                 </div>
                     <!-- sidebar menu end     -->
             </aside>

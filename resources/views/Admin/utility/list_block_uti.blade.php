@@ -18,11 +18,11 @@
               <A href="{{URL::to('/add-uti')}}" class="btn btn-primary">thêm tiện ích</A>                
         </div>
 
-        <div class="col-sm-5">
+        <div class="col-sm-3">
         </div>
 
         <!-- thanh search -->
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="input-group">
             <form action="{{URL::to('/list-uti')}}"  >
             {{ csrf_field() }}  

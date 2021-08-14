@@ -3,14 +3,15 @@
 @section('admin_content')
 
 <div class="table-agile-info">
-    <ul class="nav nav-tabs">
-        <li><a href="{{URL::to('/list-type')}}"> <span class="glyphicon glyphicon-bed"></span> DS loại phòng </a></li>
-        <li><a href="{{URL::to('/list-type-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
-    </ul>
+    
     <div class="panel panel-default">
       <div class="panel-heading">
         Danh sách loại phòng không hoạt động
       </div>
+      <ul class="nav nav-tabs">
+        <li><a href="{{URL::to('/list-type')}}"> <span class="glyphicon glyphicon-bed"></span> DS loại phòng </a></li>
+        <li><a href="{{URL::to('/list-type-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS khóa</a></li>
+    </ul>
       <div class="row w3-res-tb">
         <div class="col-sm-5 m-b-xs">
           <a href="{{URL::to('/add-type')}}" class="btn btn-info">thêm loại phòng</a>              

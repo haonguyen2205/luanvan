@@ -21,37 +21,73 @@ class OrderController extends Controller
     function add_order_page(request $request,$id)
     {
 
-           $start= $request->input('start_time');
-           $endt= $request->input('end_time');
+        $start= session::get('startime');
+        $endt= session::get('endtime');
+        $cuoituan=0;
+        $room=room::where('room_id',$id)->get();
+        $img=DB::table('image')->take(10)->Get();
+        // echo $room[0]->room_price; exit;
+        $tongtien=0;
+        for($start ;$start <=$endt;$start++) {
+            $t=date("w",strtotime($start)); // w là week 
+           if($t==0 || $t==6)
+           {
+               $tongtien=$tongtien + ($room[0]->room_price * 120)/100;
+                $cuoituan+=1;
+           }
+           else{
+                $tongtien=$tongtien + $room[0]->room_price;
+           }
+        }
+        $start= session::get('startime');
+        
 
-        $room=room::where('room_id',$id)->first();
-        //$room=room::orderBy('type_id','desc')->where('type_id',$type_name)->get();
-
-        return view("admin.order.add_order",compact('start','endt'))->with('room',$room);
+        return view("admin.order.add_order",compact('img','start','endt','room','cuoituan','tongtien'));
     }
-
-    public function findroomName(Request $request)
-    {
-        //$request->id here is the id of our chosen option id
-        $data=room::select('room_name','type_id')->where('type_id',$request->id)->take(50)->get();
-        return response()->json($data);//then sent this data to ajax success 
-	}
-
-    public function findPrice(Request $request)
-    {
-		//laasy ra giá của phòng nếu phù hợp vs id của phòng
-		$p=room::select('room_price')->where('rooom_id',$request->id)->first();
-		
-    	return response()->json($p);
-	}
 
 //-------------
-    function order_by_admin(){
+    function order_by_admin()
+    {
         return view("admin.order.list");
     }
-    function add_order_by_admin(){
+
+    function add_order_by_admin(request $request,$id)
+    {
         $order=new order();
         $order_detail=new order_detail();
+        $mydate=date("Y-m-d H:i:s");
+        
+
+        $tongnguoi=$request->input('adults')+$request->input('children');
+
+        $room=room::where('room_id',$id)->join('category_room','category_room.type_id','=','room.type_id')->Get();
+
+        
+        // thêm vào đơn hàng
+        $order->users_id=session::Get('admin_id');
+        $order->username=$request->input('name');
+        $order->status=1;
+        $order->deposit= $request->input('deposit');
+        $order->adults=$request->input('adults');
+        $order->children=$request->input('children');
+        $order->dayat=$request->input('start');
+        $order->dayout=$request->input('end');
+        $order->CMND=$request->input('CMND');
+        $order->total=$request->input('total');
+
+        $order->save();
+
+        ///thêm chi tiết đơn
+        $order_detail->order_id=$order->order_id;
+        $order_detail->room_id=$id;
+        $order_detail->room_qty=1;
+        $order_detail->save();
+        
+        session::put('startime',null);
+        session::put('endtime',null);
+        session::put('mes_datphong',"đặt phòng thành công");
+        return redirect::to('/list-room');
+        
     }
     
 }

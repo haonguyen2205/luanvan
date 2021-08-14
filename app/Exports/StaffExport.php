@@ -6,33 +6,44 @@ use App\Models\users;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+
+use App\Models\type; 
+use App\Models\room;
+use App\Models\image;
+use App\Models\order_detail;
+use App\Models\order;
+use DB;
 
 class StaffExport implements FromCollection,WithHeadings, WithMapping
 {
+    // 
     /**
     * @return \Illuminate\Support\Collection
     */
+    
     public function collection()
     {
-        return users::where('role',1)->where('status',1)->get();
+        
     }
 
     public function headings(): array {
         return [
-            'users_id',
-            'name',
-            'email',    
-            "position", 
-            
+            'tenphong',
+            'loaiphong',
+            'giaphong',    
+            'songuoilon',
+            'sotreem',
         ];
     }
  
-    public function map($users): array {
+    public function map($r): array {
         return [
-            $users->users_id,
-            $users->name,
-            $users->email,
-            $users->,
+            $r->room_name,
+            $r->type_id,
+            $r->room_price,
+            
         ];
     }
 }

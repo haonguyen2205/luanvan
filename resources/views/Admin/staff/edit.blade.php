@@ -33,7 +33,7 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">địa chỉ </label>
-                                <input type="text" class="form-control" value="{{$edit_staff->address}}" min="3" max="50" name="address">
+                                <input type="text" class="form-control" value="{{$edit_staff->address}}" minlength="3" maxlength="70" name="address">
                             </div>
                             <span style="color: red;">{{$errors->first('address')}}</span>
 

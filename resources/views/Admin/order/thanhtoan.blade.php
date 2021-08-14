@@ -103,6 +103,7 @@
                                         {
                                             if($ser->service_id == $d->service_id)
                                             {
+                                                //Đã thanh toán
                                                 echo "<tbody>";
                                                 echo "<tr>";
                                                 echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
@@ -161,7 +162,7 @@
                                         <tr>
                                             <td>Phụ thu ngày lễ</td>
                                             <td><input type="number" style="width: 70px; border: 0px;" name="ngayle" value="{{$sonl}}" min="0"></td>
-                                            <td>{{$ngayle}}</td>
+                                            <td readonly>{{$ngayle}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

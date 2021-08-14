@@ -140,8 +140,11 @@ class AdminDonHangController extends Controller
         $tiendichvu =0;
         $id=DB::table('service_detail')->where('order_id',$order->order_id)->first();
         $ul=DB::table('utility')->get();
+
         foreach($ser as $s){
-            $a=$s->name;
+
+            
+            $a=$s->name; 
             $tiendichvu = $tiendichvu+ $request->$a*$s->service_price;
             if($id==null){
                 DB::table('service_detail')->insert([

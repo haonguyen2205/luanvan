@@ -67,7 +67,14 @@ class CartController extends Controller
             'ngayle'=>0,
             'created_at'=>Carbon::now(),
         ]);
-
+        $ser=DB::table('service')->get();
+        foreach($ser as $s){
+            DB::table('service_detail')->insert([
+                'order_id'=>$oder,
+                'service_id'=>$s->service_id,
+                'quantity'=>0
+            ]);
+        }
         $order_detail=DB::table('order_details')->insert([
             'order_id'=>$oder,
             'room_id'=>$request->room_id,

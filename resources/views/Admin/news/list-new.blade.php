@@ -73,6 +73,13 @@
                 @endforeach
                 </tbody>
             </table>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="text-center text-center-xs"> 
+                        {{$listNew->links()}}           
+                    </div>
+                </div>
+            </footer>
             
         </div>
     </div>

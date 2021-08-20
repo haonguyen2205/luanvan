@@ -83,6 +83,7 @@
                     @endforeach
                 </div>
             </div>
+            {{$showPageNew->links()}}
         </div>
     </section>
     <!-- Blog Section End -->

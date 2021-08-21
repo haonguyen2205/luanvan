@@ -74,7 +74,6 @@ class ServiceController extends Controller
     public function delete_service($id)
     {
         $sv= service::find($id);
-
         $sv->delete();
 
         session::put('mes_delete_sv',"xóa dịch vụ thành công");

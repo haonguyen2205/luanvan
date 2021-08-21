@@ -42,7 +42,7 @@ class CartController extends Controller
     {
         Session::put('datphong',1);
         
-      
+        
         $at= new Carbon($request->dayat);
 
         $out = new Carbon($request->dayout);
@@ -65,7 +65,7 @@ class CartController extends Controller
             'order_status_id'=>1,
             'cuoituan'=>0,
             'ngayle'=>0,
-            'created_at'=>Carbon::now(),
+            'created_at'=>Carbon::now('Asia/Ho_Chi_Minh'),
         ]);
         $ser=DB::table('service')->get();
         foreach($ser as $s){

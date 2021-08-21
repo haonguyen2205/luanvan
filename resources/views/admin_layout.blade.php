@@ -345,13 +345,13 @@ use Illuminate\Support\Facades\Session;
                     </p>
                 </div> -->
                  <!-- footer -->
-		  <div class="footer">
-			<div class="wthree-copyright bottom">
-            <p style="color: black;">
-                    <b style="color: white;">LUẬN VĂN TỐT NGHIỆP - WEBSITE QUẢN LÍ KHÁCH SẠN</b> - Nguyễn Phạm Nhựt Hào - Nguyễn Văn Toàn
+            <!-- <div class="footer">
+                <div class="wthree-copyright bottom">
+                    <p style="color: black;">
+                        <b style="color: white;">LUẬN VĂN TỐT NGHIỆP - WEBSITE QUẢN LÍ KHÁCH SẠN</b> - Nguyễn Phạm Nhựt Hào - Nguyễn Văn Toàn
                     </p>
-			</div>
-		  </div>
+                </div>
+            </div> -->
   <!-- / footer -->
     </section>
 

@@ -107,7 +107,7 @@ class AdminDonHangController extends Controller
         return view('Admin.order.thanhtoan',$viewData);
     }
     function capnhat(Request $request){
-        
+       
         $order= DB::table('order')->where('order_id',$request->id)->first();
         $orderdetail = DB::table('order_details')->where('order_id',$order->order_id)->first();
         $user=DB::table('users')->where('users_id',$order->users_id)->first();

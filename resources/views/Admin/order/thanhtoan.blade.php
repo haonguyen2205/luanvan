@@ -97,12 +97,12 @@
                                                         ?>
                                                     </td>
                                                     <td style="text-align: center;">
-                                                        <input type="number" name="
+                                                        <input type="number"
                                                             <?php 
                                                                 foreach($service as $ser) 
                                                                     if($ser->service_id == $d->service_id) 
-                                                                        echo $ser->name;   
-                                                            ?>" value="{{$d->quantity}}" style="border: 0px; text-align: center;" min="0">
+                                                                        echo "name='".$ser->name."'";   
+                                                            ?> value="{{$d->quantity}}" style="border: 0px; text-align: center;" min="0">
                                                     </td>
                                                     <td style="text-align: right;">
                                                         <?php 

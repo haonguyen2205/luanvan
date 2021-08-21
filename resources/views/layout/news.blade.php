@@ -80,11 +80,10 @@
                         </div>
                     </div>
                     @endforeach
-                    
+                    <div> {{$showPageNew->links()}} </div>
                 </div>
                
             </div>
-            {{$showPageNew->links()}}
         </div>
         
     </section>

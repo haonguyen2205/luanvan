@@ -46,6 +46,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8 order-1 order-lg-2">
+                  
                     @foreach($showPageNew as $key => $showNews)
                     <div class="blog-post">
                         <div class="single-blog-post">
@@ -79,10 +80,12 @@
                         </div>
                     </div>
                     @endforeach
-                    
+                    <div> {{$showPageNew->links()}} </div>
                 </div>
+               
             </div>
         </div>
+        
     </section>
     <!-- Blog Section End -->
 @endsection

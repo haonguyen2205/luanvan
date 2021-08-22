@@ -58,6 +58,8 @@
                                     </tr>
                                 </thead>
                             <?php
+                         
+
                                 if($status == 3)
                                 { 
                                     if(empty($dichvu[0]))
@@ -76,24 +78,46 @@
                                     }
                                     else if(!empty($dichvu[0]))
                                     {
-                                        foreach($service as $ser)
-                                        {
-                                            foreach($dichvu as $d)
-                                            {
-                                                if($ser->service_id == $d->service_id)
-                                                {   
-                                                    // Có sử dụng dịch vụ trong khi thuê
-                                                    echo "<tbody>";
-                                                    echo "<tr>";
-                                                    echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
-                                                    echo "<td style='text-align: center;'><input type='number' name='".$ser->name."' value='".$d->quantity."' style='border: 0px; text-align: center;' min='0'></td>";
-                                                    echo "<td style='text-align: right;'>".number_format($ser->service_price,0)."VNĐ </td>";
-                                                    echo "</tr>";
-                                                    echo "</tbody>";
-                                                }
+                                        $arr=array();
+                                        foreach($service as $ser){
+                                            foreach($dichvu as $d){
+                                                
                                             }
                                         }
-                                    }     
+                                            foreach($dichvu as $d)
+                                            {?>
+                                                    <!-- Có sử dụng dịch vụ trong khi thuê-->
+                                                    <tbody>
+                                                    <tr>
+                                                    <td style="font-weight: bold;text-align: center;">
+                                                        <?php 
+                                                            foreach($service as $ser) 
+                                                                if($ser->service_id == $d->service_id) 
+                                                                    echo $ser->service_name; 
+                                                        ?>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <input type="number"
+                                                            <?php 
+                                                                foreach($service as $ser) 
+                                                                    if($ser->service_id == $d->service_id) 
+                                                                        echo "name='".$ser->name."'";   
+                                                            ?> value="{{$d->quantity}}" style="border: 0px; text-align: center;" min="0">
+                                                    </td>
+                                                    <td style="text-align: right;">
+                                                        <?php 
+                                                            foreach($service as $ser) 
+                                                                if($ser->service_id == $d->service_id) 
+                                                                    echo $ser->service_price; 
+                                                        ?> VNĐ 
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                              <?php  }
+                                               
+                                            }
+                                        
+                                      
                                 }
                                 if($status==4)
                                 {
@@ -103,6 +127,7 @@
                                         {
                                             if($ser->service_id == $d->service_id)
                                             {
+                                                //Đã thanh toán
                                                 echo "<tbody>";
                                                 echo "<tr>";
                                                 echo "<td style='font-weight: bold;text-align: center;'>".$ser->service_name."</td>";
@@ -161,7 +186,7 @@
                                         <tr>
                                             <td>Phụ thu ngày lễ</td>
                                             <td><input type="number" style="width: 70px; border: 0px;" name="ngayle" value="{{$sonl}}" min="0"></td>
-                                            <td>{{$ngayle}}</td>
+                                            <td readonly>{{$ngayle}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

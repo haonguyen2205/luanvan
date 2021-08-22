@@ -37,7 +37,7 @@ body {
     background-attachment: fixed;
     background-position: center;
     text-align: center;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto';
 }
 /*--header--*/
 .header-w3l {
@@ -48,7 +48,7 @@ body {
     color: white;
     letter-spacing: 8px;
     font-weight: 500;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Roboto';
     text-transform: uppercase;
     text-shadow: 5px 3px 5px #101010;
 }
@@ -73,7 +73,7 @@ body {
     color: #000;
     border-radius: 30px;
     font-weight: 400;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Roboto';
     letter-spacing: 1px;
 }
 .sub-main-w3 {
@@ -122,7 +122,7 @@ span.icon2 {
     cursor: pointer;
     letter-spacing: 1px;
     font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto';
     transition: 0.5s all;
     -webkit-transition: 0.5s all;
     -o-transition: 0.5s all;

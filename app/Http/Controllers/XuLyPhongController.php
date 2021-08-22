@@ -10,7 +10,7 @@ class XuLyPhongController extends Controller
     function index(Request $request){
         $timein=Carbon::create($request->dayat);
         $now= Carbon::now('Asia/Ho_Chi_Minh')->toDateString(); 
-        if($timein->toDateString() < $now) return redirect('rooms');
+        if($timein->toDateString() <= $now) return redirect('rooms'); //điều kiện để kiểm tra ngày
         $timeout=Carbon::create($request->dayout);
         if($timeout<$timein) return redirect('rooms');
         $timein=$timein->year."-".$timein->month."-".$timein->day;

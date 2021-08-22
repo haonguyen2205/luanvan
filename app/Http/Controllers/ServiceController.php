@@ -43,6 +43,8 @@ class ServiceController extends Controller
 
     public function add_service(request $request)
     {
+        $new=DB::table('service_detail')->distinct()->select('order_id')->get();
+      
         $sv= new service();
 
         $sv->service_name= $request->input('sv_name1');
@@ -50,6 +52,14 @@ class ServiceController extends Controller
         $sv->service_price=$request->input('sv_price');
 
         $sv->save();
+        $mmm=DB::table('service')->where('service_name',$request->input('sv_name1'))->first();
+        foreach($new as $n){
+            DB::table('service_detail')->insert([
+                'order_id'=>$n->order_id,
+                'service_id'=>$mmm->service_id,
+                'quantity'=>0
+            ]);
+        }
         session::put('mes_create_sv',"thêm dịch vụ thành công");
         return redirect::To('/list-service');
     }
@@ -79,7 +89,6 @@ class ServiceController extends Controller
     public function delete_service($id)
     {
         $sv= service::find($id);
-
         $sv->delete();
 
         session::put('mes_delete_sv',"xóa dịch vụ thành công");

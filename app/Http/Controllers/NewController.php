@@ -11,28 +11,33 @@ use Illuminate\Support\Facades\Redirect;
 use DB;
 
 class NewController extends Controller
-{ function news()
+{ 
+    //user
+    function news()
     {
-        $new = tintuc::all();
+        $new = tintuc::paginate(4);
         $listcat = category::orderBy('stt','ASC')->get();
         return view('layout.news')->with('showPageNew', $new)->with('showPageCat',$listcat);
        //return Redirect::to();
     }
+        //admin
     function newsearch(Request $request){
-        $list = tintuc::where('new_name','LIKE',"%".$request->search."%")->get();
+        $list = tintuc::where('new_name','LIKE',"%".$request->search."%")->paginate(4);
         $manager = view('Admin.news.list-new')->with('listNew', $list);
         return view('admin_layout')->with('Admin.news.list-new', $manager);
      
     }
     function newcat($id){
-        $new=tintuc::where('cat_id',$id)->get();
+        $new=tintuc::where('cat_id',$id)->paginate(4);
         $listcat = category::orderBy('stt','ASC')->get();
         return view('layout.newcat')->with('showPageNew', $new)->with('showPageCat',$listcat);
         
     }
+
+
     function listNew()
     {
-        $list = tintuc::all();
+        $list = tintuc::paginate(4);
         $manager = view('Admin.news.list-new')->with('listNew', $list);
         return view('admin_layout')->with('Admin.news.list-new', $manager);
     }

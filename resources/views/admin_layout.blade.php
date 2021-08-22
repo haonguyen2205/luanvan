@@ -59,6 +59,10 @@ use Illuminate\Support\Facades\Session;
         border-radius: 4px;
     }
 
+    /* .footer {
+            
+            background: white;
+        } */
     </style>
 
 
@@ -181,7 +185,7 @@ use Illuminate\Support\Facades\Session;
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-bed"></i>
-                                    <span> Quản lí  phòng </span>
+                                    <span> Quản lí phòng </span>
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/add-room')}}">Thêm phòng </a></li>
@@ -209,7 +213,7 @@ use Illuminate\Support\Facades\Session;
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-user"></i>
-                                    <span> Quản lí  nhân viên </span>
+                                    <span> Quản lí nhân viên </span>
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/page_add_staff')}}">Thêm nhân viên </a></li>
@@ -220,7 +224,7 @@ use Illuminate\Support\Facades\Session;
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
-                                    <span> Quản lí  tin tức </span>
+                                    <span> Quản lí tin tức </span>
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
@@ -239,11 +243,11 @@ use Illuminate\Support\Facades\Session;
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-bed"></i>
-                                    <span> Quản lí  dịch vụ </span>
+                                    <span> Quản lí dịch vụ </span>
                                 </a>
                                 <ul class="sub">
-                                    <li><a href="{{URL::to('/show-page-add')}}">thêm dịch vụ </a></li>
-                                    <li><a href="{{URL::to('/list-service')}}">danh sách dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/show-page-add')}}">Thêm dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/list-service')}}">Danh sách dịch vụ </a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -267,16 +271,17 @@ use Illuminate\Support\Facades\Session;
                                     <span> Quản lí  phòng </span>
                                 </a>
                                 <ul class="sub">
-                                    <li><a href="{{URL::to('/list-room')}}">danh sách phòng </a></li>
+                                    <li><a href="{{URL::to('/list-room')}}">Danh sách phòng </a></li>
                                 </ul>
                             </li>
                             <!-- quản lý, xử lý đơn hàng -->
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
-                                    <span> Đơn hàng </span>
+                                    <span> Đơn phòng </span>
                                 </a>
-                                <ul class="sub">
+                              <ul class="sub">
+
                                     <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn phòng</a></li>
                                     <li><a href="{{URL::to('ds-xoa')}}">Danh sách đơn đã hủy</a></li>
                                     <li><a href="{{URL::to('ds-huy')}}">Trạng thái đã huỷ</a></li>
@@ -284,13 +289,13 @@ use Illuminate\Support\Facades\Session;
                                     <li><a href="{{URL::to('ds-da')}}">Trạng thái đã xác nhận</a></li>
                                     <li><a href="{{URL::to('ds-lay')}}">Trạng thái đã nhận phòng</a></li>
                                     <li><a href="{{URL::to('ds-done')}}">Trạng thái đã hoàn tất</a></li>
-                                </ul>
+                              </ul>
                             </li>
                             <!-- quản lý tin tức + danh mục tin tức -->
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-book"></i>
-                                    <span> Quản lí  tin tức </span>
+                                    <span> Quản lí tin tức </span>
                                 </a>
                                 <ul class="sub">
                                     <li><a href="{{URL::to('/list-cat')}}">Danh sách danh mục </a></li>
@@ -312,11 +317,11 @@ use Illuminate\Support\Facades\Session;
                             <li class="sub-menu">
                                 <a href="javascript:;">
                                     <i class="fa fa-hotel"></i>
-                                    <span> Quản lí  dịch vụ </span>
+                                    <span> Quản lí dịch vụ </span>
                                 </a>
                                 <ul class="sub">
-                                    <li><a href="{{URL::to('/show-page-add')}}">thêm dịch vụ </a></li>
-                                    <li><a href="{{URL::to('/list-service')}}">danh sách dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/show-page-add')}}">Thêm dịch vụ </a></li>
+                                    <li><a href="{{URL::to('/list-service')}}">Danh sách dịch vụ </a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -326,6 +331,7 @@ use Illuminate\Support\Facades\Session;
                 </div>
                     <!-- sidebar menu end     -->
             </aside>
+            
 
                 <section id="main-content">
                     <section class="wrapper">
@@ -333,6 +339,21 @@ use Illuminate\Support\Facades\Session;
 
                     @yield('admin_content')
                 </section>
+                
+                <!-- <div class="wthree-copyright" id="footer" style="padding-left: 0;">
+                    <p style="padding-left: 20px; color: red;">
+                    <b style="color: black;">LUẬN VĂN TỐT NGHIỆP - WEBSITE QUẢN LÍ KHÁCH SẠN</b> - Nguyễn Phạm Nhựt Hào - Nguyễn Văn Toàn
+                    </p>
+                </div> -->
+                 <!-- footer -->
+            <!-- <div class="footer">
+                <div class="wthree-copyright bottom">
+                    <p style="color: black;">
+                        <b style="color: white;">LUẬN VĂN TỐT NGHIỆP - WEBSITE QUẢN LÍ KHÁCH SẠN</b> - Nguyễn Phạm Nhựt Hào - Nguyễn Văn Toàn
+                    </p>
+                </div>
+            </div> -->
+  <!-- / footer -->
     </section>
 
     <script src="{{asset('public/backend/js/bootstrap.js')}}"></script>

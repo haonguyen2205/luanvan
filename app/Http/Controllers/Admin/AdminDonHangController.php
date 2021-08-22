@@ -254,13 +254,15 @@ class AdminDonHangController extends Controller
         return view('Admin.order.thanhtoan',$viewData);
 
     }
-    function xoa($id){
+    function xoa($id)
+    {
         DB::table('order')->where('order_id',$id)->update([
             'status'=>-1
         ]);
         return redirect('admin/manage-order');
     }
-    function checkout(Request $request){
+    function checkout(Request $request)
+    {
    
        DB::table('order')->where('order_id',$request->id)->update([
            'total' => $request->total,
@@ -341,8 +343,9 @@ class AdminDonHangController extends Controller
         ];
 
         return view('Admin.order.list',$viewData)->with('list',$list);
-  }
-    function huy($id){
+    }
+    function huy($id)
+    {
         DB::table('order')->where('order_id',$id)->update([
             'status'=>0,
             

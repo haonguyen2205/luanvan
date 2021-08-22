@@ -59,9 +59,9 @@
                   <a href="{{URL::to('/edit-service/'.$sv->service_id)}}" class="active" style="font-size: 21px;" ui-toggle-class="">
                     <i class="fa fa-pencil-square-o text-success text-active"></i>
                   </a>
-                  <a href="{{URL::to('/delete-sevice/'.$sv->service_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
+                  <!-- <a href="{{URL::to('/delete-sevice/'.$sv->service_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"class="active" style="font-size: 21px;"  ui-toggle-class="">
                     <i class="fa fa-times text-danger text"></i>
-                  </a>
+                  </a> -->
                 </td>
               </tr>
             @endforeach

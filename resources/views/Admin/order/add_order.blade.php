@@ -1,5 +1,7 @@
-
 @extends('admin_layout')
+<?php
+use Illuminate\Support\Facades\Session;
+?>
 @section('admin_content')
 <?php
 // $so = $endt->day - $start->day;
@@ -18,12 +20,12 @@
                 <div class="position-center">
                     @foreach ($room as $row)
 
-                    
                     <?php   
                     
                         $so = strtotime($endt) - strtotime($start);
                         $songay = $so/86400;
 
+                        $tennguoidat=session::Get('name_admin');
                         
                         $tiencoc = ($tongtien *40)/100;
                     ?>
@@ -33,7 +35,11 @@
                             
                             <div class="form-group">
                             <label for="exampleInputEmail1">người đặt phòng</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1" name="name" minlength="6" maxlength="50" required>
+                            <input type="text" class="form-control" id="exampleInputEmail1" value="{{$tennguoidat}}" name="name" minlength="6" maxlength="50" required>
+                            </div>
+                            <div class="form-group">
+                            <label for="exampleInputEmail1">người nhận phòng</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" name="hoten" minlength="6" maxlength="50" required>
                             </div>
                             <div class="row">
                                 <div class=" col-md-3">
@@ -53,12 +59,12 @@
                             </div>
                             <div class="row my-2">
                                 <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Adults</label>
+                                    <label for="exampleInputEmail1">người lớn</label>
                                     <input type="number" class="form-control" value="1" min="1" max="2"  name="adults" required>
                                 </div> 
                                 <div class="col-md-1"></div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Kids</label>
+                                <div class="col-md-3">  
+                                    <label for="exampleInputEmail1">trẻ em</label>
                                     <input type="number" class="form-control" value="0"  min="0" max="2" name="children" required>
                                 </div> 
                             </div>

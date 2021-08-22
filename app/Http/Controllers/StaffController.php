@@ -18,6 +18,19 @@ use App\Models\timekeep;
 class StaffController extends Controller
 {
     //
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
+    
     public function addpage_staff()
     {
         $pos = DB::table('postion')->get();
@@ -207,7 +220,7 @@ class StaffController extends Controller
         $time = new timekeep();
         $s=Session::has('admin_id');
         $time->users_id=$s;
-        $time->time_in =Carbon::now();
+        $time->time_in =Carbon::now('Asia/Ho_Chi_Minh');
         $time->save();
         $id =$time->timekeep_id;
         session::put('timekeep_id',$id);
@@ -222,7 +235,7 @@ class StaffController extends Controller
         $users=$data->users_id;
         if($users == session::Get('admin_id'))
         {
-            $t_o=$data->time_out =Carbon::now();
+            $t_o=$data->time_out =Carbon::now('Asia/Ho_Chi_Minh');
             //  
             // $data->sogio=$t_o - $data->time_in;
             $data->save();

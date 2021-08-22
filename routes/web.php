@@ -16,10 +16,11 @@ use App\Http\Controllers\Typecontroller as TypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryController; 
 use App\Http\Controllers\UtilityController; 
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\Admin\AdminDonhangController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,14 +53,8 @@ Route::post('/checklogin',[LoginController::class,'checkLogin']);
 
 Route::get('/logout',[LoginController::class,'logoutAction']);
 
-// ajax dat phong
-Route::get('/findroomName','OrderController@findroomName');
-Route::get('/findPrice','OrderController@findPrice');
-
 // manager
-route::get('/admin','admincontroller@index');
-
-
+route::get('/admin','AdminController@index');
 
 //quản lý tiện ích
 Route::get('/add-uti', [UtilityController::class,'ShowPageAdd_uti']);
@@ -94,7 +89,7 @@ Route::get('/active-type/{id}', [TypeController::class, 'activeType']);
 Route::get('/edit-type/{id}', [TypeController::class, 'showPageEdit']);
 
 Route::post('/update-type/{id}', [TypeController::class, 'update_cat']);
-//ket thuc quan li loai phong
+
 
 /// quản lý phòng
 Route::get('/add-room', [RoomController::class, 'showPageAdd']); //hiển thị trang thêm
@@ -226,6 +221,8 @@ route::get('delete-cus/{id}',[CustomerController::class,'delete_cus']);
 
 route::get('/list-users-block',[CustomerController::class,'list_cus_block']);
 
+route::get('/delete-order-cus/{id}',[CustomerController::class,'delete_order_cus']);
+
 // quản lý dịch vụ
 route::Get('/list-service',[ServiceController::class,'list_service']);
 
@@ -250,6 +247,11 @@ Route::get('/register/verify-token','RegisterController@verify_token');
 route::get('/register/resend-token/{id}','RegisterController@resend_token');
 
 route::post('/verify-account/{$token}','RegisterController@verify_account');
+
+route::get('/forget-password',[LoginController::class,'forget_password']);
+route::post('/mail-foget-password',[LoginController::class,'mail_foget_password']);
+route::Get('update-new-pass',[LoginController::class,'update_new_pass']);
+route::post('update-password',[LoginController::class,'update_password']);
 
 //EXPORT
 Route::get('export-timekeep', 'ExportController@export_timekeep')->name('export-timekeep');

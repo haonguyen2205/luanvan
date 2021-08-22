@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+use Mail;
 
 use App\Models\users;
 
@@ -61,5 +64,86 @@ class LoginController extends Controller
         return view('layout.home');
     }
 
+
+    public function forget_password(request $request)
+    {
+        return view('layout.forgetpass.forget_password');
+    }
+
+    public function mail_foget_password(request $request)
+    {
+        $data=$request->all();
+        $now =Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+        $title="lấy lại mật khẩu tài khoản khách sạn kalenda".''.$now;
+        $user=users::where('email',$data['email'])->get();
+        foreach ($user as $key=>$value) {
+            $cus_id=$value->users_id;
+        }
+
+        if($user)
+        {
+            $count_cus=$user->count();
+            if($count_cus==0) // tài khoản
+            {
+                return redirect()->back()->with('error',"email chưa được đăng kí để khôi phục mật khẩu");
+
+            }
+            else{
+
+                $token=Str::random(6);
+                $customer=users::find($cus_id); 
+
+                $customer->token='';    
+                $customer->token=$token;
+                $customer->save();
+
+                //send mail to customer
+                $to_email=$data['email'];
+                $link_reset_pass=url('/update-new-pass?email='.$to_email.'&token='.$token);
+                $data=array("name"=>$title,"body"=>$link_reset_pass,"email"=>$data['email']);
+                
+                Mail::Send('layout.forgetpass.forget_pass_notify',['data'=>$data],function($message) use($title,$data)
+                {
+                    $message->to($data['email'])->subject($title); // send mail vs chu de subject
+                    $message->from($data['email'],$title); //send form mail
+
+                });
+                return redirect()->back()->with('message',"gửi mail thành công,vui lòng vào mail để reset password");
+            }
+        }
+
+    }
+
+    public function update_new_pass(request $request)
+    {
+
+        return view('layout.forgetpass.update_new_pass');
+    }
+    public function update_password(request $request)
+    {
+        $data=$request->all();
+        $token= Str::random(6); // vô hiệu hóa link trong mail;
+        $customer =users::where('email',$data['email'])->where('token','=',$data['token'])->Get();
+        $count =$customer->count();
+
+        if($count>0)
+        {
+            foreach ($customer as $key=>$value)
+            {
+                $cus_id=$value->users_id;
+            }
+            $reset=users::find($cus_id);
+            $reset->password=$data['password'];
+            $reset->token=$token;
+            $reset->Save();
+            return redirect('login')->with('success',"mật khẩu đã cập nhật ");
+        
+        }
+        else{
+            return redirect('forget-password')->with('error',"vui lòng nhập lại mail,link đã quá hạn");
+        }
+
+
+    }
 }
 

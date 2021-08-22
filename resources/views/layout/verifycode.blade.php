@@ -52,7 +52,6 @@
                         <input  class="user" type="hidden" name="id" value="{{$id}}" required="">
                     </div>
                     <div class="pom-agile">
-							<h3 stype="color:red;">nhập mã xác nhận</h3>
                         <input  placeholder="mã xác nhận" name="token" class="form-control" minlength="6" maxlength="6" type="text" required="">
                     </div>
                    

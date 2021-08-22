@@ -68,8 +68,8 @@
                     </div>
                 </td>
                 <td> Loại : {{$room->type_id}} </td>
-                <td> ?????????? </td>
-                <td> ??????? </td>
+                <td> {{$songuoilon + $sotreem}} </td>
+                <td> ?? </td>
                 <td> {{number_format($room->room_price).' đ/ngày'}} </td>
                  
                 <td >

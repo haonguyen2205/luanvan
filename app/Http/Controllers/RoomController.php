@@ -17,13 +17,28 @@ use App\Models\room;
 use App\Models\image;
 use App\Models\order_detail;
 use App\Models\order;
+use Illuminate\Database\Console\DbCommand;
 use Input;
 
 class RoomController extends Controller
 {
 
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
+
     public function showPageAdd()
     {
+        $this->AuthLogin();
         $typeName = type::orderBy('type_id', 'asc')->get(); //lấy id của loại phòng 
         return view('Admin.room.add')->with('typeName', $typeName);
     }
@@ -50,6 +65,7 @@ class RoomController extends Controller
     //thêm phòng admin
     public function addRoomAction(Request $request)
     {
+        
             $type=type::all();
             $listroom=room::all();
             $room =new room();     
@@ -111,6 +127,7 @@ class RoomController extends Controller
 
     public function listRoom(Request $request)
     {
+        $this->AuthLogin();
         $key = $request->input('keyword');
         if($key!='')
         {
@@ -134,6 +151,7 @@ class RoomController extends Controller
 
     public function list_room_block()
     {
+        $this->AuthLogin();
         $list = room::join('category_room','category_room.type_id', '=', 'room.type_id')
         ->where('room_status',0)
             ->orderBy('room.type_id', 'desc')->paginate(5);
@@ -166,23 +184,42 @@ class RoomController extends Controller
 
     public function showPageEdit($id)
     {
+
+        $this->AuthLogin();
         $type    = type::orderBy('type_id', 'asc')->get();
         $room    = room::join('category_room','category_room.type_id', '=', 'room.type_id')->where('room_id', $id)->get();
-        $images  =image::where('room_id', $id)->get();
-        $detail=DB::table('order_details')->where('room_id',$id)->exists();
         
-        if($detail)
+
+        $order=order::where('status',1)->orwhere('status',2)->orwhere('status',3)->Get();
+        $detail = array();
+        $roomss =array();   
+        
+        foreach($order as $od)
         {
-            Session::put('mes_update_fail','phòng đang có người đặt không được phép sửa');
-            return Redirect::to('/list-room');
-        }else
-        {
-            $manager = view('admin.room.edit')
-            ->with('editRoom', $room)
-            ->with('editType', $type)
-            ->with('imageroom',$images);
-            return view('admin_layout')->with('admin.room.edit', $manager);
+            $detail[] =DB::Table('order_details')->where('order_id',$od->order_id)->get();
+            // lấy danh sách chi tiết để lọc room_id
         }
+
+
+        foreach($detail as $dt)
+        {
+            $roomss[]=room::where('room_id',$dt[0]->room_id)->get();
+            //lọc phòng đã có tồn tại trong đơn đang hoạt động
+        }
+        foreach($roomss as $r)
+        {
+            if($id==$r[0]->room_id)
+            {
+                Session::put('mes_update_fail','phòng đang có người đặt không được phép sửa');
+                return Redirect::to('/list-room');
+            }
+        }
+
+        $manager = view('Admin.room.edit')
+        ->with('editRoom', $room)
+        ->with('editType', $type);
+        
+        return view('admin_layout')->with('Admin.room.edit', $manager);
         
     }
 
@@ -199,40 +236,31 @@ class RoomController extends Controller
         // $room->quality          = $request->input('amount');
         $room->room_price       = $request->input('price');
 
-        $order=order::where('status',0)->orwhere('status',4)->Get();
-
-        $detail=DB::table('order_details')->where('room_id',$id)->exists();
-        
-        if($detail)
+        if($request->hasFile('image')) 
         {
-            Session::put('mes_update_fail','cập nhật phòng Không thành công');
-            return Redirect::to('/list-room');
-        }
-        else{
-            if($request->hasFile('image')) {
-                $image = $request->file('image');
-                if($image) {
-                    $get_name_image = $image->getClientOriginalName(); //lay ten hình
-                    $name_image     = current(explode('.',$get_name_image));
-                    $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
-                    $image->move('public/upload/rooms',$new_image);
-                    $room->image = $new_image;
-                    $room->save();
-                    Session::put('mes_updateRoom','cập nhật phòng thành công');
-                    return Redirect::to('/list-room');
-                }
-            }
-            else if($request->input('image')=="")
-            {
+            $image = $request->file('image');
+            if($image) {
+                $get_name_image = $image->getClientOriginalName(); //lay ten hình
+                $name_image     = current(explode('.',$get_name_image));
+                $new_image      = $name_image.rand(0,99).'.'.$image->getClientOriginalExtension(); //xem phải hinhf khong
+                $image->move('public/upload/rooms',$new_image);
+                $room->image = $new_image;
                 $room->save();
                 Session::put('mes_updateRoom','cập nhật phòng thành công');
-                    return Redirect::to('/list-room');
-            }
-            else{
-                Session::put('mes_update_fail','cập nhật phòng Không thành công');
-                    return Redirect::to('/list-room');
+                return Redirect::to('/list-room');
             }
         }
+        else if($request->input('image')=="")
+        {
+            $room->save();
+            Session::put('mes_updateRoom','cập nhật phòng thành công');
+                return Redirect::to('/list-room');
+        }
+        else{
+            Session::put('mes_update_fail','cập nhật phòng Không thành công');
+                return Redirect::to('/list-room');
+        }
+        
         
     }
 
@@ -267,33 +295,51 @@ class RoomController extends Controller
         $mytime= date("Y-m-d");
         $star= carbon::parse($request->input('start_time'))->format('Y-m-d');
         $end= carbon::parse($request->input('end_time'))->format('Y-m-d');
-
+        $order =array();
         $countroom=0;
         if($star >= $mytime && $end >= $mytime && $end>=$star) {
 
-            $order=order::where('status',3)->where('dayat','<=',$star)->where('dayout','>=',$end) //TH1: ---|.---.|---
+            $order[]=order::where('status',3)->where('dayat','<=',$star)->where('dayout','>=',$end) //TH1: ---|.---.|---
             ->orwhere('status',3)->where('dayat','>=',$star)->Where('dayat','<',$end) //TH2: ---.|.---|---
             ->orwhere('status',3)->where('dayat','>=',$star)->Where('dayout','<=',$end) //TH3: ---.|---|.---
-            ->orwhere('status',3)->where('dayat','<=',$star)->where('dayout','>',$star)->Where('dayout','<',$end) //TH4: ---|--.--|.---
-            ->get();
+             //TH4: ---|--.--|.---
+            ->orwhere('status',2)->where('status',2)->where('dayat','<=',$star)->where('dayout','>=',$end) //TH1: ---|.---.|---
+            ->orwhere('status',2)->where('dayat','>=',$star)->Where('dayat','<',$end) //TH2: ---.|.---|---
+            ->orwhere('status',2)->where('dayat','>=',$star)->Where('dayout','<=',$end)
+            ->get(); // danh sách đơn có ngày bị trùng
+
             $order_detail=array();
             $room =array();
+
+            // print_r($order);exit;
+            
+            
             foreach ($order as $o)
             {
-                $order_detail[]=order_detail::where('order_id',$o->order_id)->get();
+                $order_detail[]=order_detail::where('order_id',$o[0]->order_id)->get();
+                
+                // tìm room_id có ngày bị trùng;
             }
-            
-            foreach ($order_detail as $od)
+
+            // print_r($order_detail);exit;
+            if($order_detail!=[])
             {
-                $room= room::where('room_id','<>',$od[0]->room_id)->get();
-                $countroom+=1;
+                foreach ($order_detail as $od)
+                {
+                    $room= room::where('room_id','<>',$od[0]->room_id)->get();
+                    $countroom+=1;
+                }
             }
+            else{
+                $room= room::orderby('type_id','desc')->get();
+                $countroom=count($room);
+            };
             session::put('startime',$star);
             session::put('endtime',$end);
             return view('/Admin.room.list_empty',compact('room','countroom','star','end'));
         }
         else{
-            session::put('mes_saingay',"không duoc dat ngay trong qua khu");
+            session::put('mes_saingay',"không duoc dat ngay trong qua khứ");
             return redirect::to('/list-empty-room');
         }
 
@@ -308,6 +354,7 @@ class RoomController extends Controller
 
     public function list_empty_room(request $request)
     {
+        $this->AuthLogin();
         return view('Admin.room.check_availability');
     }
 
@@ -319,7 +366,7 @@ class RoomController extends Controller
         $r=array();
         $mytime = date("Y-m-d");
 
-        $order=DB::table('order')->where('status',3)->get();
+        // $order=DB::table('order')->where('status',3)->get();
         $songuoilon=0;
         $sotreem=0;
         foreach($order as $o)
@@ -339,6 +386,7 @@ class RoomController extends Controller
                 {
                     if($o->order_id==$od->order_id)
                     {
+
                         $r[]=room::where('room_id',$od->room_id)
                         ->first();
                     }

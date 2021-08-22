@@ -67,6 +67,9 @@
 </br>
 </br>
 </br>
+</br>
+
+
 	<div class="center-container">
 		<div class="w3ls-header">
 			<div class="header-main">
@@ -116,6 +119,9 @@
 									<input type="submit" value="Register" />
 								</div>
 							</form>
+							</br>
+							</br>
+							</br>
 						</div>
 					</div>
 				</div>

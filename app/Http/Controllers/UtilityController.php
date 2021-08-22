@@ -13,6 +13,19 @@ use App\Models\utility;
 class UtilityController extends Controller
 {
     //
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
+    
     public function ShowPageAdd_uti()
     {
         return view('Admin.utility.add');

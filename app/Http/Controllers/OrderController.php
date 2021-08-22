@@ -18,13 +18,26 @@ use App\Models\order;
 class OrderController extends Controller
 {
     //
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
+
     function add_order_page(request $request,$id)
     {
-
+        $this->AuthLogin();
         $start= session::get('startime');
         $endt= session::get('endtime');
         $cuoituan=0;
-        $room=room::where('room_id',$id)->get();
+        $room=room::where('room_id',$id)->Get();
         $img=DB::table('image')->take(10)->Get();
         // echo $room[0]->room_price; exit;
         $tongtien=0;
@@ -48,11 +61,13 @@ class OrderController extends Controller
 //-------------
     function order_by_admin()
     {
+        $this->AuthLogin();
         return view("admin.order.list");
     }
 
     function add_order_by_admin(request $request,$id)
     {
+
         $order=new order();
         $order_detail=new order_detail();
         $mydate=date("Y-m-d H:i:s");
@@ -62,22 +77,27 @@ class OrderController extends Controller
 
         $room=room::where('room_id',$id)->join('category_room','category_room.type_id','=','room.type_id')->Get();
 
+        $phicuoituan=($request->input('room_price') *40)/100;
+        
         
         // thêm vào đơn hàng
         $order->users_id=session::Get('admin_id');
         $order->username=$request->input('name');
         $order->status=1;
+        $order->room_id=$id;
         $order->deposit= $request->input('deposit');
         $order->adults=$request->input('adults');
         $order->children=$request->input('children');
         $order->dayat=$request->input('start');
         $order->dayout=$request->input('end');
+        $order->hoten=$request->input('hoten');
+        $order->cuoituan=$phicuoituan;
         $order->CMND=$request->input('CMND');
         $order->total=$request->input('total');
-
+        $order->created_at=Carbon::now();
         $order->save();
 
-        ///thêm chi tiết đơn
+        // thêm chi tiết đơn
         $order_detail->order_id=$order->order_id;
         $order_detail->room_id=$id;
         $order_detail->room_qty=1;

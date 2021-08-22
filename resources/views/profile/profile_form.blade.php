@@ -43,7 +43,7 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">số điện thoại</label>
-                                <input type="text" class="form-control" value="{{$cus_info->phone}}" min="10" max="15" name="phone" required>
+                                <input type="number" class="form-control" value="{{$cus_info->phone}}" minlength="10" maxlength="12" name="phone" required>
                             </div>
 
                             <div class="form-group">
@@ -51,7 +51,7 @@
                                 <input type="text" class="form-control" value="{{$cus_info->address}}" min="3" max="100" name="address" required>
                             </div>
 
-                            <button type="submit" class="btn btn-info" name="addType">Cập nhật</button>
+                            <button type="submit" class="btn btn-info" >Cập nhật</button>
                         </form>  
                     </div>
                 </div>

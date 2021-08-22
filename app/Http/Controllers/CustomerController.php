@@ -7,18 +7,35 @@ use App\Http\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 
+use Carbon\Carbon;
 use DB;
+use App\Models\order;
 
 use App\Models\users;
 
 class CustomerController extends Controller
 {
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
+
     public function show_page_profile()
     {
+        $this->AuthLogin();
         return view('profile.layout');
     }
     public function show_page_profileDetail()
     {
+        
         if(session::has('users_id'))
         $id=session::get('users_id');
         $data_cus=users::where('users_id',$id)->get();
@@ -34,7 +51,7 @@ class CustomerController extends Controller
 
     public function change_password(request $request)
     {
-        $id=session::has('users_id');
+        $id=session::get('users_id');
         $cus=users::find($id);
 
        if($cus->password != $request->input('cur_password') || $request->input('password') !=  $request->input('repassword') && $cus->role==0)
@@ -59,12 +76,17 @@ class CustomerController extends Controller
     // update cus
     public function change_info(request $request)
     {
-        $id=$request->session()->has('users_id');
+        $data=$request->all();
+
+        $id=session::Get('users_id');
         $cus=users::find($id);
 
+        
         $cus->name=$request->input('name');
         $cus->phone=$request->input('phone');
         $cus->address=$request->input('address');
+
+
         $cus->save();
         Session::put('msg','cập nhật thông tin thành công');
         return Redirect::to('/profile-form');
@@ -86,9 +108,37 @@ class CustomerController extends Controller
         
     }
 
+    public function delete_order_cus($id)
+    {
+
+        $order=order::find($id);
+
+        $time= Carbon::now('Asia/Ho_Chi_Minh');
+
+        $sogio= (strtotime($time) - strtotime($order->created_at))/3600;
+        
+        if($sogio <=24)
+        {
+            $order->status=0;//trạng thái 0 là trạng thái hủy đơn
+            $order->save();
+            return redirect::To('/profile/list-order');
+        }
+        else{
+            $order->status=0;
+            $order->save();
+            session::put('mes_quagiohuy',"số tiền cọc sẽ không được hoàn trả do quá 24h cho phép");
+            return redirect::To('/profile/list-order');
+        }
+        
+
+        
+    }
+
+
     //CUS of manager
     public function list_cus(request $request)
     {
+        $this->AuthLogin();
         $key=$request->input('search_cus');
         if($key != null)
         {
@@ -108,6 +158,7 @@ class CustomerController extends Controller
 
     public function list_cus_block(request $request)
     {
+        $this->AuthLogin();
         $key=$request->input('search_cus');
         if($key != null)
         {

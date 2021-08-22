@@ -14,9 +14,22 @@ use App\Models\service;
 class ServiceController extends Controller
 {
     //
+    public function AuthLogin()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
+        {
+            Redirect::to('admin');
+        }
+        else
+        {
+            Redirect::to('login')->send();
+        }
+    }
 
     public function list_service()
     {
+        $this->AuthLogin();
         $sv=service::get();
         $manager = view('Admin.service.list')->with('sevice', $sv);
         return view('admin_layout')->with('Admin.service.list', $manager);
@@ -24,6 +37,7 @@ class ServiceController extends Controller
 
     public function show_page_add()
     {
+        $this->AuthLogin();
         return view('Admin.service.add');
     }
 
@@ -52,6 +66,7 @@ class ServiceController extends Controller
 
     public function show_page_edit($id)
     {
+        $this->AuthLogin();
         $sv=service::where('service_id',$id)->Get();
 
         $manager = view('admin.service.edit')->with('editsv', $sv);

@@ -12,22 +12,22 @@ use App\Models\orders;
 
 class AdminController extends Controller
 {
-    public function authlogin()
+    public function AuthLogin()
     {
-        $admin_id=Session::get('users_id');
-        if(session::has('users_id'))
+        $admin_id=Session::get('admin_id');
+        if($admin_id)
         {
-            Redirect::to('Admin.dashboard');
+            Redirect::to('admin');
         }
         else
         {
-            Redirect::to('login');
+            Redirect::to('login')->send();
         }
     }
 
     function index()
     {
-        // $this->authlogin();
+        // $this->AuthLogin();
 
         $lastDayofMonth = Carbon::now()->endOfMonth()->toDateString();
         $firstdatofmonth=Carbon::now()->firstOfMonth()->toDateString();

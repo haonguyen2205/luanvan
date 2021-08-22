@@ -4,20 +4,20 @@
     <div class="panel panel-default">
         <div class="panel-heading"> DANH SÁCH ĐƠN PHÒNG </div>
         <div class="row w3-res-tb">
+            <ul class="nav nav-tabs">
+            <li><a class="active" href="{{URL::to('ds-huy')}}">Trạng thái đã huỷ </a></li>
+            <li><a class="active" href="{{URL::to('ds-cho')}}"> chờ xác nhận</a></li>
+            <li><a class="active" href="{{URL::to('ds-da')}}">đã xác nhận</a></li>
+            <li><a class="active" href="{{URL::to('ds-lay')}}">đã nhận phòng</a></li>
+            <li><a class="active" href="{{URL::to('ds-done')}}">đã hoàn tất</a></li>
+          </ul>
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <div class="input-group">
                     <form action="{{URL::to('timkiem')}}" method="get">
                         @csrf
                     
-                         <select name="trangthai">
-                                <option value="-2"<?php if($sttse == -2)echo "selected"; ?> >Trạng thái </option>
-                                <option value="0" <?php if($sttse == 0)echo "selected"; ?>>Đã huỷ</option>
-                                <option value="1" <?php if($sttse == 1)echo "selected"; ?>>Đang chờ</option>
-                                <option value="2" <?php if($sttse == 2)echo "selected"; ?>>Đã xác nhận</option>
-                                <option value="3" <?php if($sttse == 3)echo "selected"; ?>>Đã lấy phòng</option>
-                                <option value="4" <?php if($sttse == 4)echo "selected"; ?>>Hoàn thành</option>
-                                </select>
+                         
                         <div class="btn">
 
                             <input type="text" class="input-sm form-control" name="search" placeholder="Nhập tên khách hàng">

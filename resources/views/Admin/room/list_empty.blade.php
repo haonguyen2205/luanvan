@@ -1,5 +1,3 @@
-
-
 @extends('admin_layout')
 @section('admin_content')
 <div class="table-agile-info">
@@ -8,7 +6,7 @@
       <div class="panel-heading">
         <Div>Danh sách phòng</Div>
     </div>
-          <<ul class="nav nav-tabs">
+          <ul class="nav nav-tabs">
               <li><a href="{{URL::to('/list-room')}}" > <span class="glyphicon glyphicon-bed"></span> DS phòng </a></li>
               <li><a href="{{URL::to('/list-room-block')}}" ><span class="glyphicon glyphicon-bed"></span> DS phòng KO HĐ</a></li>
               <li><a href="{{URL::to('/list-empty-room')}}" ><span class="glyphicon glyphicon-bed"></span> tìm phòng rỗng</a></li>
@@ -77,7 +75,7 @@
                     
                             <tr>
                                 <td class="room-name">
-                                    {{ $r->room_name  }}
+                                    {{ $r->room_name}}
                                 </td>
                                 <td class="room-name">
                                     <div class="single-room-pic">

@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Session;
         margin-bottom: 0;
         font-size: 14px;
         font-weight: 400;
-        line-height: 1.42857143;
+        line-height: 2.0;
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;
@@ -280,15 +280,16 @@ use Illuminate\Support\Facades\Session;
                                     <i class="fa fa-book"></i>
                                     <span> Đơn phòng </span>
                                 </a>
-                                <ul class="sub">
-                                <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn phòng</a></li>
-                                <li><a href="{{URL::to('ds-xoa')}}">Danh sách đơn đã hủy</a></li>
-                                <li><a href="{{URL::to('ds-huy')}}">Trạng thái đã huỷ</a></li>
-                                <li><a href="{{URL::to('ds-cho')}}">Trạng thái chờ xác nhận</a></li>
-                                <li><a href="{{URL::to('ds-da')}}">Trạng thái đã xác nhận</a></li>
-                                <li><a href="{{URL::to('ds-lay')}}">Trạng thái đã nhận phòng</a></li>
-                                <li><a href="{{URL::to('ds-done')}}">Trạng thái đã hoàn tất</a></li>
-                            </ul>
+                              <ul class="sub">
+
+                                    <li><a href="{{URL::to('/admin/manage-order')}}">Quản lí đơn phòng</a></li>
+                                    <li><a href="{{URL::to('ds-xoa')}}">Danh sách đơn đã hủy</a></li>
+                                    <li><a href="{{URL::to('ds-huy')}}">Trạng thái đã huỷ</a></li>
+                                    <li><a href="{{URL::to('ds-cho')}}">Trạng thái chờ xác nhận</a></li>
+                                    <li><a href="{{URL::to('ds-da')}}">Trạng thái đã xác nhận</a></li>
+                                    <li><a href="{{URL::to('ds-lay')}}">Trạng thái đã nhận phòng</a></li>
+                                    <li><a href="{{URL::to('ds-done')}}">Trạng thái đã hoàn tất</a></li>
+                              </ul>
                             </li>
                             <!-- quản lý tin tức + danh mục tin tức -->
                             <li class="sub-menu">

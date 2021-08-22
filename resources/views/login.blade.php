@@ -45,9 +45,18 @@
             <div class="sub-main-w3">
                 <div class="wthree-pro">
                     <h2 style="color:yellow">Login Quick</h2>
+                    @if(session()->has('success'))
+                    <div class="alert alert-success">
+                      {{session()->get('success')}}
+                    </div>
+                    @elseif(session()->has('error'))
+                    <div class="alert alert-error">
+                      {{session()->get('error')}}
+                    </div>
+                    @endif
                 </div>
                 <div class="wthree-pro">
-
+                
                 </div>
                 
                 <form action="{{URL::to('/checklogin')}}" method="post">
@@ -63,7 +72,7 @@
                     </div>
 
                     <div class="sub-w3l">
-                        <h6 style="color:red"><a href="#" style="color:red">Forgot Password?</a></h6>
+                        <h6 style="color:red"><a href="{{URL::to('/forget-password')}}" style="color:red">Forgot Password?</a></h6>
                         <div class="right-w3l">
                             <input type="submit" value="Login">
                         </div>

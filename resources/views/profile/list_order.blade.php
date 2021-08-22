@@ -7,7 +7,13 @@
                 CUSTOMER PROFILE
             </header>
             <div class="panel-body">
-
+                <?php
+                    $msg = Session::get('mes_quagiohuy');
+                    if($msg) {
+                        echo "<b style='color:red; padding-left:500px;'>".$msg."</b>";
+                        Session::put('msg',null);
+                    }
+                ?>
             <div class="row w3-res-tb">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
@@ -78,7 +84,7 @@
                                     <?php
                                     if($list->status==1 ||$list->status==2)
                                     {?>
-                                        <a href="{{URL::to('/delete-order_cus/'.$list->order_id)}}" onClick="return confirm('Bạn thực sự muốn xóa ?')"
+                                        <a href="{{URL::to('/delete-order-cus/'.$list->order_id)}}" onClick="return confirm('Bạn thực sự muốn hủy đặt ?')"
                                         class="active btn btn-warning" style="font-size: 11px;"  ui-toggle-class="">
                                         hủy đặt
                                     </a>

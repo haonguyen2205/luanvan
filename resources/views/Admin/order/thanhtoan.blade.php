@@ -190,16 +190,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- <h4>Phụ thu cuối tuần: 
-                                    <input type="number" style="width: 70px;" name="cuoituan" value="{{$soct}}" min="0"> 
-                                    <input style="width: 140px;" value="{{$cuoituan}}" readonly>
-                                </h4>
-                                <span style="color: red;">(Nhân viên cần kiểm tra lại số ngày trước khi nhập)</span>
-                                <h4>Phụ thu ngày lễ: 
-                                    <input type="number" style="width: 70px;" name="ngayle" value="{{$sonl}}" min="0"> 
-                                    <input style="width: 140px;" value="{{$ngayle}}" readonly>
-                                </h4>
-                                <span style="color: red;">(Nhân viên cần kiểm tra lại số ngày trước khi nhập)</span> -->
                             </div>
                             <div class="col-sm-4"></div>      
                         </div>

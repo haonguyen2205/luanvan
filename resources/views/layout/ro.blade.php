@@ -109,17 +109,14 @@
                         <div class="room-desc">
                         <p>{{$r->room_description}}</p>
                             <?php
+                                
                                 foreach($order as $o){
                                     if($o->room_id == $r->room_id){
-                                        echo "<p style='color:red;'>Không thể đặt : <br> ";    
+                                        echo "<p style='color:red;'>Không thể đặt : <br> ";   
+                                        echo "Từ ngày :".$o->dayat." đến ngày ".$o->dayout."<br>"; 
                                     }
                                 }
-                                foreach($order as $o){
-                                    if($o->room_id == $r->room_id){
-                                       
-                                        echo "Từ ngày :".$o->dayat." đến ngày ".$o->dayout."<br>";
-                                    }
-                                }
+                                
                             ?>    
                         </p>
                         </div>

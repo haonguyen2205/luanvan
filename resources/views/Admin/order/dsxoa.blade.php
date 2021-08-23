@@ -36,8 +36,6 @@
                         <th>Ngày trả</th>
                         <th>Tình trạng</th>
                         <th>Tiền cọc</th>
-                        <th>Xóa</th>
-                        <th style="width:30px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>

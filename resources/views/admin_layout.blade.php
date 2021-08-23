@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\Session;
         margin-bottom: 0;
         font-size: 14px;
         font-weight: 400;
-        line-height: 2.0;
+        line-height: 1.42857143;
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;

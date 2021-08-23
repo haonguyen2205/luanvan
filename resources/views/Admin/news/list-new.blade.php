@@ -6,8 +6,8 @@
             Danh sách tin tức
         </div>
         <div class="row w3-res-tb">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
                 <div class="input-group">
                     <form action="{{URL::to('new-search')}}" method="get">
                         @csrf
@@ -19,8 +19,7 @@
                     </form>
                 </div>
             </div>  
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3"></div>
+            <div class="col-sm-4"></div>
         </div>
 
 
